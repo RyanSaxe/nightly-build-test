@@ -43,7 +43,7 @@ import sys
 
 try:
     import yaml
-except ImportError:  # pragma: no cover
+except ImportError:
     sys.stderr.write("build_site.py requires PyYAML (pip install pyyaml)\n")
     sys.exit(2)
 

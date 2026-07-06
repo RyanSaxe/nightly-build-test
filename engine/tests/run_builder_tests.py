@@ -17,12 +17,11 @@ import sys
 import tempfile
 import xml.etree.ElementTree as ET
 
-HERE = pathlib.Path(__file__).resolve().parent
-REPO = HERE.parent.parent
-sys.path.insert(0, str(REPO / "engine"))
+import _bootstrap
+import build_site as B
+import make_fixtures
 
-import build_site as B  # noqa: E402
-import make_fixtures  # noqa: E402
+REPO = _bootstrap.REPO
 
 NOW = dt.datetime(2026, 7, 6, 9, 0, tzinfo=dt.timezone.utc)
 PASS, FAIL = 0, []

@@ -12,6 +12,8 @@ Run: python3 engine/duty.py --repo . --library <library-checkout> [--date YYYY-M
 Prints JSON: {"date", "weekday", "due": [...], "idle": [...]}. Always exits 0.
 """
 
+from __future__ import annotations
+
 import argparse
 import datetime as _dt
 import json
@@ -21,7 +23,7 @@ import sys
 
 try:
     import yaml
-except ImportError:  # pragma: no cover
+except ImportError:
     sys.stderr.write("duty.py requires PyYAML (pip install pyyaml)\n")
     sys.exit(2)
 
@@ -51,7 +53,7 @@ def series_dir_in_library(library: str, series_id: str) -> str | None:
     return None
 
 
-def published_state(library: str, series_id: str) -> tuple[set, set]:
+def published_state(library: str, series_id: str) -> tuple[set[str], set[str]]:
     """(published slugs, nb-meta dates of published editions) for a series."""
     base = series_dir_in_library(library, series_id)
     if base is None:
@@ -73,9 +75,22 @@ def published_state(library: str, series_id: str) -> tuple[set, set]:
     return slugs, dates
 
 
+def config_items(cfg: dict[str, object]) -> list[dict[str, object]]:
+    """The series' items list, defensively narrowed from parsed YAML."""
+    raw = cfg.get("items")
+    if not isinstance(raw, list):
+        return []
+    return [{str(k): v for k, v in it.items()} for it in raw if isinstance(it, dict)]
+
+
 def series_duty(
-    sid: str, cfg: dict, pub: set, pub_dates: set, date: _dt.date, day: str
-) -> tuple[bool, dict]:
+    sid: str,
+    cfg: dict[str, object],
+    pub: set[str],
+    pub_dates: set[str],
+    date: _dt.date,
+    day: str,
+) -> tuple[bool, dict[str, object]]:
     """(is_due, entry) for one series on one night."""
     mode = cfg.get("mode")
     entry = {"series": sid, "mode": mode}
@@ -88,7 +103,7 @@ def series_duty(
     if date.isoformat() in pub_dates:
         return False, {**entry, "reason": "already published tonight"}
 
-    items = cfg.get("items") or []
+    items = config_items(cfg)
     unpublished = [it["slug"] for it in items if it.get("slug") not in pub]
 
     if mode == "rolling":

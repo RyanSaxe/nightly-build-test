@@ -37,7 +37,7 @@ from html.parser import HTMLParser
 
 try:
     import yaml
-except ImportError:  # pragma: no cover
+except ImportError:
     sys.stderr.write("check.py requires PyYAML (pip install pyyaml)\n")
     sys.exit(2)
 
@@ -268,7 +268,7 @@ class Edition(HTMLParser):
         elif self._suppress_text_depth == 0:
             self._text_parts.append(data)
 
-    def error(self, message):  # pragma: no cover (py<3.10 compat)
+    def error(self, message):
         self.parse_ok = False
 
     @property

@@ -18,12 +18,12 @@ import sys
 import tempfile
 import types
 
-HERE = pathlib.Path(__file__).resolve().parent
-REPO = HERE.parent.parent
-sys.path.insert(0, str(REPO / "engine"))
+import _bootstrap
+import check as C
+import make_fixtures
 
-import check as C  # noqa: E402
-import make_fixtures  # noqa: E402
+HERE = _bootstrap.HERE
+REPO = _bootstrap.REPO
 
 TODAY = "2026-07-06"
 PASS, FAIL = 0, []

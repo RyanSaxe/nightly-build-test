@@ -26,12 +26,11 @@ import sys
 import tempfile
 import xml.etree.ElementTree as ET
 
-HERE = pathlib.Path(__file__).resolve().parent
-REPO = HERE.parent.parent
-sys.path.insert(0, str(REPO / "engine"))
+import _bootstrap
+import build_site as B
+import make_fixtures
 
-import build_site as B  # noqa: E402
-import make_fixtures  # noqa: E402
+REPO = _bootstrap.REPO
 
 PASS, FAIL = 0, []
 NS = "{http://www.w3.org/2005/Atom}"
