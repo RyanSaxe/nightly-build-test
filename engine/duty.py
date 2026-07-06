@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+"""
+The Nightly Build — engine/duty.py
+
+Tonight's work list, computed deterministically. The correspondent runs this
+before researching anything (PROTOCOL step 3); the morning-mail gate runs it
+to tell an expected quiet night from a missed one. One source of truth for
+cadence, pause, completion, and commission-queue state — so no agent ever
+does calendar math in its head.
+
+Run: python3 engine/duty.py --repo . --library <library-checkout> [--date YYYY-MM-DD]
+Prints JSON: {"date", "weekday", "due": [...], "idle": [...]}. Always exits 0.
+"""
+
+import argparse
+import datetime as _dt
+import json
+import os
+import re
+import sys
+
+try:
+    import yaml
+except ImportError:  # pragma: no cover
+    sys.stderr.write("duty.py requires PyYAML (pip install pyyaml)\n")
+    sys.exit(2)
+
+DAY_NAMES = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
+META_RE = re.compile(
+    r'<script[^>]*\bid="nb-meta"[^>]*>(.*?)</script>', re.S)
+
+
+def cadence_includes(cadence, day: str) -> bool:
+    if cadence in (None, "daily"):
+        return True
+    if cadence == "weekdays":
+        return day not in ("sat", "sun")
+    if cadence == "weekends":
+        return day in ("sat", "sun")
+    if isinstance(cadence, list):
+        return day in cadence
+    return True  # unknown value: validate_config flags it; never skip work here
+
+
+def series_dir_in_library(library: str, series_id: str) -> str | None:
+    for base in (os.path.join(library, "library", series_id),
+                 os.path.join(library, series_id)):
+        if os.path.isdir(base):
+            return base
+    return None
+
+
+def published_state(library: str, series_id: str) -> tuple[set, set]:
+    """(published slugs, nb-meta dates of published editions) for a series."""
+    base = series_dir_in_library(library, series_id)
+    if base is None:
+        return set(), set()
+    slugs, dates = set(), set()
+    for fname in os.listdir(base):
+        if not fname.endswith(".html"):
+            continue
+        slugs.add(fname[:-5])
+        with open(os.path.join(base, fname), encoding="utf-8",
+                  errors="replace") as fh:
+            m = META_RE.search(fh.read())
+        if m:
+            try:
+                d = json.loads(m.group(1)).get("date")
+                if isinstance(d, str):
+                    dates.add(d)
+            except ValueError:
+                pass
+    return slugs, dates
+
+
+def series_duty(sid: str, cfg: dict, pub: set, pub_dates: set,
+                date: _dt.date, day: str) -> tuple[bool, dict]:
+    """(is_due, entry) for one series on one night."""
+    mode = cfg.get("mode")
+    entry = {"series": sid, "mode": mode}
+
+    if cfg.get("paused"):
+        return False, {**entry, "reason": "paused"}
+    cadence = cfg.get("cadence")
+    if not cadence_includes(cadence, day):
+        return False, {**entry, "reason": f"cadence {cadence} — not tonight"}
+    if date.isoformat() in pub_dates:
+        return False, {**entry, "reason": "already published tonight"}
+
+    items = cfg.get("items") or []
+    unpublished = [it["slug"] for it in items if it.get("slug") not in pub]
+
+    if mode == "rolling":
+        slug = date.isoformat()
+        if slug in pub:
+            return False, {**entry, "reason": "already published tonight"}
+        return True, {**entry, "slug": slug,
+                      "reason": "tonight's date is unpublished"}
+    if mode == "sequence":
+        if not unpublished:
+            return False, {**entry, "reason": "complete"}
+        nxt = next(it["slug"] for it in items if it.get("slug") not in pub)
+        order = next(i for i, it in enumerate(items, 1)
+                     if it.get("slug") == nxt)
+        return True, {**entry, "slug": nxt, "order": order,
+                      "reason": f"{len(pub)} of {len(items)} published; "
+                                f"'{nxt}' is next"}
+    if mode == "collection":
+        if not unpublished:
+            return False, {**entry, "reason": "complete"}
+        selection = cfg.get("selection", "in-order")
+        candidates = unpublished if selection == "random" else unpublished[:1]
+        return True, {**entry, "candidates": candidates,
+                      "selection": selection,
+                      "reason": f"{len(unpublished)} of {len(items)} items "
+                                f"unpublished"}
+    if mode == "open":
+        if unpublished:
+            return True, {**entry, "commissions": unpublished,
+                          "reason": "commissioned items pending — publish "
+                                    "one of these before a freestyle pick"}
+        return True, {**entry, "commissions": [],
+                      "reason": "open desk — invent tonight's topic within "
+                                "the beat; do not repeat a published slug"}
+    return False, {**entry, "reason": f"unknown mode {mode!r}"}
+
+
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description="Tonight's deterministic work list")
+    p.add_argument("--repo", default=".", help="repo root (main checkout)")
+    p.add_argument("--library", required=True,
+                   help="library-branch checkout (published state)")
+    p.add_argument("--date", default=None, help="UTC date, default today")
+    args = p.parse_args(argv)
+
+    date = (_dt.date.fromisoformat(args.date) if args.date
+            else _dt.datetime.now(_dt.timezone.utc).date())
+    day = DAY_NAMES[date.weekday()]
+
+    due, idle = [], []
+    root = os.path.join(args.repo, "press", "series")
+    sids = sorted(d for d in os.listdir(root)
+                  if not d.startswith("_")
+                  and os.path.isfile(os.path.join(root, d, "series.yaml"))
+                  ) if os.path.isdir(root) else []
+    for sid in sids:
+        with open(os.path.join(root, sid, "series.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh) or {}
+        pub, pub_dates = published_state(args.library, sid)
+        is_due, entry = series_duty(sid, cfg, pub, pub_dates, date, day)
+        (due if is_due else idle).append(entry)
+
+    print(json.dumps({"date": date.isoformat(), "weekday": day,
+                      "due": due, "idle": idle}, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
