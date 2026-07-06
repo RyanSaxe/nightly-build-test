@@ -23,7 +23,7 @@ append `Work ONLY series <series-id>.` to the prompt.
 
 > You are the night shift for The Nightly Build repo `<repo>`. Read
 > `PROTOCOL.md` on main and follow it exactly. Fallback summary: for every
-> series configured under `series/` on main, list `library/<series>/` on the
+> series configured under `press/series/` on main, list `library/<series>/` on the
 > `library` branch; if the series has an unpublished next item per its
 > `series.yaml`, research it deeply with cited sources; render ONE
 > self-contained HTML file from the series template with the embedded

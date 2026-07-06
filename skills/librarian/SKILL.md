@@ -14,21 +14,24 @@ You configure the press; you never run it. Your output is configuration on
 their harness. Scheduling itself is the one step you cannot perform — say so
 plainly.
 
-## 0. Fresh press? Clear the dogfood series first
+## 0. The ownership model (say it once, early)
 
-Everything shipped under `series/` is the **upstream project's own dogfood
-assignments**, not starter content. When setting up a fresh press, delete it
-all before the interview — don't offer to keep them, and never let them reach
-a schedule:
+`press/` is the user's side of the repo; everything else is the engine,
+upstream-owned. Users only ever edit `press/` — that's what makes engine
+updates conflict-free (see §7).
+
+**Fresh press?** The shipped `press/` contents are the **upstream project's
+own dogfood assignments**, not starter content. Reset them before the
+interview — don't offer to keep them, and never let them reach a schedule:
 
 ```
-rm -r series/*
+rm -r press/series/*
 ```
 
-They remain readable upstream as reference examples (each file demonstrates
-part of the config surface, including commented-out advanced options). The
-only press that keeps them is the upstream canonical repo — that's its night
-shift.
+Also rewrite `press/site.yaml` (their title) and `press/editorial.md` (their
+voice, §1) as part of setup. The upstream versions remain readable on the
+upstream repo as living examples — every file there demonstrates part of the
+config surface, including commented-out advanced options.
 
 ## 1. Interview
 
@@ -37,7 +40,11 @@ Ask before writing. Keep it short — one round of questions, then a proposal:
 - What do they want to learn or track?
 - Shape: one-off deep dives (**collection**), an ordered course (**sequence**),
   or ongoing briefings (**rolling**)?
-- Depth and tone preferences; emphases to bake into the series prompt.
+- **Voice** (two questions, written into `press/editorial.md`): how should the
+  paper sound — register, wit, language? And what should it assume they
+  already know? This is a press-wide layer composed into every edition.
+- Depth and per-series emphases; those go in the series prompt, not the voice
+  file.
 - Must-read documents or must-check sites? These become `required_docs`
   (committed files, must be read and cited) and `consult` (URL prefixes read
   first; citing optional). If they want editions built ONLY from their
@@ -60,13 +67,13 @@ anything. Show the plan; get a yes.
 
 Then write:
 
-- `series/<id>/series.yaml` — see `series/semiconductors/series.yaml` for the
-  canonical shape. Defaults: `autopublish: true`, `strict: false`.
-- `series/<id>/prompt.md` — the series' editorial instructions: subject frame,
-  emphases, recurring angles. It specializes `spec/editorial.md`; it never
+- `press/series/<id>/series.yaml` — crib from the upstream repo's press/ for
+  the canonical shapes. Defaults: `autopublish: true`, `strict: false`.
+- `press/series/<id>/prompt.md` — the series' editorial instructions: subject
+  frame, emphases, recurring angles. It specializes the voice layers; it never
   contradicts PROTOCOL.md.
-- Tag fragments under `series/_tags/` if shared angles apply.
-- Sources for `required_docs` under `series/<id>/sources/`.
+- Tag fragments under `press/series/_tags/` if shared angles apply.
+- Sources for `required_docs` under `press/series/<id>/sources/`.
 
 Validate: `python3 engine/validate_config.py`. Fix anything it flags before
 proceeding. Commit the configuration to `main` (via the user's normal review
@@ -108,7 +115,7 @@ Schedule prompt template (fill `<repo>`; keep ≤ ~130 words):
 
 > You are the night shift for The Nightly Build repo `<repo>`. Read
 > `PROTOCOL.md` on main and follow it exactly. Fallback summary: for every
-> series configured under `series/` on main, list `library/<series>/` on the
+> series configured under `press/series/` on main, list `library/<series>/` on the
 > `library` branch; if the series has an unpublished next item per its
 > `series.yaml`, research it deeply with cited sources; render ONE
 > self-contained HTML file from the series template with the embedded
@@ -127,6 +134,38 @@ never loosen below the registry floor) and `min_sources`; flip `autopublish`
 (false ⇒ the editor approves, a human merges) and `strict` (true ⇒ WARNs become
 BLOCKs — warn that a missed night then beats a thin edition). Re-validate after
 every change.
+
+**Customization verbs:**
+
+- *"Change the look"* — copy `engine/assets/themes/newspaper.css` to
+  `press/themes/<name>.css`, edit ONLY the token variables, point
+  `press/site.yaml` `theme:` at it. Never edit engine CSS.
+- *"Change the voice"* — edit `press/editorial.md`. Series-specific tone goes
+  in that series' prompt instead.
+- *"Make a new template"* — add an entry to `press/templates/registry.yaml`
+  (class, band, sections incl. `sources`, cite_rule, modes) and a
+  `press/templates/<id>.html` scaffold (crib a shipped template's head and
+  chrome; keep the asset links and sandbox rules). The proof enforces whatever
+  the entry declares — custom templates are first-class. Validate, then press
+  check it before scheduling a series on it.
+
+## 7. Update my engine (conflict-free by construction)
+
+Engine updates never merge — they take upstream's version of every path
+outside `press/`:
+
+```
+git remote add upstream https://github.com/RyanSaxe/the-nightly-build.git  # once
+git fetch upstream
+git log upstream/main..HEAD --oneline -- . ':(exclude)press'   # MUST be empty
+git checkout upstream/main -- . ':(exclude)press'
+git commit -m "chore: sync engine from upstream"
+./setup.sh    # re-syncs the trigger workflows onto library
+```
+
+If that `git log` shows commits, the user has edited engine-space — STOP and
+show them the list; syncing would overwrite their changes. Resolve by moving
+their customization into `press/` first (that's where it belonged).
 
 ## Boundaries
 

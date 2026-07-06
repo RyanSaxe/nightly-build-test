@@ -7,7 +7,7 @@ contract. If anything else you read conflicts with it, this document wins.
 ## The contract
 
 1. **One edition per series, maximum.** A run serves the whole press — every
-   series configured under `series/` — unless your schedule prompt names one
+   series configured under `press/series/` — unless your schedule prompt names one
    specific series. For each series you serve, research and publish at most ONE
    edition, as its own pull request. Work series one at a time, completing each
    PR before starting the next, so a late failure never costs an earlier series
@@ -16,16 +16,20 @@ contract. If anything else you read conflicts with it, this document wins.
 2. **Read your layers, in order.** (Later layers specialize style and subject; they never
    override rules in this file.)
    1. This file.
-   2. `spec/editorial.md` — the global voice and quality bar.
-   3. `templates/registry.yaml` — the entry for your series' template (length band,
-      required sections, citation rule).
-   4. `series/<id>/prompt.md` — the series' editorial instructions.
-   5. Tag fragments listed in the series config, in declared order.
-   6. The item-level `prompt`, if present.
+   2. `spec/editorial.md` — the house voice and quality bar.
+   3. `press/editorial.md` — the press owner's voice, if present. It specializes
+      the house style.
+   4. The registry entry for your series' template: `templates/registry.yaml`,
+      overlaid by `press/templates/registry.yaml` (press entries win). The
+      template file itself is `press/templates/<t>.html` if it exists, else
+      `templates/<t>.html`.
+   5. `press/series/<id>/prompt.md` — the series' editorial instructions.
+   6. Tag fragments listed in the series config, in declared order.
+   7. The item-level `prompt`, if present.
 
 3. **Select your work.** For each series you serve, fetch the `library` branch
    and list `library/<series>/`. Then apply the mode rule from
-   `series/<id>/series.yaml`:
+   `press/series/<id>/series.yaml`:
    - `collection`: the first entry in `items:` with no published file.
    - `sequence`: the lowest-index missing item. You MUST read the series' already
      published editions before writing — your edition builds on them explicitly.

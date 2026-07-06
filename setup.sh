@@ -32,18 +32,18 @@ dogfood_series=(ai-history transformers-101 frontier-compute landmark-papers
 is_fork=$(gh repo view --json isFork -q .isFork 2>/dev/null || print false)
 if [[ "$is_fork" == "true" ]]; then
 	for s in "${dogfood_series[@]}"; do
-		if [[ -d "series/$s" ]]; then
+		if [[ -d "press/series/$s" ]]; then
 			warn "upstream dogfood series are still configured on this fork."
 			warn "they are the upstream project's own assignments — remove them"
 			warn "and add your own series before scheduling anything:"
-			warn "  rm -r series/*"
+			warn "  rm -r press/series/*"
 			break
 		fi
 	done
 fi
 
 # 2. Configuration validates before anything else ----------------------------
-say "validating site.yaml, templates/registry.yaml, series/*/series.yaml"
+say "validating press/ configuration and the template registry"
 python3 engine/validate_config.py || die "fix the configuration above, then re-run"
 
 # 3. The library branch (orphan, empty press) --------------------------------

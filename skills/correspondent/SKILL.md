@@ -16,16 +16,18 @@ series, each a single self-contained HTML file added by its own PR to the
 
 ## 1. Load your layers (in order)
 
-`PROTOCOL.md` → `spec/editorial.md` → your template's entry in
-`templates/registry.yaml` → `series/<id>/prompt.md` → tag fragments in declared
-order → the item's `prompt` if present. Later layers specialize; they never
-override earlier ones.
+`PROTOCOL.md` → `spec/editorial.md` (house style) → `press/editorial.md`
+(the press owner's voice, if present) → your template's registry entry
+(`templates/registry.yaml` overlaid by `press/templates/registry.yaml`) →
+`press/series/<id>/prompt.md` → tag fragments in declared order → the item's
+`prompt` if present. Later layers specialize; they never override earlier
+ones.
 
 ## 2. Select work
 
-List the configured series under `series/` (or just the one your schedule
+List the configured series under `press/series/` (or just the one your schedule
 prompt names). For each, fetch the `library` branch, list `library/<series>/`,
-and apply the mode rule from `series/<id>/series.yaml`:
+and apply the mode rule from `press/series/<id>/series.yaml`:
 
 - **collection** — first `items:` entry with no published file.
 - **sequence** — lowest-index missing item. Read the series' already-published
@@ -54,7 +56,8 @@ not failure.**
 
 ## 4. Render
 
-Start from `templates/<template>.html`. Replace every placeholder; keep the
+Start from `press/templates/<template>.html` if it exists, else
+`templates/<template>.html`. Replace every placeholder; keep the
 engine asset links and the structure the registry requires (every
 `data-nb-section` exactly once). Fill `nb-meta` honestly — `sources`/`words`
 are recounted by the proof; `harness`/`model` are your provenance. Charts only
@@ -102,7 +105,7 @@ When a human asks for a press check of `<series>`:
    `python3 engine/build_site.py --repo . --preview press-check/ --out press-check/site/`
    then serve it: `python3 -m http.server -d press-check/site/` — the real
    newsstand, bannered "Press check — unpublished proof", with the draft on it.
-4. Iterate with the human: tune `series/<id>/prompt.md`, re-run, compare.
+4. Iterate with the human: tune `press/series/<id>/prompt.md`, re-run, compare.
 5. **Promote on request** ("publish this one"): open the real PR from the
    existing artifact — copy the file to `library/<series>/<slug>.html` on a
    branch, no duplicate research spend, normal validation path.
