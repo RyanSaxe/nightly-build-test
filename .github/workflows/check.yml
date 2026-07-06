@@ -49,7 +49,7 @@ jobs:
         run: |
           set +e
           python3 _main/engine/check.py --pr \
-            --repo . \
+            --repo . --main _main \
             --base "origin/${{ github.base_ref }}" \
             --head "HEAD" \
             --library _library \
@@ -57,7 +57,7 @@ jobs:
             --json > /tmp/proof.json
           code=$?
           python3 _main/engine/check.py --pr \
-            --repo . \
+            --repo . --main _main \
             --base "origin/${{ github.base_ref }}" \
             --head "HEAD" \
             --library _library \
