@@ -484,6 +484,12 @@ if builder.returncode != 0:
     FAIL.append("builder suite")
 
 print()
+print("== end-to-end dress rehearsal (run_e2e_test.py) ==")
+e2e = subprocess.run([sys.executable, str(HERE / "run_e2e_test.py")])
+if e2e.returncode != 0:
+    FAIL.append("e2e suite")
+
+print()
 print(f"{PASS} passed, {len(FAIL)} failed")
 if FAIL:
     print("FAILED:", FAIL)
