@@ -12,7 +12,7 @@ body{
   font-family:var(--sans); font-size:16px; line-height:1.55;
   min-height:100vh; display:flex; flex-direction:column;
 }
-a{ color:inherit; }
+a{ color:inherit; text-decoration:none; }
 img{ max-width:100%; }
 
 .nb-shell{ max-width:800px; margin:0 auto; padding:0 20px; flex:1; width:100%; }
@@ -286,7 +286,7 @@ section[data-nb-section], .nb-sources li[id], sup.nb-cite a[id], [id^="nb-"]{
   text-transform:uppercase; color:var(--accent); margin:24px 0 10px;
 }
 .nb-edition .nb-eyebrow a{ color:inherit; text-decoration:none; }
-.nb-edition .nb-eyebrow a:hover{ text-decoration:underline; text-underline-offset:3px; }
+.nb-edition .nb-eyebrow a:hover{ color:var(--accent-2); }
 .nb-edition .nb-eyebrow .nb-eyebrow-progress{ color:var(--ink-soft); }
 .nb-edition h1.nb-title{
   font-size:clamp(26px,6.5vw,34px); line-height:1.12; letter-spacing:-0.016em;

@@ -134,7 +134,7 @@ When a human asks for a press check of `<series>`:
 3. Build the preview:
    `python3 engine/build_site.py --repo . --preview press-check/ --out press-check/site/`
    then serve it: `python3 -m http.server -d press-check/site/` — the real
-   newsstand, bannered "Press check — unpublished proof", with the draft on it.
+   newsstand with the draft on it (previews render exactly like production).
 4. Iterate with the human: tune `press/series/<id>/prompt.md`, re-run, compare.
 5. **Promote on request** ("publish this one"): open the real PR from the
    existing artifact — copy the file to `library/<series>/<slug>.html` on a

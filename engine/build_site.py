@@ -54,7 +54,6 @@ FEED_CONTENT_LIMIT = 10        # newest N entries carry full content
 FEED_CONTENT_MAX = 150_000     # per-entry cap after stripping, bytes
 META_RE = re.compile(
     r'<script[^>]*\bid="nb-meta"[^>]*>(.*?)</script>', re.S | re.I)
-BODY_TAG_RE = re.compile(r"<body[^>]*>", re.I)
 
 esc = html.escape
 
@@ -822,7 +821,7 @@ EDITION_ASSET_RE = re.compile(
     r'((?:href|src)="(?:\.\./)*assets/(?:nb\.css|nb\.js|theme\.css))(")')
 
 
-def copy_editions(editions, out, preview, stamp=""):
+def copy_editions(editions, out, stamp=""):
     """Editions are canonical on the library branch; the SITE copy is a build
     artifact, so its shared-asset links get the cache-busting stamp."""
     for ed in editions.values():
@@ -846,7 +845,6 @@ def build(repo, library_root, out, preview_root=None, base_url="", now=None):
     site = {
         "title": site_cfg["title"],
         "appearance": site_cfg["appearance"],
-        "preview": bool(preview_root),
         "stamp": asset_stamp(repo),
         "body_class": (' class="nb-front-comfortable"'
                        if site_cfg.get("front") == "comfortable" else ""),
@@ -914,7 +912,7 @@ def build(repo, library_root, out, preview_root=None, base_url="", now=None):
               f"edition{'s' if len(eds) != 1 else ''}\n")
 
     copy_assets(repo, site_cfg, out)
-    copy_editions(editions, out, bool(preview_root), site["stamp"])
+    copy_editions(editions, out, site["stamp"])
     return catalog
 
 

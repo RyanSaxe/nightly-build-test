@@ -9,7 +9,7 @@ dossier:
   sections: [orientation, foundations, analysis, debate, go-deeper, sources]
   cite_rule: per-section
   modes: [collection, sequence, open]
-  furniture: [jump-nav, stat-strip, charts]
+  furniture: [contents, stat-strip, charts]
 
 lesson:
   class: longread
