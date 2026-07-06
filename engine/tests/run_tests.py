@@ -451,6 +451,177 @@ else:
     FAIL.append("template lookup precedence")
     print("  FAIL template lookup precedence")
 
+print("== rhythm & governance (cadence, paused, selection) ==")
+
+
+def patched_repo(patch, series="semiconductors"):
+    """Copy the fixture repo and append yaml to one series config."""
+    tmp = tempfile.mkdtemp()
+    for sub in ("press", "templates", "engine"):
+        shutil.copytree(pathlib.Path(TESTREPO) / sub, pathlib.Path(tmp) / sub)
+    y = pathlib.Path(tmp) / "press" / "series" / series / "series.yaml"
+    y.write_text(y.read_text() + patch)
+    return tmp
+
+
+def vc_rc(repo):
+    return subprocess.run(
+        [sys.executable, str(REPO / "engine" / "validate_config.py"),
+         "--repo", str(repo)], capture_output=True).returncode
+
+
+expect("paused series blocks publication",
+       run_local(VALID, "semiconductors", repo=patched_repo("paused: true\n")),
+       must_have=["B-SERIES"])
+for name, cond in [
+    ("cadence weekdays validates", vc_rc(patched_repo("cadence: weekdays\n")) == 0),
+    ("cadence day-list validates", vc_rc(patched_repo("cadence: [mon, thu]\n")) == 0),
+    ("bogus cadence rejected", vc_rc(patched_repo("cadence: fortnightly\n")) == 1),
+    ("selection random on a collection validates",
+     vc_rc(patched_repo("selection: random\n")) == 0),
+    ("selection on a rolling series rejected",
+     vc_rc(patched_repo("selection: random\n", series="ai-briefs")) == 1),
+    ("unknown series key (typo) rejected",
+     vc_rc(patched_repo("cadance: daily\n")) == 1),
+]:
+    if cond:
+        PASS += 1
+        print(f"  ok   {name}")
+    else:
+        FAIL.append(name)
+        print(f"  FAIL {name}")
+
+print("== open mode (the hands-off desk) ==")
+
+OPEN_YAML = """name: Wildcard
+mode: open
+templates: [dossier, chronicle]
+prompt: prompt.md
+autopublish: true
+strict: false
+min_sources: 8
+"""
+
+
+def open_repo(series_yaml=OPEN_YAML):
+    tmp = tempfile.mkdtemp()
+    for sub in ("press", "templates", "engine"):
+        shutil.copytree(pathlib.Path(TESTREPO) / sub, pathlib.Path(tmp) / sub)
+    d = pathlib.Path(tmp) / "press" / "series" / "wildcard"
+    d.mkdir()
+    (d / "series.yaml").write_text(series_yaml)
+    (d / "prompt.md").write_text("Anything about the AI stack.\n")
+    return tmp
+
+
+OPEN_ED = (VALID
+           .replace('"series": "semiconductors", "slug": "micron",',
+                    '"series": "wildcard", "slug": "the-cuda-moat",')
+           .replace('"mode": "collection"', '"mode": "open"')
+           .replace(' data-nb-required="mu-10k-2025"', ''))
+orepo = open_repo()
+olib = make_library({"wildcard": []})
+expect("open freestyle pick is BLOCK-clean",
+       run_local(OPEN_ED, "wildcard", slug="the-cuda-moat", repo=orepo,
+                 library=olib), blocks=0)
+expect("open duplicate slug blocked",
+       run_local(OPEN_ED, "wildcard", slug="the-cuda-moat", repo=orepo,
+                 library=make_library({"wildcard": ["the-cuda-moat"]})),
+       must_have=["B-MODE"])
+expect("open template outside the choice list blocked",
+       run_local(OPEN_ED, "wildcard", slug="the-cuda-moat",
+                 repo=open_repo(OPEN_YAML.replace(
+                     "templates: [dossier, chronicle]",
+                     "templates: [chronicle]")), library=olib),
+       must_have=["B-META-MATCH"])
+
+queue_repo = open_repo(OPEN_YAML + "items:\n"
+                       "  - {slug: commissioned-piece, title: On Commission}\n")
+expect("pending commission blocks a freestyle pick",
+       run_local(OPEN_ED, "wildcard", slug="the-cuda-moat", repo=queue_repo,
+                 library=olib), must_have=["B-MODE"])
+expect("publishing the commissioned item is BLOCK-clean",
+       run_local(OPEN_ED.replace("the-cuda-moat", "commissioned-piece"),
+                 "wildcard", slug="commissioned-piece", repo=queue_repo,
+                 library=olib), blocks=0)
+for name, cond in [
+    ("open series with a templates list validates", vc_rc(orepo) == 0),
+    ("'templates' on a non-open series rejected",
+     vc_rc(patched_repo("templates: [dossier]\n")) == 1),
+    ("open mode without any template rejected",
+     vc_rc(open_repo(OPEN_YAML.replace("templates: [dossier, chronicle]\n",
+                                       ""))) == 1),
+]:
+    if cond:
+        PASS += 1
+        print(f"  ok   {name}")
+    else:
+        FAIL.append(name)
+        print(f"  FAIL {name}")
+
+print("== duty.py (tonight's work list) ==")
+
+
+def duty(repo, library, date=TODAY):
+    out = subprocess.run(
+        [sys.executable, str(REPO / "engine" / "duty.py"), "--repo", str(repo),
+         "--library", str(library), "--date", date],
+        capture_output=True, text=True)
+    return json.loads(out.stdout)
+
+
+def duty_of(report, sid):
+    return next((e for e in report["due"] + report["idle"]
+                 if e["series"] == sid), None)
+
+
+empty_lib = make_library({"semiconductors": [], "ai-briefs": []})
+d = duty(TESTREPO, empty_lib)
+partial_lib = make_library({"semiconductors": ["micron"]})
+d_partial = duty(TESTREPO, partial_lib)
+d_random = duty(patched_repo("selection: random\n"), partial_lib)
+d_paused = duty(patched_repo("paused: true\n"), empty_lib)
+# 2026-07-06 is a Monday
+d_cad_off = duty(patched_repo("cadence: [tue]\n", series="ai-briefs"), empty_lib)
+d_open = duty(queue_repo, make_library({"wildcard": []}))
+tonight_lib = make_library({"semiconductors": []})
+(pathlib.Path(tonight_lib) / "library" / "semiconductors"
+ / "micron.html").write_text(VALID)  # nb-meta date == TODAY
+d_tonight = duty(TESTREPO, tonight_lib)
+
+for name, cond in [
+    ("rolling series due tonight with tonight's slug",
+     duty_of(d, "ai-briefs") in d["due"]
+     and duty_of(d, "ai-briefs")["slug"] == TODAY),
+    ("rolling already-published tonight is idle",
+     duty_of(duty(TESTREPO, make_library({"ai-briefs": [TODAY]})),
+             "ai-briefs")["reason"] == "already published tonight"),
+    ("collection in-order offers exactly the next item",
+     duty_of(d_partial, "semiconductors")["candidates"] == ["tsmc"]),
+    ("collection random offers every unpublished item",
+     sorted(duty_of(d_random, "semiconductors")["candidates"])
+     == ["asml", "nvidia", "sk-hynix", "tsmc"]),
+    ("paused series is idle",
+     duty_of(d_paused, "semiconductors")["reason"] == "paused"),
+    ("cadence off-night is idle",
+     duty_of(d_cad_off, "ai-briefs") in d_cad_off["idle"]),
+    ("open desk with a queue lists commissions",
+     duty_of(d_open, "wildcard")["commissions"] == ["commissioned-piece"]),
+    ("an edition published tonight idles its series (rerun safety)",
+     duty_of(d_tonight, "semiconductors")["reason"]
+     == "already published tonight"),
+    ("collection complete is idle",
+     duty_of(duty(TESTREPO, make_library(
+         {"semiconductors": ["micron", "tsmc", "asml", "sk-hynix", "nvidia"]})),
+         "semiconductors")["reason"] == "complete"),
+]:
+    if cond:
+        PASS += 1
+        print(f"  ok   {name}")
+    else:
+        FAIL.append(name)
+        print(f"  FAIL {name}")
+
 print("== PR mode (real git repo) ==")
 
 

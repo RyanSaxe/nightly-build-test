@@ -39,7 +39,20 @@ Ask before writing. Keep it short — one round of questions, then a proposal:
 
 - What do they want to learn or track?
 - Shape: one-off deep dives (**collection**), an ordered course (**sequence**),
-  or ongoing briefings (**rolling**)?
+  ongoing briefings (**rolling**), or an editor-run desk (**open** — they
+  describe a beat, the night shift picks each night's topic and form)?
+- Rhythm: nightly everything, or should some series breathe? Per-series
+  `cadence:` takes `daily`, `weekdays`, `weekends`, or a day list
+  (`[mon, thu]`) — a weekly deep dive plus a daily brief is a classic paper.
+
+**The hands-off paper** (they say "just give me ~N good reads a day about X
+and surprise me"): propose a masthead of open desks instead of enumerating
+items — e.g. a daily rolling brief, plus open desks with distinct beats
+(deep dives, explainers, history, papers, a wildcard), each with a template
+choice list and a cadence so the nightly mix varies. One edition per desk per
+night is the invariant, so "six things a day" = six desks. They govern later
+with words, not YAML: commissioning drops an item into a desk's queue,
+steering edits the desk's `prompt.md`.
 - **Voice** (two questions, written into `press/editorial.md`): how should the
   paper sound — register, wit, language? And what should it assume they
   already know? This is a press-wide layer composed into every edition.
@@ -60,10 +73,13 @@ repo is a copyright/ToS problem: use a private repo or excerpts.
 ## 2. Propose, then write
 
 Propose: series `id` (`[a-z0-9-]{1,32}`), mode, template (must be legal for the
-mode per `templates/registry.yaml`), name, and — for collection/sequence — the
-full item list (slugs `[a-z0-9-]{1,64}`, titles, tags, per-item prompts). For a
-sequence, draft the complete ordered syllabus with the user before writing
-anything. Show the plan; get a yes.
+mode per `templates/registry.yaml` — open series may declare a `templates:`
+choice list instead), name, cadence if not nightly, and — for
+collection/sequence — the full item list (slugs `[a-z0-9-]{1,64}`, titles,
+tags, per-item prompts). For a sequence, draft the complete ordered syllabus
+with the user before writing anything. For an open desk, the beat description
+in `prompt.md` IS the config — invest the interview time there. Show the
+plan; get a yes.
 
 Then write:
 
@@ -114,10 +130,10 @@ State plainly: *pasting the schedule is the one step I can't do for you.*
 Schedule prompt template (fill `<repo>`; keep ≤ ~130 words):
 
 > You are the night shift for The Nightly Build repo `<repo>`. Read
-> `PROTOCOL.md` on main and follow it exactly. Fallback summary: for every
-> series configured under `press/series/` on main, list `library/<series>/` on the
-> `library` branch; if the series has an unpublished next item per its
-> `series.yaml`, research it deeply with cited sources; render ONE
+> `PROTOCOL.md` on main and follow it exactly. Fallback summary: check out the
+> `library` branch, run `python3 engine/duty.py --repo . --library <checkout>`
+> for tonight's due series; for each, research its listed work deeply with
+> cited sources; render ONE
 > self-contained HTML file from the series template with the embedded
 > `nb-meta` JSON block; run `python3 engine/check.py <file> --series <id>` and
 > revise until BLOCK=0; open ONE pull request per series targeting the
@@ -128,12 +144,21 @@ Schedule prompt template (fill `<repo>`; keep ≤ ~130 words):
 ## 6. Curation verbs
 
 On request: add/remove/reorder items (reordering a sequence only reorders the
-*unpublished* tail — published editions are permanent); retire a series (stop
-scheduling; optionally move its config out); adjust `words:` bands (may tighten,
-never loosen below the registry floor) and `min_sources`; flip `autopublish`
-(false ⇒ the editor approves, a human merges) and `strict` (true ⇒ WARNs become
-BLOCKs — warn that a missed night then beats a thin edition). Re-validate after
-every change.
+*unpublished* tail — published editions are permanent); **pause/resume** a
+series (`paused: true` — the archive stays up, the proof refuses new
+editions); **change its rhythm** (`cadence:`); **commission** ("have the
+wildcard desk cover X next") — append an item to an open desk's `items:`
+queue, which the night shift must clear before freestyling again; **steer an
+open desk** ("less policy for a while") — edit its `prompt.md` beat;
+**extra editions on demand** ("write me a piece on X right now") — make sure
+the topic has a home first (a commission, a new item, or a new series —
+the proof rejects editions for unconfigured series), then hand off to the
+correspondent's *Commissioned work* flow; let a
+collection surprise them (`selection: random`); adjust `words:` bands (may
+tighten, never loosen below the registry floor) and `min_sources`; flip
+`autopublish` (false ⇒ the editor approves, a human merges) and `strict`
+(true ⇒ WARNs become BLOCKs — warn that a missed night then beats a thin
+edition). Re-validate after every change.
 
 **Customization verbs:**
 

@@ -15,6 +15,11 @@ searchable, owned by you, served free from GitHub Pages.
 - **Research, not summarization.** Editions are original cited research
   artifacts in six shipped layouts — dossier, lesson, brief, paper appraisal,
   chronicle, deck — plus [any template you invent](docs/customization.md).
+- **Curated or hands-off — your call.** Enumerate a syllabus item by item, or
+  run [open desks](docs/series.md): describe a beat and the night shift picks
+  each night's topic and form, while you commission and steer in plain
+  English. Per-series [cadence](docs/series.md) gives every section its own
+  rhythm under one schedule.
 - **Git as the protocol.** Any agent that can open a pull request can be your
   night shift — Claude Code, Jules, and Codex adapters ship in `harnesses/`.
 - **A safety gate, not a quality gate.** CI (the **editor**) guarantees the
@@ -77,6 +82,7 @@ Actions secrets on the trusted post-merge path.
 ## Docs
 
 - [Your press: ownership, forks, clean updates](docs/press.md)
+- [Series: modes, open desks, cadence, commissioning](docs/series.md)
 - [Customization: themes, voice, your own templates](docs/customization.md)
 - [Delivery: feeds, morning email, the catalog API](docs/delivery.md)
 
@@ -90,7 +96,8 @@ python3 engine/validate_config.py        # validate press/ configuration
 **This repo is engine-only.** It runs no press and publishes no library —
 even the maintainer dogfoods by forking it like any other user, which keeps
 the fork path honest. `examples/` ships a complete working configuration
-(six series, one per template, the full source policy) as documentation.
+(seven series: one per template plus an open desk, with the full source
+policy and rhythm controls) as documentation.
 
 MIT licensed. No accounts, no backend, no analytics — `catalog.json` and the
 Atom feeds *are* the API.

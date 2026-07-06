@@ -25,22 +25,36 @@ ones.
 
 ## 2. Select work
 
-List the configured series under `press/series/` (or just the one your schedule
-prompt names). For each, fetch the `library` branch, list `library/<series>/`,
-and apply the mode rule from `press/series/<id>/series.yaml`:
+Fetch the `library` branch, then ask the duty oracle — never do calendar or
+queue math yourself:
 
-- **collection** — first `items:` entry with no published file.
-- **sequence** — lowest-index missing item. Read the series' already-published
+```
+python3 engine/duty.py --repo . --library <path-to-library-checkout>
+```
+
+Its `due` list is tonight's work (cadence, pauses, completion, and
+already-published-tonight are all applied). If your schedule prompt names one
+series, serve only that one — and only if duty lists it. Per mode:
+
+- **collection** — publish one of the listed `candidates` (next in order, or
+  any of them under `selection: random`).
+- **sequence** — the listed `slug`. Read the series' already-published
   editions first; your recap and framing must build on them explicitly.
-- **rolling** — today's UTC date (`YYYY-MM-DD`) if unpublished. Missed nights
-  are skipped, never backfilled.
+- **rolling** — the listed `slug` (today's UTC date). Missed nights are
+  skipped, never backfilled.
+- **open** — an editor-run desk. Pending `commissions` come first (their
+  `items:` entries may carry prompts and sources). With an empty queue, YOU
+  are the editor: read the desk's published editions (continuity, no
+  repeats), pick tonight's topic within the beat in `prompt.md`, choose the
+  best-fitting template from the series' declared choices, and coin a fresh
+  slug.
 
-Work the series that have work **one at a time** — research, proof, and PR for
-one series before starting the next, so a late failure never costs an earlier
-series its night. Skip series with nothing due.
+Work the due series **one at a time** — research, proof, and PR for one
+series before starting the next, so a late failure never costs an earlier
+series its night.
 
-**No series has work → stop. No PR. Exiting silently is correct behavior,
-not failure.**
+**duty says nothing is due → stop. No PR. Exiting silently is correct
+behavior, not failure.**
 
 ## 3. Research
 
@@ -57,7 +71,8 @@ not failure.**
 ## 4. Render
 
 Start from `press/templates/<template>.html` if it exists, else
-`templates/<template>.html`. Replace every placeholder; keep the
+`templates/<template>.html` (for an open desk, `<template>` is the choice you
+made in step 2 — record it honestly in nb-meta). Replace every placeholder; keep the
 engine asset links and the structure the registry requires (every
 `data-nb-section` exactly once). Fill `nb-meta` honestly — `sources`/`words`
 are recounted by the proof; `harness`/`model` are your provenance. Charts only
@@ -93,6 +108,21 @@ Never merge. Never push to `library` directly. Never open a second PR. If your
 PR is labeled `nb-invalid`, stop — a future run supersedes you; don't fight the
 editor. If a competing PR for your slug merges first, yours will be closed as
 superseded; that's the protocol working.
+
+## Commissioned work (a human asks directly)
+
+A human asking you for an edition outside the schedule is fully legitimate —
+the nightly invariant disciplines scheduled runs, not owners. Same craft,
+same proof, one PR per edition. Default to **press check → promote** below so
+they read it before it publishes; publish directly only if they say so.
+
+The one precondition: the edition needs a home in config. If the request fits
+an existing series, use it (for an open desk, append the request to `items:`
+so the commission is on record). If nothing fits, switch to the librarian
+skill first — add an item, a desk, or a series on `main` — because the proof
+rejects editions for unconfigured series (B-SERIES). Config first, then
+publish. Note for them: a series published by hand today is skipped by
+tonight's scheduled run — it already got its edition.
 
 ## Press check (rehearsal mode)
 

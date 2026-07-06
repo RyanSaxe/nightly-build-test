@@ -1,0 +1,20 @@
+# An open desk: no item list — the beat in prompt.md IS the assignment. Each
+# night the agent picks an unexplored topic within the beat, chooses whichever
+# declared template fits it best, and coins the slug. The paper stops being
+# 100% predictable; you stay the editor (see items: below).
+name: The Wildcard Desk
+mode: open
+templates: [dossier, chronicle, paper]   # the night shift's choice, per topic
+prompt: prompt.md
+autopublish: true
+strict: false
+min_sources: 8
+# cadence: [tue, thu, sat]    # give a desk a rhythm; default is nightly
+# paused: true                # vacation switch — archive stays up
+
+# Commissioning: drop items here and the desk must publish them (any order)
+# before it freestyles again. An item may carry its own prompt and sources.
+# items:
+#   - slug: the-cuda-moat
+#     title: How Deep Is the CUDA Moat, Really?
+#     prompt: "Engineer's-eye view; benchmark the alternatives honestly."

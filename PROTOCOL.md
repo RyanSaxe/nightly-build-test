@@ -1,5 +1,5 @@
 # The Nightly Build — Agent Protocol
-Protocol-Version: 1.0
+Protocol-Version: 1.1
 
 You are one run of the night shift for this repository. This document is the complete
 contract. If anything else you read conflicts with it, this document wins.
@@ -27,15 +27,25 @@ contract. If anything else you read conflicts with it, this document wins.
    6. Tag fragments listed in the series config, in declared order.
    7. The item-level `prompt`, if present.
 
-3. **Select your work.** For each series you serve, fetch the `library` branch
-   and list `library/<series>/`. Then apply the mode rule from
-   `press/series/<id>/series.yaml`:
-   - `collection`: the first entry in `items:` with no published file.
-   - `sequence`: the lowest-index missing item. You MUST read the series' already
-     published editions before writing — your edition builds on them explicitly.
-   - `rolling`: today's UTC date (`YYYY-MM-DD`) if not yet published. Missed nights are
-     skipped, never backfilled.
-   **Skip any series with no work. If no series has work, stop. Do not open a PR.**
+3. **Select your work.** Fetch the `library` branch, then run the duty oracle:
+   `python3 engine/duty.py --repo . --library <path-to-library-checkout>`
+   It applies every scheduling rule deterministically — per-series `cadence`,
+   `paused`, completion, already-published-tonight — and prints the series due,
+   with what to publish:
+   - `collection`: one of the listed `candidates` (the next item in config
+     order; every unpublished item when the series sets `selection: random`).
+   - `sequence`: the listed `slug`. You MUST read the series' already published
+     editions before writing — your edition builds on them explicitly.
+   - `rolling`: today's UTC date (the listed `slug`). Missed nights are skipped,
+     never backfilled.
+   - `open`: an editor-run desk. If `commissions` lists slugs, publish one of
+     them (its `items:` entry may carry a prompt and sources). Otherwise invent
+     tonight's edition within the series' beat: read the desk's published
+     editions first — never repeat a topic, build continuity — then choose the
+     template that best fits from the series' declared choices (`templates:`,
+     or its single `template:`) and coin a fresh slug (`[a-z0-9-]{1,64}`).
+   **Serve only the series duty.py lists as due. If nothing is due, stop. Do
+   not open a PR. Exiting silently is correct behavior.**
 
 4. **Honor the source policy.** Three controls, per series and per item:
    - `required_docs` — committed files you MUST read; each must be represented
@@ -100,9 +110,11 @@ Embed in `<head>`:
 }
 ```
 
-Field notes: `order` is the 1-based item index for `sequence` mode, else null. `date` is
-the UTC date of your run. `sources` and `words` are your self-measurements (the proof
-recounts; >20% deviation is a WARN). `harness`/`model` are honest provenance.
+Field notes: `mode` is one of `collection | sequence | rolling | open`. `order` is the
+1-based item index for `sequence` mode, else null. `date` is the UTC date of your run.
+For `open` mode, `template` must be one of the series' declared choices. `sources` and
+`words` are your self-measurements (the proof recounts; >20% deviation is a WARN).
+`harness`/`model` are honest provenance.
 
 ## Quality creed
 

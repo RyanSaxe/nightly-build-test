@@ -6,6 +6,9 @@ prompt: prompt.md
 autopublish: true
 strict: false
 min_sources: 10
+# cadence: [mon, thu]   # heavyweight dossiers twice a week; default is nightly
+# selection: random     # publish items in any order instead of front-to-back
+# paused: true          # vacation switch — the archive stays up
 items:
   - slug: nvidia
     title: Nvidia

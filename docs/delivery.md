@@ -39,12 +39,15 @@ email:
 | `MAIL_SMTP_PASSWORD` | a Gmail App Password, or your provider's SMTP key |
 
 Notes: without both the config block and `MAIL_TO`, the workflow gates itself
-off silently. It skips mornings with no fresh build (rolling presses build
-nightly; a completed press goes quiet). Test a send anytime by running the
-workflow manually from the Actions tab (`workflow_dispatch` bypasses the hour
-and freshness gates, not the secrets gate). Credentials live only in GitHub
-Actions secrets — never in the repo, and never anywhere the editor's
-untrusted-PR validation can see them.
+off silently. On mornings with no fresh build it asks `engine/duty.py`
+whether last night was **quiet by design** (a cadence gap, a completed or
+paused press — no email) or a **missed night** (something was due but never
+published — you get a short "the press was quiet last night" notice, for up
+to 14 days, so a broken schedule never fails silently). Test a send anytime
+by running the workflow manually from the Actions tab (`workflow_dispatch`
+bypasses the hour and freshness gates, not the secrets gate). Credentials
+live only in GitHub Actions secrets — never in the repo, and never anywhere
+the editor's untrusted-PR validation can see them.
 
 Every night's digest is also archived at `builds/<date>/email.html` on the
 site.

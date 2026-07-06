@@ -52,8 +52,7 @@ prompt: prompt.md
 autopublish: true
 strict: false
 min_sources: 5
-rolling:
-  cadence: daily
+cadence: daily
 """
 
 SITE_YAML = """\
