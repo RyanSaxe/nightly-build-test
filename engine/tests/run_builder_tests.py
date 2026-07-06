@@ -179,6 +179,43 @@ check("draft edition file carries the banner",
 check("published edition file untouched",
       "Press check" not in read(pv_out, "library", "semiconductors", "micron.html"))
 
+print("== open series ==")
+open_repo = tempfile.mkdtemp()
+for sub in ("press", "templates", "engine"):
+    shutil.copytree(pathlib.Path(TESTREPO) / sub, pathlib.Path(open_repo) / sub)
+wd = pathlib.Path(open_repo) / "press" / "series" / "wildcard"
+wd.mkdir()
+(wd / "series.yaml").write_text(
+    "name: Wildcard\nmode: open\ntemplates: [dossier, chronicle]\n"
+    "cadence: weekdays\nautopublish: true\nstrict: false\n"
+    "items:\n  - {slug: commissioned-piece, title: On Commission}\n")
+open_ed = (make_fixtures.dossier()
+           .replace('"series": "semiconductors", "slug": "micron",',
+                    '"series": "wildcard", "slug": "the-cuda-moat",')
+           .replace('"mode": "collection"', '"mode": "open"'))
+open_lib = tempfile.mkdtemp()
+write_edition(open_lib, "wildcard", "the-cuda-moat", open_ed)
+open_out = tempfile.mkdtemp()
+open_catalog = B.build(open_repo, open_lib, open_out, now=NOW)
+wc = next(s for s in open_catalog["series"] if s["id"] == "wildcard")
+check("open series in catalog with choice list + cadence",
+      wc["mode"] == "open" and wc["templates"] == ["dossier", "chronicle"]
+      and wc["cadence"] == "weekdays" and wc["total"] is None)
+open_page = read(open_out, "series", "wildcard", "index.html")
+check("open series page renders reverse-chron with month label",
+      "July 2026" in open_page and "the-cuda-moat" in open_page)
+check("pending commission shows as coming",
+      "On Commission" in open_page and "commissioned" in open_page)
+check("open series page shows the template choice list",
+      "dossier, chronicle" in open_page)
+
+print("== stale newsstand ==")
+stale_out = tempfile.mkdtemp()
+B.build(TESTREPO, lib, stale_out,
+        now=dt.datetime(2026, 7, 10, 9, 0, tzinfo=dt.timezone.utc))
+check("gap labeled honestly, not as last night",
+      "Latest build · 2026-07-06" in read(stale_out, "index.html"))
+
 print("== empty library ==")
 empty_out = tempfile.mkdtemp()
 B.build(TESTREPO, tempfile.mkdtemp(), empty_out, now=NOW)

@@ -181,6 +181,8 @@ def assign_positions(editions, series_cfgs):
         elif mode == "collection":
             order = {it.get("slug"): i for i, it in enumerate(cfg.get("items") or [])}
             eds.sort(key=lambda e: (order.get(e["slug"], 10**6), e["slug"]))
+        elif mode == "open":  # topical slugs; publication date is the order
+            eds.sort(key=lambda e: (e["meta"].get("date", ""), e["slug"]))
         else:  # rolling
             eds.sort(key=lambda e: e["slug"])
         for i, ed in enumerate(eds, 1):
@@ -199,14 +201,18 @@ def build_catalog(site_cfg, series_cfgs, editions, generated):
     series_entries = []
     for sid, cfg in series_cfgs.items():
         items = cfg.get("items") or []
-        series_entries.append({
+        entry = {
             "id": sid,
             "name": cfg.get("name", sid),
             "mode": cfg.get("mode"),
             "template": cfg.get("template"),
             "count": len(by_series.get(sid, [])),
             "total": len(items) if cfg.get("mode") in ("collection", "sequence") else None,
-        })
+        }
+        for key in ("templates", "cadence", "paused"):
+            if cfg.get(key):
+                entry[key] = cfg[key]
+        series_entries.append(entry)
     # editions published for series no longer configured still belong to the site
     for sid in sorted(set(by_series) - set(series_cfgs)):
         eds = by_series[sid]
@@ -430,8 +436,16 @@ def render_newsstand(site, catalog, series_cfgs, editions, now):
 
     latest = max(catalog["builds"])
     tonight = [ed for ed in editions.values() if ed["meta"].get("date") == latest]
-    label = ("Tonight’s build" if latest == now.date().isoformat()
-             else f"Last night’s build · {latest}")
+    try:
+        age = (now.date() - dt.date.fromisoformat(latest)).days
+    except ValueError:
+        age = None
+    if age == 0:
+        label = "Tonight’s build"
+    elif age == 1:
+        label = f"Last night’s build · {latest}"
+    else:  # an honest gap beats a stale “last night”
+        label = f"Latest build · {latest}"
     built = now.strftime("%H:%M UTC")
     body = (f'<div class="nb-rule-label">{label} · {len(tonight)} '
             f'edition{"s" if len(tonight) != 1 else ""} · built {built}</div>')
@@ -495,11 +509,13 @@ def render_series_page(site, sid, cfg, eds, series_cfgs):
     items = cfg.get("items") or []
     total = len(items)
 
+    tpl_label = ", ".join(cfg.get("templates")
+                          or ([cfg["template"]] if cfg.get("template") else []))
     head = (f'<div class="nb-series-head"><h1>{esc(name)}</h1>'
             f'<div class="nb-series-sub">{esc(mode)} · '
-            f'{esc(str(cfg.get("template", "")))} · {len(eds)}'
-            f'{f" of {total}" if total and mode != "rolling" else ""} published'
-            "</div></div>")
+            f'{esc(tpl_label)} · {len(eds)}'
+            f'{f" of {total}" if total and mode in ("collection", "sequence") else ""}'
+            " published</div></div>")
 
     if mode == "sequence":
         pct = round(100 * len(eds) / total) if total else 0
@@ -523,18 +539,26 @@ def render_series_page(site, sid, cfg, eds, series_cfgs):
                     f'<span class="nb-seq-t">{esc(str(title))}{marker}</span>'
                     "</span></li>")
         body = head + f'<ol class="nb-seq">{"".join(rows)}</ol>'
-    elif mode == "rolling":
+    elif mode in ("rolling", "open"):
         parts, seen_month = [], None
-        for ed in sorted(eds, key=lambda e: e["slug"], reverse=True):
-            month = ed["slug"][:7]
+        date_of = (lambda e: e["slug"]) if mode == "rolling" \
+            else (lambda e: e["meta"].get("date", ""))
+        for ed in sorted(eds, key=lambda e: (date_of(e), e["slug"]), reverse=True):
+            month = date_of(ed)[:7]
             if month != seen_month:
                 try:
-                    label = dt.date.fromisoformat(ed["slug"]).strftime("%B %Y")
+                    label = dt.date.fromisoformat(date_of(ed)).strftime("%B %Y")
                 except ValueError:
                     label = month
                 parts.append(f'<div class="nb-rule-label">{esc(label)}</div>')
                 seen_month = month
             parts.append(card(ed, series_cfgs, 2))
+        if mode == "open":  # pending commissions surface as coming attractions
+            parts += [f'<div class="nb-card" style="color:var(--faint)">'
+                      f'<span class="nb-badge">commissioned</span>'
+                      f'<h3>{esc(str(it.get("title", it.get("slug"))))}</h3>'
+                      f'<p class="nb-dek">coming</p></div>'
+                      for it in items if it.get("slug") not in published]
         body = head + '<div class="nb-cards" style="grid-template-columns:1fr">' \
             + "".join(parts) + "</div>" if parts else head + \
             '<div class="nb-empty"><p>No editions yet.</p></div>'
