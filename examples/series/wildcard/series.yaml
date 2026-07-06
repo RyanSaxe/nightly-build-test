@@ -4,6 +4,7 @@
 # 100% predictable; you stay the editor (see items: below).
 name: The Wildcard Desk
 mode: open
+section: "The Wildcard"
 templates: [dossier, chronicle, paper]   # the night shift's choice, per topic
 prompt: prompt.md
 autopublish: true

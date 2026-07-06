@@ -2,6 +2,7 @@
 # nights are skipped, never backfilled. No items list — the date is the item.
 name: Daily Brief
 mode: rolling
+section: "The Daily"
 template: brief
 prompt: prompt.md
 autopublish: true

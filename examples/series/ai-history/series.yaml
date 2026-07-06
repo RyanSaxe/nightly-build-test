@@ -1,6 +1,7 @@
 # A sequence: editions publish in order, each building on the last.
 name: A History of Artificial Intelligence
 mode: sequence
+section: "History & Policy"
 template: chronicle
 prompt: prompt.md
 autopublish: true

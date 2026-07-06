@@ -2,6 +2,7 @@
 # writing the next one; recaps must reference them concretely.
 name: Transformers, From Scratch
 mode: sequence
+section: "Foundations"
 template: lesson
 prompt: prompt.md
 autopublish: true

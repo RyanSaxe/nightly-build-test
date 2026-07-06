@@ -1,6 +1,7 @@
 # A collection: items publish front-to-back, one per night, until done.
 name: Frontier Compute
 mode: collection
+section: "Compute & Industry"
 template: dossier
 prompt: prompt.md
 autopublish: true

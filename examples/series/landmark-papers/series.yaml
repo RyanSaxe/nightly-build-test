@@ -1,6 +1,7 @@
 # Critical appraisals of papers that defined the field.
 name: Landmark Papers
 mode: collection
+section: "Foundations"
 template: paper
 prompt: prompt.md
 autopublish: true
