@@ -14,6 +14,11 @@ unless your schedule prompt names one — publishing at most one edition per
 series, each a single self-contained HTML file added by its own PR to the
 `library` branch. Nothing else, ever.
 
+## 0. Resolve your press root
+
+`press/` if it exists, else `press-example/` (the upstream repo dogfoods from
+the latter). Every `press/…` path below means the resolved root.
+
 ## 1. Load your layers (in order)
 
 `PROTOCOL.md` → `spec/editorial.md` (house style) → `press/editorial.md`

@@ -15,6 +15,8 @@ import os
 import re
 import sys
 
+from presspath import press_root
+
 try:
     import yaml
 except ImportError:  # pragma: no cover
@@ -35,19 +37,21 @@ def load(path):
 
 
 def check_site(repo, errors):
-    path = os.path.join(repo, "press", "site.yaml")
+    root = press_root(repo)
+    label = os.path.basename(root)
+    path = os.path.join(root, "site.yaml")
     if not os.path.isfile(path):
         return  # optional: the engine ships defaults
     site = load(path) or {}
     if "title" in site and (not isinstance(site["title"], str)
                             or not site["title"].strip()):
-        errors.append("press/site.yaml: 'title' must be a non-empty string")
+        errors.append(f"{label}/site.yaml: 'title' must be a non-empty string")
     theme = site.get("theme")
     if theme is not None and (not isinstance(theme, str)
                               or not os.path.isfile(os.path.join(repo, theme))):
-        errors.append(f"press/site.yaml: theme file not found: {theme!r}")
+        errors.append(f"{label}/site.yaml: theme file not found: {theme!r}")
     if site.get("appearance", "auto") not in ("auto", "light", "dark"):
-        errors.append("press/site.yaml: 'appearance' must be auto | light | dark")
+        errors.append(f"{label}/site.yaml: 'appearance' must be auto | light | dark")
 
 
 def check_registry(repo, errors):
@@ -56,7 +60,7 @@ def check_registry(repo, errors):
         errors.append("templates/registry.yaml is missing")
         return {}
     registry = load(path) or {}
-    press_path = os.path.join(repo, "press", "templates", "registry.yaml")
+    press_path = os.path.join(press_root(repo), "templates", "registry.yaml")
     if os.path.isfile(press_path):
         registry.update(load(press_path) or {})
     for tid, entry in registry.items():
@@ -84,22 +88,23 @@ def check_registry(repo, errors):
                     and all(isinstance(x, int) for x in band)
                     and band[0] <= band[1]):
                 errors.append(f"{where}: '{band_key}' must be [low, high] integers")
-        candidates = [os.path.join(repo, base, f"{tid}.html")
-                      for base in ("press/templates", "templates")]
+        candidates = [os.path.join(press_root(repo), "templates", f"{tid}.html"),
+                      os.path.join(repo, "templates", f"{tid}.html")]
         if not any(os.path.isfile(c) for c in candidates):
-            errors.append(f"{where}: no {tid}.html under press/templates/ "
-                          f"or templates/")
+            errors.append(f"{where}: no {tid}.html in the press templates "
+                          f"folder or templates/")
     return registry
 
 
 def check_series(repo, registry, errors):
-    root = os.path.join(repo, "press", "series")
+    label = os.path.basename(press_root(repo))
+    root = os.path.join(press_root(repo), "series")
     if not os.path.isdir(root):
         return
     for sid in sorted(os.listdir(root)):
         if sid.startswith("_") or not os.path.isdir(os.path.join(root, sid)):
             continue
-        where = f"press/series/{sid}"
+        where = f"{label}/series/{sid}"
         if not SERIES_ID_RE.match(sid):
             errors.append(f"{where}: id must match {SERIES_ID_RE.pattern}")
         path = os.path.join(root, sid, "series.yaml")

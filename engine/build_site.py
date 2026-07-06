@@ -40,6 +40,8 @@ import re
 import shutil
 import sys
 
+from presspath import press_root
+
 try:
     import yaml
 except ImportError:  # pragma: no cover
@@ -68,7 +70,7 @@ def load_yaml(path):
 def load_site_config(repo):
     """Engine defaults, overridden by the user's press/site.yaml if present."""
     cfg = {}
-    path = os.path.join(repo, "press", "site.yaml")
+    path = os.path.join(press_root(repo), "site.yaml")
     if os.path.isfile(path):
         cfg = load_yaml(path)
     cfg.setdefault("title", "The Nightly Build")
@@ -78,7 +80,7 @@ def load_site_config(repo):
 
 
 def load_series_configs(repo):
-    root = os.path.join(repo, "press", "series")
+    root = os.path.join(press_root(repo), "series")
     out = {}
     if not os.path.isdir(root):
         return out

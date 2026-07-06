@@ -6,6 +6,8 @@ import subprocess
 
 import yaml
 
+from presspath import press_root
+
 PR_PATH_RE = re.compile(r"^library/([a-z0-9-]{1,32})/[a-z0-9-]{1,64}\.html$")
 
 
@@ -21,7 +23,7 @@ def autopublish(repo, diff_base):
         print("false")
         return
     try:
-        with open(f"{repo}/press/series/{m.group(1)}/series.yaml") as fh:
+        with open(f"{press_root(repo)}/series/{m.group(1)}/series.yaml") as fh:
             cfg = yaml.safe_load(fh)
         print("true" if cfg.get("autopublish", False) else "false")
     except Exception:

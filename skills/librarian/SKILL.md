@@ -67,7 +67,7 @@ anything. Show the plan; get a yes.
 
 Then write:
 
-- `press/series/<id>/series.yaml` — crib from the upstream repo's press/ for
+- `press/series/<id>/series.yaml` — crib from `press-example/series/` for
   the canonical shapes. Defaults: `autopublish: true`, `strict: false`.
 - `press/series/<id>/prompt.md` — the series' editorial instructions: subject
   frame, emphases, recurring angles. It specializes the voice layers; it never
@@ -115,7 +115,8 @@ Schedule prompt template (fill `<repo>`; keep ≤ ~130 words):
 
 > You are the night shift for The Nightly Build repo `<repo>`. Read
 > `PROTOCOL.md` on main and follow it exactly. Fallback summary: for every
-> series configured under `press/series/` on main, list `library/<series>/` on the
+> series configured under `press/series/` (else `press-example/series/`) on
+> main, list `library/<series>/` on the
 > `library` branch; if the series has an unpublished next item per its
 > `series.yaml`, research it deeply with cited sources; render ONE
 > self-contained HTML file from the series template with the embedded
@@ -149,23 +150,21 @@ every change.
   the entry declares — custom templates are first-class. Validate, then press
   check it before scheduling a series on it.
 
-## 7. Update my engine (conflict-free by construction)
-
-Engine updates never merge — they take upstream's version of every path
-outside `press/`:
+## 7. Update my engine (plain git)
 
 ```
 git remote add upstream https://github.com/RyanSaxe/the-nightly-build.git  # once
 git fetch upstream
-git log upstream/main..HEAD --oneline -- . ':(exclude)press'   # MUST be empty
-git checkout upstream/main -- . ':(exclude)press'
-git commit -m "chore: sync engine from upstream"
+git merge upstream/main
 ./setup.sh    # re-syncs the trigger workflows onto library
 ```
 
-If that `git log` shows commits, the user has edited engine-space — STOP and
-show them the list; syncing would overwrite their changes. Resolve by moving
-their customization into `press/` first (that's where it belonged).
+An ordinary fork merge. For users who only write inside `press/` it is clean
+by construction — their commits and upstream's touch disjoint paths. If they
+HAVE edited engine files, the merge may conflict exactly there; that is
+normal fork ownership — help them resolve it like any merge, never overwrite
+their work. After updating, offer to dispatch the publish workflow so the
+back catalog re-renders with the new engine immediately.
 
 ## Boundaries
 

@@ -43,8 +43,8 @@ GitHub Actions running the editor and the press, and Pages serving the result.
    night 2 = the continuing series only (lesson №2, chronicle №2, brief). It
    also exercises the whole source policy: `required_docs` (ai-rules'
    committed NIST excerpt), `consult` (frontier-compute, landmark-papers),
-   and `sources_exclusive` (ai-rules). On a fork, setup clears all of it —
-   configure your own series instead.
+   and `sources_exclusive` (ai-rules). On a fork, setup scaffolds `press/`
+   (press-example/ stays put) — configure your own series there instead.
 3. Connect the repo at claude.ai/code, then create ONE press-level Routine per
    `harnesses/claude-code.md` — nightly cadence, the generic schedule prompt. (On a
    fork, also enable workflows once in the Actions tab.)

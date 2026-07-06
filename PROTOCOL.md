@@ -6,8 +6,10 @@ contract. If anything else you read conflicts with it, this document wins.
 
 ## The contract
 
-1. **One edition per series, maximum.** A run serves the whole press — every
-   series configured under `press/series/` — unless your schedule prompt names one
+1. **One edition per series, maximum.** Your press root is `press/` if it
+   exists, else `press-example/` — written as `press/` throughout this file.
+   A run serves the whole press — every series configured under
+   `press/series/` — unless your schedule prompt names one
    specific series. For each series you serve, research and publish at most ONE
    edition, as its own pull request. Work series one at a time, completing each
    PR before starting the next, so a late failure never costs an earlier series

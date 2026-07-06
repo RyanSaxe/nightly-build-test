@@ -451,6 +451,16 @@ else:
     FAIL.append("template lookup precedence")
     print("  FAIL template lookup precedence")
 
+print("== press-example fallback ==")
+fb_repo = pathlib.Path(tempfile.mkdtemp()) / "repo"
+shutil.copytree(TESTREPO, fb_repo)
+(fb_repo / "press").rename(fb_repo / "press-example")
+expect("engine resolves press-example when press/ is absent",
+       run_local(VALID, "semiconductors", repo=str(fb_repo)), blocks=0)
+(fb_repo / "press-example").rename(fb_repo / "press")
+expect("press/ wins when both could exist",
+       run_local(VALID, "semiconductors", repo=str(fb_repo)), blocks=0)
+
 print("== PR mode (real git repo) ==")
 
 

@@ -1,8 +1,9 @@
 # The paperboy: delivers the latest build's email digest every morning.
 # Opt-in twice over: press/site.yaml must set email.send_utc_hour, AND the
 # MAIL_* secrets must exist. Runs hourly because scheduled workflows live on
-# main (engine-space) — the user-owned send hour lives in press/site.yaml,
-# so changing it never touches an engine file. The digest itself is built by
+# main (engine-space) — the user-owned send hour lives in the press root's
+# site.yaml (press/, else press-example/), so changing it never touches an
+# engine file. The digest itself is built by
 # the press (site/email-latest.html on the library branch); this workflow
 # only gates and sends. workflow_dispatch = send now (for testing).
 name: nightly-build-morning-mail
@@ -47,9 +48,11 @@ jobs:
               out(False, "MAIL_TO secret not set (RSS remains available)")
           force = os.environ.get("FORCE") == "true"
           site = {}
-          p = pathlib.Path("press/site.yaml")
-          if p.is_file():
-              site = yaml.safe_load(p.read_text()) or {}
+          for root in ("press", "press-example"):
+              p = pathlib.Path(root) / "site.yaml"
+              if p.is_file():
+                  site = yaml.safe_load(p.read_text()) or {}
+                  break
           hour = (site.get("email") or {}).get("send_utc_hour")
           now = datetime.datetime.now(datetime.timezone.utc)
           if not force:

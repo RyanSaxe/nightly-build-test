@@ -23,7 +23,7 @@ searchable, owned by you, served free from GitHub Pages.
   edition.
 - **One folder is yours.** All configuration — series, voice, themes,
   templates — lives in [`press/`](docs/press.md). Everything else is engine,
-  and [engine updates are conflict-free by construction](docs/press.md).
+  so [engine updates are ordinary, clean git merges](docs/press.md).
 - **Mobile first.** ~95% of reads happen on a phone; every surface is designed
   for one.
 
@@ -33,12 +33,12 @@ searchable, owned by you, served free from GitHub Pages.
    checked — you get the engine and upstream's example configuration, never
    its library. (Private forks work too; Pages on private repos needs a paid
    plan.)
-2. **Clone it and say "set me up"** to your agent in the checkout. The
-   Librarian skill replaces the example `press/` with yours — your series,
-   your voice, your title — and runs `./setup.sh` (library branch, trigger
-   workflows, Pages, auto-merge). Then enable workflows once in your fork's
-   Actions tab. No agent handy? Edit `press/` by hand (every shipped file is
-   a working example) and run `./setup.sh`.
+2. **Clone it and say "set me up"** to your agent in the checkout. Setup
+   scaffolds your own `press/` — series, voice, title — and bootstraps the
+   press (library branch, trigger workflows, Pages, auto-merge). Nothing is
+   deleted: `press-example/` (upstream's live config) stays put as a working
+   reference. Then enable workflows once in your fork's Actions tab. No agent
+   handy? Run `./setup.sh` and edit `press/` by hand.
 3. **Rehearse:** ask for a **press check** — a full research run rendered to
    a locally served newsstand, no PR, so you can tune prompts before
    scheduling.
@@ -76,7 +76,7 @@ Actions secrets on the trusted post-merge path.
 
 ## Docs
 
-- [Your press: ownership, forks, conflict-free updates](docs/press.md)
+- [Your press: ownership, forks, clean updates](docs/press.md)
 - [Customization: themes, voice, your own templates](docs/customization.md)
 - [Delivery: feeds, morning email, the catalog API](docs/delivery.md)
 
@@ -87,9 +87,10 @@ python3 engine/tests/run_tests.py        # proof + builder + end-to-end suites
 python3 engine/validate_config.py        # validate press/ configuration
 ```
 
-**This repo dogfoods itself.** The shipped `press/` is the upstream night
-shift's real assignment sheet, so the maintainer's Pages site is a live demo
-of exactly what a fork produces — and every config file is a working example.
+**This repo dogfoods itself.** `press-example/` is the upstream night
+shift's real assignment sheet (the engine falls back to it when no `press/`
+exists), so the maintainer's Pages site is a live demo of exactly what a
+fork produces — and every config file in it is a working example.
 
 MIT licensed. No accounts, no backend, no analytics — `catalog.json` and the
 Atom feeds *are* the API.
