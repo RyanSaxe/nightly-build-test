@@ -1,0 +1,11 @@
+# Phase 3: on push to library, check out engine from main, run build_site.py,
+# commit site/ with [skip ci], deploy Pages. Implemented in phase 3 per the handoff.
+name: nightly-build-publish
+on:
+  push:
+    branches: [library]
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "publish pipeline lands in phase 3 (build_site.py)"

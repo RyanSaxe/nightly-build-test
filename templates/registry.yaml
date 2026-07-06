@@ -1,0 +1,52 @@
+# The template registry: the single source of truth for what each template requires.
+# Agents read their template's entry (PROTOCOL step 2.3); engine/check.py enforces it.
+# Bands are quality calibration (WARN tier), not law. Series may tighten via `words:`
+# but never loosen below these floors.
+
+dossier:
+  class: longread
+  words: [2500, 6000]
+  sections: [orientation, foundations, analysis, debate, go-deeper, sources]
+  cite_rule: per-section
+  modes: [collection, sequence]
+  furniture: [jump-nav, stat-strip, charts]
+
+lesson:
+  class: longread
+  words: [1500, 4000]
+  sections: [objectives, recap, teach, check, bridge, sources]
+  cite_rule: per-section
+  modes: [sequence]
+  furniture: [objectives-box, callouts, self-check, next-bridge]
+
+brief:
+  class: shortread
+  items: [4, 8]
+  sections: [items, sources]
+  cite_rule: per-item
+  modes: [rolling]
+  furniture: [tagged-items, why-it-matters]
+
+paper:
+  class: shortread
+  words: [1200, 2500]
+  sections: [abstract, findings, appraisal, verdict, sources]
+  cite_rule: per-section
+  modes: [collection, rolling]
+  furniture: [plain-abstract, holds-up-grid, verdict-box]
+
+chronicle:
+  class: longread
+  words: [2000, 4500]
+  sections: [orientation, timeline, echoes, sources]
+  cite_rule: per-section
+  modes: [sequence, collection]
+  furniture: [timeline-spine, echoes-today]
+
+deck:
+  class: shortread
+  slides: [8, 15]
+  sections: [slides, sources]
+  cite_rule: per-slide
+  modes: [collection, sequence]
+  furniture: [scroll-snap-slides, big-stat, print-one-per-page]

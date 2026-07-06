@@ -1,0 +1,3 @@
+title: "The Nightly Build"
+theme: engine/assets/themes/newspaper.css
+appearance: auto   # auto | light | dark. auto follows the system; base/no-JS fallback is light.
