@@ -1,5 +1,12 @@
 # Harness adapter — Codex (OpenAI)
 
+## 0. Runtime
+
+The engine scripts need Python 3.9+ and PyYAML in the run environment. If
+`python3 engine/check.py` reports PyYAML missing, install it first
+(`pip install pyyaml`) and retry; environments with uv can use
+`uv run engine/check.py` instead.
+
 ## 1. Connect
 
 One-time: connect GitHub in Codex settings

@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["pyyaml"]
+# ///
 """Validate the press configuration before anything schedules or publishes.
 
 Covers press/site.yaml, the merged template registry, and every

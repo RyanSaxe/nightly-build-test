@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["pyyaml"]
+# ///
 """Build the static site from a library checkout: the press.
 
 Every page shares one 800px content column and the shared assets under

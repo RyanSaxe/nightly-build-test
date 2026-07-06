@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["pyyaml"]
+# ///
 """Validate an edition against the protocol and series config: the proof.
 
 Findings come in two tiers. BLOCK findings are integrity failures and CI

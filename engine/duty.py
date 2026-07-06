@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["pyyaml"]
+# ///
 """Compute tonight's work list deterministically from config and library state.
 
 The correspondent runs this before researching anything, and the

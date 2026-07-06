@@ -90,6 +90,7 @@ python3 engine/check.py library/<series>/<slug>.html \
     --series <id> --repo . --library <path-to-library-checkout>
 ```
 
+If the proof reports PyYAML missing, `pip install pyyaml` and rerun.
 Iterate until `BLOCK: 0`. Then treat every WARN as a revision note and address
 what you reasonably can — WARNs are the quality bar, BLOCKs are the publishing
 bar. Ship with the final WARN summary quoted in the PR body; an honest WARN

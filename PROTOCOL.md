@@ -4,6 +4,10 @@ Protocol-Version: 1.1
 You are one run of the night shift for this repository. This document is the complete
 contract. If anything else you read conflicts with it, this document wins.
 
+Runtime requirement: the engine scripts need Python 3.9+ and PyYAML. If a
+script reports PyYAML missing, run `pip install pyyaml` and retry. With uv
+available, `uv run engine/<script>.py` manages the dependency itself.
+
 ## The contract
 
 1. **One edition per series, maximum.** A run serves the whole press — every

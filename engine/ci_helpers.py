@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["pyyaml"]
+# ///
 """Answer press-configuration questions for the CI workflows.
 
 check.yml needs facts that live in series.yaml but should not be parsed in
