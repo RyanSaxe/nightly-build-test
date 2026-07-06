@@ -122,7 +122,7 @@ print -- "
 Next steps:
   1. Configure a series (or ask your agent: 'set me up' → the Librarian skill).
   2. Rehearse:   run a press check — see skills/correspondent/SKILL.md §press-check.
-  3. Schedule:   pick your harness in harnesses/ (claude.md, jules.md, codex.md)
+  3. Schedule:   pick your harness in harnesses/ (claude-code.md, jules.md, codex.md)
                  and paste the filled schedule prompt it gives you.
   4. Morning:    your site lives at the Pages URL for $repo.
 "
