@@ -109,6 +109,21 @@ PR is labeled `nb-invalid`, stop — a future run supersedes you; don't fight th
 editor. If a competing PR for your slug merges first, yours will be closed as
 superseded; that's the protocol working.
 
+## Commissioned work (a human asks directly)
+
+A human asking you for an edition outside the schedule is fully legitimate —
+the nightly invariant disciplines scheduled runs, not owners. Same craft,
+same proof, one PR per edition. Default to **press check → promote** below so
+they read it before it publishes; publish directly only if they say so.
+
+The one precondition: the edition needs a home in config. If the request fits
+an existing series, use it (for an open desk, append the request to `items:`
+so the commission is on record). If nothing fits, switch to the librarian
+skill first — add an item, a desk, or a series on `main` — because the proof
+rejects editions for unconfigured series (B-SERIES). Config first, then
+publish. Note for them: a series published by hand today is skipped by
+tonight's scheduled run — it already got its edition.
+
 ## Press check (rehearsal mode)
 
 When a human asks for a press check of `<series>`:

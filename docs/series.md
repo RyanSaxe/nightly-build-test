@@ -48,6 +48,25 @@ a BLOCK), `autopublish: false` (a human merges instead of the editor), and
 the source policy — `required_docs`, `consult`, `sources_exclusive` — described
 in the [README](../README.md) and demonstrated in `examples/series/ai-rules/`.
 
+## Commissioning extras by hand
+
+"One edition per series per night" disciplines the *night shift*, not you.
+Any PR to `library` that adds one file and passes the proof is a legitimate
+edition, whoever commissioned it — ask your agent for three extra pieces this
+afternoon and tonight's build is simply bigger. The recommended flow is
+**press check → promote** (you read the rehearsal before it publishes); the
+editor applies the exact same validation either way.
+
+Two rules of the road:
+
+- **Every edition needs a home.** The proof rejects editions for series that
+  don't exist in `press/series/`, so a brand-new topic means a config change
+  on `main` first — usually just a one-line commission into an open desk's
+  queue, or a new item in a collection; a new series only when nothing fits.
+- **Extras count as tonight's edition.** A series that publishes by hand
+  today is skipped by tonight's scheduled run (same UTC date) — it already
+  got its edition.
+
 ## Governing without YAML
 
 Day to day you steer by talking to your agent (the librarian skill): *"pause

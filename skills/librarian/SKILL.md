@@ -149,7 +149,11 @@ series (`paused: true` — the archive stays up, the proof refuses new
 editions); **change its rhythm** (`cadence:`); **commission** ("have the
 wildcard desk cover X next") — append an item to an open desk's `items:`
 queue, which the night shift must clear before freestyling again; **steer an
-open desk** ("less policy for a while") — edit its `prompt.md` beat; let a
+open desk** ("less policy for a while") — edit its `prompt.md` beat;
+**extra editions on demand** ("write me a piece on X right now") — make sure
+the topic has a home first (a commission, a new item, or a new series —
+the proof rejects editions for unconfigured series), then hand off to the
+correspondent's *Commissioned work* flow; let a
 collection surprise them (`selection: random`); adjust `words:` bands (may
 tighten, never loosen below the registry floor) and `min_sources`; flip
 `autopublish` (false ⇒ the editor approves, a human merges) and `strict`
