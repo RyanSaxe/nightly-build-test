@@ -591,6 +591,63 @@ def render_tag_page(site, tag, refs, editions, series_cfgs):
     return page(site, f"#{tag} — {site['title']}", body, depth=2)
 
 
+def render_search_page(site):
+    body = ('<div class="nb-pagehead"><h1>Search</h1>'
+            '<span class="nb-pagehead-facts">the whole library, as it grows'
+            "</span></div>"
+            '<div class="nb-searchbox"><input id="nb-q" type="search" '
+            'placeholder="Fuzzy-search the library…" '
+            'aria-label="Search the library" autocomplete="off"></div>'
+            '<div class="nb-chips" id="nb-scopes">'
+            '<a href="#" class="on" data-scope="all">Everything</a>'
+            '<a href="#" data-scope="titles">Titles &amp; deks</a>'
+            '<a href="#" data-scope="desks">Desks</a>'
+            '<a href="#" data-scope="tags">Tags</a>'
+            '<a href="#" data-scope="text">Full text</a></div>'
+            '<div class="nb-results-count" id="nb-count"></div>'
+            '<div class="nb-results" id="nb-results"></div>')
+    return page(site, f"Search — {site['title']}", body, depth=1,
+                active="Search")
+
+
+TEXT_STRIP_RE = re.compile(
+    r"<script[\s\S]*?</script>|<style[\s\S]*?</style>|<[^>]+>", re.I)
+
+
+def edition_text(path):
+    """Readable text of an edition, for the search index."""
+    with open(path, "r", encoding="utf-8", errors="replace") as fh:
+        raw = fh.read()
+    body = raw.split("<body", 1)[-1]
+    text = TEXT_STRIP_RE.sub(" ", body)
+    text = html.unescape(text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def build_search_index(editions, series_cfgs):
+    out = []
+    for ed in sorted(editions.values(),
+                     key=lambda e: (e["meta"].get("date", ""), e["slug"]),
+                     reverse=True):
+        meta = ed["meta"]
+        cfg = series_cfgs.get(ed["series"], {})
+        out.append({
+            "series": ed["series"],
+            "series_name": cfg.get("name", ed["series"]),
+            "section": cfg.get("section"),
+            "slug": ed["slug"],
+            "title": meta.get("title", ed["slug"]),
+            "dek": meta.get("dek", ""),
+            "tags": meta.get("tags") or [],
+            "template": meta.get("template"),
+            "date": meta.get("date"),
+            "reading_minutes": ed["reading_minutes"],
+            "path": f"/library/{ed['series']}/{ed['slug']}.html",
+            "text": edition_text(ed["file"]),
+        })
+    return out
+
+
 # --------------------------------------------------------------------------- #
 # Feeds (Atom)
 # --------------------------------------------------------------------------- #
@@ -740,6 +797,10 @@ def build(repo, library_root, out, preview_root=None, base_url="", now=None):
         write(os.path.join(out, "series", sid, "index.html"),
               render_series_page(site, sid, series_cfgs.get(sid, {}),
                                  by_series.get(sid, []), series_cfgs))
+    write(os.path.join(out, "search", "index.html"),
+          render_search_page(site))
+    write(os.path.join(out, "search-index.json"),
+          json.dumps(build_search_index(editions, series_cfgs)) + "\n")
     write(os.path.join(out, "tags", "index.html"),
           render_tags_index(site, catalog))
     for tag, refs in catalog["tags"].items():
