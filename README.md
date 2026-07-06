@@ -1,103 +1,98 @@
 # The Nightly Build
 
-*Built while you sleep.*
+![The Nightly Build](assets/the-nightly-build-banner.png)
 
-Fork one repo. Tell your AI agent **"set me up."** Paste one schedule prompt
-into your harness. Every morning, open your phone to **tonight's build**:
-deep, cited, beautifully rendered research editions on the things you want to
-learn — published to your own GitHub Pages library, and delivered by feed or
-morning email.
+The Nightly Build is an engine for running a personal, AI-researched
+newspaper. You fork this repository, describe what you want to read, and a
+scheduled agent researches and publishes cited editions to your own GitHub
+Pages site every night. Git is the entire protocol: any agent that can open
+a pull request can be your night shift.
 
-Over weeks this accumulates into a personal library: **courses** that progress
-in order, ongoing **briefings**, **collections** of deep dives — permanent,
-searchable, owned by you, served free from GitHub Pages.
+Editions are original research artifacts, not summaries. Five templates ship
+with the engine (dossier, lesson, brief, paper appraisal, chronicle) and you
+can define your own. Over weeks the nightly output accumulates into a
+permanent, searchable library that you own and that GitHub serves for free.
 
-- **Research, not summarization.** Editions are original cited research
-  artifacts in five shipped layouts — dossier, lesson, brief, paper appraisal,
-  chronicle — plus [any template you invent](docs/customization.md).
-- **Curated or hands-off — your call.** Enumerate a syllabus item by item, or
-  run [open desks](docs/series.md): describe a beat and the night shift picks
-  each night's topic and form, while you commission and steer in plain
-  English. Per-series [cadence](docs/series.md) gives every section its own
-  rhythm under one schedule.
-- **Git as the protocol.** Any agent that can open a pull request can be your
-  night shift — Claude Code, Jules, and Codex adapters ship in `harnesses/`.
-- **A safety gate, not a quality gate.** CI (the **editor**) guarantees the
-  site can never break; quality pressure happens inside the agent's loop via a
-  repo-shipped checker (the **proof**). A missed night is worse than a thin
-  edition.
-- **One folder is yours.** All configuration — series, voice, themes,
-  templates — lives in [`press/`](docs/press.md). Everything else is engine,
-  so [engine updates are ordinary, clean git merges](docs/press.md).
-- **Mobile first.** ~95% of reads happen on a phone; every surface is designed
-  for one.
+## Quickstart
 
-## Five-minute quickstart
-
-1. **Fork** this repo, leaving GitHub's **"Copy the `main` branch only"** box
-   checked — you get the engine and upstream's example configuration, never
-   its library. (Private forks work too; Pages on private repos needs a paid
-   plan.)
-2. **Clone it and say "set me up"** to your agent in the checkout. Setup
-   scaffolds your own `press/` — series, voice, title — and bootstraps the
-   press (library branch, trigger workflows, Pages, auto-merge). A complete
-   working configuration ships in `examples/` to copy from. Then enable
-   workflows once in your fork's Actions tab. No agent handy? Run
-   `./setup.sh` and edit `press/` by hand.
-3. **Rehearse:** ask for a **press check** — a full research run rendered to
-   a locally served newsstand, no PR, so you can tune prompts before
-   scheduling.
-4. **Schedule:** paste the one schedule prompt from your harness's adapter in
-   `harnesses/`. **One nightly schedule for the whole press, ever** — each
-   run derives its work list from the repo, so adding or finishing series
-   never touches the schedule again.
-5. **Sleep.** The night shift researches and opens one PR per series; the
-   editor validates and merges; the press deploys; [the paperboy emails you
-   the morning digest](docs/delivery.md) — or subscribe to `feed.xml`.
+1. Fork this repository. Keep GitHub's "Copy the main branch only" box
+   checked.
+2. Clone your fork and tell your agent "set me up", or run `./setup.sh` and
+   edit `press/` by hand. Setup scaffolds your configuration, creates the
+   `library` branch, and enables Pages and auto-merge. Enable workflows once
+   in your fork's Actions tab. A complete working configuration ships in
+   `examples/` to copy from.
+3. Rehearse. Ask your agent for a "press check": a full research run
+   rendered to a locally served site, with no PR, so you can tune prompts
+   before scheduling anything.
+4. Schedule one nightly job for the whole press using the adapter for your
+   harness in `harnesses/`. Each run derives its work list from the repo, so
+   you never touch the schedule again.
+5. Read. The night shift opens one PR per series, CI validates and merges,
+   the site rebuilds, and the morning email or Atom feed delivers it.
 
 ## How it works
 
-| Piece | Where | What it does |
+| Piece | Where | Purpose |
 |---|---|---|
-| `PROTOCOL.md` | main | The complete agent contract; self-sufficient |
-| the proof | `engine/check.py` | Two tiers: BLOCK (publishing bar, CI-enforced) and WARN (quality bar, agent-iterated) — the same tool in both places |
-| the editor | `check.yml` | Validates every PR to `library`; auto-merges clean ones; supersedes competitors |
-| the press | `engine/build_site.py` + `publish.yml` | Rebuilds the site on every merge: newsstand, nightly builds, series pages, tags, search, Atom feeds, email digests |
-| the paperboy | `morning-mail.yml` | Optional daily email of tonight's build ([setup](docs/delivery.md)) |
-| templates | `templates/` (+ `press/templates/`) | Registry-defined layouts; user templates are first-class |
-| skills | `skills/` | Librarian (setup, curation, engine updates) and Correspondent (the night shift runtime) |
+| `PROTOCOL.md` | main | The complete agent contract |
+| the proof | `engine/check.py` | Validates editions. BLOCK findings stop publication; WARN findings drive revision |
+| the editor | `check.yml` | Validates every PR to `library`, auto-merges clean ones, supersedes competitors |
+| the press | `engine/build_site.py` | Rebuilds the site on every merge: front page, night archive, sections, search, feeds, email digests |
+| the paperboy | `morning-mail.yml` | Optional daily email of the latest build |
+| duty | `engine/duty.py` | Deterministic nightly work selection: cadence, pauses, completion, commissions |
+| templates | `templates/` | Registry-defined layouts. User templates in `press/templates/` are first class |
+| skills | `skills/` | Librarian (setup and curation) and Correspondent (the night shift runtime) |
 
-**Source policy per series:** `required_docs` (committed files that must be
-read *and* cited), `consult` (must-read starting points), and
-`sources_exclusive` (editions may cite *only* the declared sources — enforced
-by the proof).
+Two branches with disjoint jobs: `main` holds the engine and your
+configuration, `library` holds published editions and the generated site.
+`press/` is the only directory you edit. It does not exist upstream, so
+pulling engine updates is an ordinary merge with nothing to conflict.
 
-**Security spine:** no executable logic ever lives on the `library` branch;
-editions are sandboxed (no scripts beyond JSON data blocks and the engine's
-own runtime, no iframes, no event handlers); the editor runs with read-only
-contents and no secrets against untrusted diffs; auto-merge is squash-only,
-into `library` only, for BLOCK-clean PRs only; mail credentials exist only as
+## Configuration
+
+Series live in `press/series/<id>/` as a `series.yaml` plus a prompt file.
+Four modes: `collection` (an item list, published front to back or at
+random), `sequence` (an ordered course), `rolling` (one edition per date),
+and `open` (you describe a beat, the agent picks each night's topic and
+form). Cadence, pausing, sections, source requirements, and quality bands
+are one-line settings. See [docs/series.md](docs/series.md).
+
+Sources can be constrained per series: `required_docs` are committed files
+the agent must read and cite, `consult` lists must-read starting points, and
+`sources_exclusive: true` restricts citations to the declared set. The proof
+enforces all three.
+
+## Security
+
+No executable logic ever lives on the `library` branch. Editions are
+sandboxed: no scripts beyond JSON data blocks and the engine runtime, no
+iframes, no event handlers, and external references only to the engine
+assets path and Google Fonts. The editor validates untrusted PRs with
+read-only permissions and no secrets. Auto-merge is squash-only, into
+`library` only, for BLOCK-clean PRs only. Mail credentials exist only as
 Actions secrets on the trusted post-merge path.
+
+## Development
+
+The engine is Python 3.9+ with one dependency, PyYAML. Scripts carry PEP 723
+metadata, so `uv run engine/check.py` works without any setup.
+
+```
+python3 engine/tests/run_tests.py    # proof, builder, and end-to-end suites
+python3 engine/validate_config.py    # validate press/ configuration
+```
+
+This repository is engine-only. It runs no press and publishes no library;
+the maintainer dogfoods by copying it like any other user. `examples/`
+contains a complete working configuration as documentation.
 
 ## Docs
 
-- [Your press: ownership, forks, clean updates](docs/press.md)
+- [Your press: ownership, forks, updates](docs/press.md)
 - [Series: modes, open desks, cadence, commissioning](docs/series.md)
 - [Customization: themes, voice, your own templates](docs/customization.md)
 - [Delivery: feeds, morning email, the catalog API](docs/delivery.md)
 
-## Try the engine locally
-
-```
-python3 engine/tests/run_tests.py        # proof + builder + end-to-end suites
-python3 engine/validate_config.py        # validate press/ configuration
-```
-
-**This repo is engine-only.** It runs no press and publishes no library —
-even the maintainer dogfoods by forking it like any other user, which keeps
-the fork path honest. `examples/` ships a complete working configuration
-(six series: one per template plus an open desk, with the full source
-policy and rhythm controls) as documentation.
-
-MIT licensed. No accounts, no backend, no analytics — `catalog.json` and the
-Atom feeds *are* the API.
+MIT licensed. No accounts, no backend, no analytics. `catalog.json` and the
+Atom feeds are the API.

@@ -1,40 +1,42 @@
-# Your press — ownership, forks, and updates
+# Your press: ownership, forks, updates
 
 ## The layout rule
 
-- **`press/` is yours.** All configuration — series, voice, title, themes,
-  templates — lives here. It does not exist on the upstream repo, so upstream
-  can never ship a change that collides with it.
-- **Everything else is the engine** — upstream-owned machinery you have no
-  reason to touch (but see below: it's your fork, you *can*).
-- **`examples/`** is a complete working press configuration kept as
-  documentation. The engine never reads it; copy from it into `press/`.
+`press/` is yours. All configuration lives there: series, voice, title,
+themes, templates. The directory does not exist on the upstream repository,
+so upstream can never ship a change that collides with it.
 
-The upstream repo is engine-only: it runs no press, publishes no library.
-Even the maintainer dogfoods by forking it like any other user.
+Everything else is the engine. You have no reason to touch it, but it is
+your fork and you can (see below).
+
+`examples/` is a complete working press configuration kept as
+documentation. The engine never reads it. Copy from it into `press/`.
+
+The upstream repository is engine-only. It runs no press and publishes no
+library. The maintainer dogfoods by copying it like any other user.
 
 ```
 press/
-  site.yaml          masthead title, theme, appearance, email delivery
-  editorial.md       your voice — composed into every edition's instructions
+  site.yaml          masthead title, theme, appearance, front density, email
+  editorial.md       your voice, composed into every edition's instructions
   series/<id>/       series.yaml + prompt.md + sources/ per series
   series/_tags/      reusable prompt fragments shared across series
-  themes/            custom design-token files
-  templates/         your own edition templates (see docs/customization.md)
+  themes/            custom design token files
+  templates/         your own edition templates (see customization.md)
 ```
 
 ## The fork lifecycle
 
-1. **Fork** with GitHub's "Copy the main branch only" box checked.
-2. **Set up**: say "set me up" to your agent, or run `./setup.sh` by hand. It
+1. Fork with GitHub's "Copy the main branch only" box checked.
+2. Set up: say "set me up" to your agent, or run `./setup.sh` by hand. It
    scaffolds your empty `press/`, creates the empty `library` branch, seeds
-   its trigger workflows, and enables Pages + auto-merge. Enable workflows
+   its trigger workflows, and enables Pages and auto-merge. Enable workflows
    once in your fork's Actions tab.
-3. **Publish forever**: the night shift adds editions to `library` via
-   one-file PRs; `main` only changes when you change configuration or pull an
-   engine update.
+3. Publish forever. The night shift adds editions to `library` via one-file
+   PRs. `main` only changes when you change configuration or pull an engine
+   update.
 
-## Updating the engine — plain git, no tricks
+## Updating the engine
 
 ```
 git remote add upstream https://github.com/RyanSaxe/the-nightly-build.git   # once
@@ -43,21 +45,20 @@ git merge upstream/main
 ./setup.sh    # re-syncs the trigger workflows onto library
 ```
 
-An ordinary fork merge. It is clean by construction for anyone who only
-writes inside `press/`: your commits and upstream's commits touch disjoint
-paths — upstream has no `press/` at all — so there is nothing to conflict.
+This is an ordinary fork merge. It is clean by construction for anyone who
+only writes inside `press/`: your commits and upstream's commits touch
+disjoint paths, and upstream has no `press/` at all.
 
-**Editing the engine is allowed — it's your fork.** If you patch engine
-files, future merges may conflict exactly where you deviated, and resolving
-them is yours, same as any fork on GitHub. Conflicts are proportional to
-deviation; staying inside `press/` keeps them at zero.
+Editing the engine is allowed. It is your fork. If you patch engine files,
+future merges may conflict exactly where you deviated, and resolving them is
+yours, the same as any fork on GitHub.
 
 Two follow-ups after an engine update:
 
-- `./setup.sh` re-syncs the two trigger workflows the `library` branch
-  carries — the only engine-adjacent files outside `main`.
-- Optionally dispatch the publish workflow (Actions → nightly-build-publish →
-  Run workflow) to re-render your whole back catalog with the new assets
+- `./setup.sh` re-syncs the two trigger workflows that the `library` branch
+  carries. They are the only engine-adjacent files outside `main`.
+- Optionally dispatch the publish workflow (Actions, nightly-build-publish,
+  Run workflow) to re-render your whole back catalog with the new engine
   immediately instead of waiting for tonight's build. Nothing on `library`
-  ever merges with upstream — forks copy `main` only, and your library is
+  ever merges with upstream. Forks copy `main` only, and your library is
   yours alone.

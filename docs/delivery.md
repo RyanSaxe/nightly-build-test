@@ -1,33 +1,33 @@
-# Morning delivery — feeds, email, and the catalog API
+# Delivery: feeds, email, and the catalog API
 
-## Feeds (zero setup — this works today)
+## Feeds (zero setup)
 
 Every press publishes Atom feeds:
 
-- `https://<you>.github.io/<repo>/feed.xml` — the whole press
-- `https://<you>.github.io/<repo>/series/<id>/feed.xml` — one series
+- `https://<you>.github.io/<repo>/feed.xml` for the whole press
+- `https://<you>.github.io/<repo>/series/<id>/feed.xml` for one series
 
-Subscribe in any reader, or recreate morning email delivery with an
-RSS-to-email service (Feedrabbit, Blogtrottr, Kill the Newsletter) — no
-secrets, no configuration in the repo.
+The newest entries embed the full edition content, so feed readers get the
+whole edition, not a teaser. Subscribe in any reader, or recreate morning
+email delivery with an RSS-to-email service. No secrets, no configuration
+in the repo.
 
 ## The morning email (opt-in)
 
-The press builds a designed, inline-styled email digest of every night's
-build — headline, dek, and reading time per edition, with a procedural
-summary line ("6 editions · 78 minutes of reading"). The **paperboy**
+The press builds an inline-styled email digest of every night's build:
+headline, dek, and reading time per edition, plus a total. The paperboy
 workflow (`morning-mail.yml`) delivers the latest digest once per day.
 
-Enable it with two steps:
+Enable it with two steps.
 
-1. **Pick a send hour** in `press/site.yaml`:
+1. Pick a send hour in `press/site.yaml`:
 
 ```yaml
 email:
-  send_utc_hour: 12    # 12:00 UTC ≈ 8am ET / 5am PT
+  send_utc_hour: 12    # 12:00 UTC is 8am ET / 5am PT
 ```
 
-2. **Add repo Actions secrets** (Settings → Secrets and variables → Actions):
+2. Add repo Actions secrets (Settings, Secrets and variables, Actions):
 
 | Secret | Example |
 |---|---|
@@ -38,25 +38,26 @@ email:
 | `MAIL_SMTP_USERNAME` | `you@gmail.com` |
 | `MAIL_SMTP_PASSWORD` | a Gmail App Password, or your provider's SMTP key |
 
-Notes: without both the config block and `MAIL_TO`, the workflow gates itself
-off silently. On mornings with no fresh build it asks `engine/duty.py`
-whether last night was **quiet by design** (a cadence gap, a completed or
-paused press — no email) or a **missed night** (something was due but never
-published — you get a short "the press was quiet last night" notice, for up
-to 14 days, so a broken schedule never fails silently). Test a send anytime
-by running the workflow manually from the Actions tab (`workflow_dispatch`
-bypasses the hour and freshness gates, not the secrets gate). Credentials
-live only in GitHub Actions secrets — never in the repo, and never anywhere
-the editor's untrusted-PR validation can see them.
+Without both the config block and `MAIL_TO`, the workflow gates itself off
+silently. On mornings with no fresh build it asks `engine/duty.py` whether
+last night was quiet by design (a cadence gap, a completed or paused press)
+or a missed night. Quiet by design sends nothing. A missed night sends a
+short notice, for up to 14 days, so a broken schedule never fails silently.
+
+Test a send anytime by running the workflow manually from the Actions tab.
+`workflow_dispatch` bypasses the hour and freshness gates, not the secrets
+gate. Credentials live only in GitHub Actions secrets, never in the repo,
+and never anywhere the editor's untrusted-PR validation can see them.
 
 Every night's digest is also archived at `builds/<date>/email.html` on the
 site.
 
-## catalog.json — the API
+## catalog.json: the API
 
 `https://<you>.github.io/<repo>/catalog.json` is the machine-readable state
-of the whole library: series (with progress), every edition's nb-meta plus
-`path`/`position`/`reading_minutes`, builds grouped by night, and the tag
-index. The site's own search and contextual navigation run on it, and it is
-a stable public contract — external readers, dashboards, or a future
+of the whole library: series with progress and sections, every edition's
+nb-meta plus `path`, `position`, and `reading_minutes`, builds grouped by
+night, and the tag index. The site's own search and navigation run on it.
+It is a stable public contract: external readers, dashboards, or a future
 multi-press directory can build on it without touching the repo.
+`search-index.json` adds full text for client-side search.
