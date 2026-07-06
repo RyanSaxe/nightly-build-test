@@ -55,11 +55,12 @@ def run(cmd, cwd=None):
 
 
 # ---------------------------------------------------------------- the press
-root = tempfile.mkdtemp()
-for sub in ("series", "templates", "engine", "spec"):
-    shutil.copytree(REPO / sub, pathlib.Path(root) / sub)
-for f in ("site.yaml", "PROTOCOL.md"):
-    shutil.copyfile(REPO / f, pathlib.Path(root) / f)
+root = make_fixtures.test_repo()
+shutil.copytree(REPO / "engine", pathlib.Path(root) / "engine",
+                ignore=shutil.ignore_patterns("__pycache__", "fixtures"),
+                dirs_exist_ok=True)
+shutil.copytree(REPO / "spec", pathlib.Path(root) / "spec")
+shutil.copyfile(REPO / "PROTOCOL.md", pathlib.Path(root) / "PROTOCOL.md")
 git("init", "-q", "-b", "main", cwd=root)
 git("config", "user.email", "night@shift", cwd=root)
 git("config", "user.name", "night-shift", cwd=root)

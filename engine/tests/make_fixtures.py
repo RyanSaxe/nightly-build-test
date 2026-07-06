@@ -1,7 +1,86 @@
 #!/usr/bin/env python3
-"""Generate valid fixture editions used by the test suite."""
+"""Generate valid fixture editions and fixture repos used by the test suite.
+
+The suite never reads the repo's shipped series configs: forks clear those on
+setup, and the tests must stay green on a cleared fork. test_repo() fabricates
+a repo with the canonical TEST series (semiconductors, ai-briefs) plus the
+real templates and engine assets.
+"""
 import pathlib
 import re
+import shutil
+import tempfile
+
+REPO = pathlib.Path(__file__).resolve().parent.parent.parent
+
+SEMICONDUCTORS_YAML = """\
+name: Semiconductors
+mode: collection
+template: dossier
+prompt: prompt.md
+autopublish: true
+strict: false
+min_sources: 8
+tags:
+  equity: ../_tags/equity.md
+consult:
+  - https://www.sec.gov/
+items:
+  - slug: micron
+    title: Micron Technology
+    tags: [equity]
+    prompt: "Emphasize the HBM supply-agreement structure and the memory-cycle debate."
+  - slug: tsmc
+    title: TSMC
+    tags: [equity]
+  - slug: asml
+    title: ASML
+    tags: [equity]
+  - slug: sk-hynix
+    title: SK Hynix
+    tags: [equity]
+  - slug: nvidia
+    title: Nvidia
+    tags: [equity]
+"""
+
+AI_BRIEFS_YAML = """\
+name: AI & Semiconductors
+mode: rolling
+template: brief
+prompt: prompt.md
+autopublish: true
+strict: false
+min_sources: 5
+rolling:
+  cadence: daily
+"""
+
+SITE_YAML = """\
+title: "The Nightly Build"
+theme: engine/assets/themes/newspaper.css
+appearance: auto
+"""
+
+
+def test_repo():
+    """A temp repo with fixture series + the real templates and assets."""
+    root = pathlib.Path(tempfile.mkdtemp())
+    shutil.copytree(REPO / "templates", root / "templates")
+    shutil.copytree(REPO / "engine" / "assets", root / "engine" / "assets")
+    (root / "site.yaml").write_text(SITE_YAML)
+    semis = root / "series" / "semiconductors"
+    semis.mkdir(parents=True)
+    (semis / "series.yaml").write_text(SEMICONDUCTORS_YAML)
+    (semis / "prompt.md").write_text("Deep dives on the semiconductor supply chain.\n")
+    briefs = root / "series" / "ai-briefs"
+    briefs.mkdir(parents=True)
+    (briefs / "series.yaml").write_text(AI_BRIEFS_YAML)
+    (briefs / "prompt.md").write_text("A nightly brief on AI and semiconductors.\n")
+    tags = root / "series" / "_tags"
+    tags.mkdir()
+    (tags / "equity.md").write_text("Frame companies for a public-market reader.\n")
+    return str(root)
 
 FIX = pathlib.Path(__file__).parent / "fixtures"
 FIX.mkdir(parents=True, exist_ok=True)

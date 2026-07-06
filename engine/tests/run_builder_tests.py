@@ -23,6 +23,7 @@ import make_fixtures  # noqa: E402
 
 NOW = dt.datetime(2026, 7, 6, 9, 0, tzinfo=dt.timezone.utc)
 PASS, FAIL = 0, []
+TESTREPO = make_fixtures.test_repo()
 
 
 def check(name, condition, detail=""):
@@ -60,7 +61,7 @@ def read(out, *parts):
 print("== full build ==")
 lib = make_full_library()
 out = tempfile.mkdtemp()
-catalog = B.build(str(REPO), lib, out, now=NOW)
+catalog = B.build(TESTREPO, lib, out, now=NOW)
 
 check("catalog site title", catalog["site_title"] == "The Nightly Build")
 semis = next(s for s in catalog["series"] if s["id"] == "semiconductors")
@@ -123,12 +124,8 @@ check("editions copied verbatim",
       == make_fixtures.dossier())
 
 print("== sequence series ==")
-seq_repo = tempfile.mkdtemp()
-for sub in ("series", "templates"):
-    shutil.copytree(REPO / sub, pathlib.Path(seq_repo) / sub)
-shutil.copytree(REPO / "engine" / "assets",
-                pathlib.Path(seq_repo) / "engine" / "assets")
-shutil.copyfile(REPO / "site.yaml", pathlib.Path(seq_repo) / "site.yaml")
+seq_repo = str(pathlib.Path(tempfile.mkdtemp()) / "repo")
+shutil.copytree(TESTREPO, seq_repo)
 sy = pathlib.Path(seq_repo) / "series" / "semiconductors" / "series.yaml"
 sy.write_text(sy.read_text().replace("mode: collection", "mode: sequence"))
 seq_lib = tempfile.mkdtemp()
@@ -153,7 +150,7 @@ draft = (make_fixtures.dossier()
                   "TSMC: The Foundry at the Center of the World"))
 write_edition(pc, "semiconductors", "tsmc", draft)
 pv_out = tempfile.mkdtemp()
-pv_catalog = B.build(str(REPO), lib, pv_out, preview_root=pc, now=NOW)
+pv_catalog = B.build(TESTREPO, lib, pv_out, preview_root=pc, now=NOW)
 pv_index = read(pv_out, "index.html")
 check("preview banners the site", "Press check" in pv_index)
 check("preview merges draft with published library",
@@ -171,7 +168,7 @@ check("published edition file untouched",
 
 print("== empty library ==")
 empty_out = tempfile.mkdtemp()
-B.build(str(REPO), tempfile.mkdtemp(), empty_out, now=NOW)
+B.build(TESTREPO, tempfile.mkdtemp(), empty_out, now=NOW)
 empty_index = read(empty_out, "index.html")
 check("fresh-fork empty state", "The presses are ready" in empty_index)
 check("empty state still lists configured series", "nb-strip" in empty_index)
