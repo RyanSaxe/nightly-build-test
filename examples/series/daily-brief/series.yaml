@@ -7,7 +7,6 @@ prompt: prompt.md
 autopublish: true
 strict: false
 min_sources: 6
-rolling:
-  cadence: daily
+cadence: daily     # or: weekdays | weekends | [mon, wed, fri]
 # consult:                      # optional must-read starting points
 #   - https://arxiv.org/list/cs.AI/recent

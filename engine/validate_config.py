@@ -27,6 +27,20 @@ MODES = {"collection", "sequence", "rolling"}
 TEMPLATE_KEYS = {"class", "words", "items", "slides", "sections", "cite_rule",
                  "modes", "furniture"}
 CITE_RULES = {"per-section", "per-item", "per-slide"}
+SERIES_KEYS = {"name", "mode", "template", "prompt", "autopublish", "strict",
+               "min_sources", "words", "items", "tags", "consult",
+               "required_docs", "sources_exclusive", "cadence", "paused",
+               "selection"}
+DAY_NAMES = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
+CADENCE_WORDS = {"daily", "weekdays", "weekends"}
+SELECTIONS = {"in-order", "random"}
+
+
+def cadence_is_valid(cadence):
+    if isinstance(cadence, str):
+        return cadence in CADENCE_WORDS
+    return (isinstance(cadence, list) and len(cadence) > 0
+            and all(d in DAY_NAMES for d in cadence))
 
 
 def load(path):
@@ -109,11 +123,29 @@ def check_series(repo, registry, errors):
             errors.append(f"{where}: series.yaml is missing")
             continue
         cfg = load(path) or {}
+        unknown = set(cfg) - SERIES_KEYS
+        if unknown:
+            errors.append(f"{where}: unknown keys {sorted(unknown)} — "
+                          f"typo? (known: {sorted(SERIES_KEYS)})")
         if not isinstance(cfg.get("name"), str) or not cfg["name"].strip():
             errors.append(f"{where}: 'name' must be a non-empty string")
         mode = cfg.get("mode")
         if mode not in MODES:
             errors.append(f"{where}: mode must be one of {sorted(MODES)}")
+        cadence = cfg.get("cadence")
+        if cadence is not None and not cadence_is_valid(cadence):
+            errors.append(f"{where}: cadence must be daily | weekdays | "
+                          f"weekends | a list of day names {list(DAY_NAMES)}")
+        if not isinstance(cfg.get("paused", False), bool):
+            errors.append(f"{where}: 'paused' must be true or false")
+        selection = cfg.get("selection")
+        if selection is not None:
+            if selection not in SELECTIONS:
+                errors.append(f"{where}: selection must be one of "
+                              f"{sorted(SELECTIONS)}")
+            elif mode != "collection":
+                errors.append(f"{where}: 'selection' only applies to "
+                              f"collection mode")
         template = cfg.get("template")
         treg = registry.get(template)
         if not treg:

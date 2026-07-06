@@ -354,6 +354,9 @@ def check_edition(html_path, series_id, repo, library_dir, rep,
     if series is None:
         rep.block("B-SERIES", f"series '{series_id}' not found at {spath}")
         return None
+    if series.get("paused"):
+        rep.block("B-SERIES", f"series '{series_id}' is paused — remove "
+                              f"'paused: true' from series.yaml to publish")
     try:
         registry = load_registry(repo)
     except Exception as e:

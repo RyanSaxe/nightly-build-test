@@ -451,6 +451,46 @@ else:
     FAIL.append("template lookup precedence")
     print("  FAIL template lookup precedence")
 
+print("== rhythm & governance (cadence, paused, selection) ==")
+
+
+def patched_repo(patch, series="semiconductors"):
+    """Copy the fixture repo and append yaml to one series config."""
+    tmp = tempfile.mkdtemp()
+    for sub in ("press", "templates", "engine"):
+        shutil.copytree(pathlib.Path(TESTREPO) / sub, pathlib.Path(tmp) / sub)
+    y = pathlib.Path(tmp) / "press" / "series" / series / "series.yaml"
+    y.write_text(y.read_text() + patch)
+    return tmp
+
+
+def vc_rc(repo):
+    return subprocess.run(
+        [sys.executable, str(REPO / "engine" / "validate_config.py"),
+         "--repo", str(repo)], capture_output=True).returncode
+
+
+expect("paused series blocks publication",
+       run_local(VALID, "semiconductors", repo=patched_repo("paused: true\n")),
+       must_have=["B-SERIES"])
+for name, cond in [
+    ("cadence weekdays validates", vc_rc(patched_repo("cadence: weekdays\n")) == 0),
+    ("cadence day-list validates", vc_rc(patched_repo("cadence: [mon, thu]\n")) == 0),
+    ("bogus cadence rejected", vc_rc(patched_repo("cadence: fortnightly\n")) == 1),
+    ("selection random on a collection validates",
+     vc_rc(patched_repo("selection: random\n")) == 0),
+    ("selection on a rolling series rejected",
+     vc_rc(patched_repo("selection: random\n", series="ai-briefs")) == 1),
+    ("unknown series key (typo) rejected",
+     vc_rc(patched_repo("cadance: daily\n")) == 1),
+]:
+    if cond:
+        PASS += 1
+        print(f"  ok   {name}")
+    else:
+        FAIL.append(name)
+        print(f"  FAIL {name}")
+
 print("== PR mode (real git repo) ==")
 
 
