@@ -1,34 +1,39 @@
-/* The Nightly Build — default theme: "modern digital newspaper".
-   The theme contract: define exactly these variables. Base tokens are LIGHT —
-   light is the fallback for every degraded case (no JS, no media queries, print).
-   Dark applies only when the system asks (auto) or the user forces it. */
-:root{  /* LIGHT — the base and universal fallback */
-  --bg:#FCFBF9; --panel:#FFFFFF; --wash:#F3F1EC;
-  --ink:#171614; --ink-soft:#57554F; --faint:#94918A;
-  --accent:#C63D17; --accent-2:#33608F;
-  --line:#E2DFD8; --hair:#ECEAE4;
+/* The Nightly Build — default theme: "the lamp is always warm".
+   Day: pale sky paper with bronze accents. Night: deep navy sky with amber —
+   the same pigment at two hours. The theme contract: define exactly these
+   variables, in all four blocks below. Base tokens are LIGHT — light is the
+   fallback for every degraded case (no JS, no media queries, print). Dark
+   applies only when the system asks (auto) or the reader forces it.
+   Accent contrast is measured, not guessed: bronze #8A5C08 is 5.4:1 on this
+   paper; bright amber fails on light backgrounds (2:1) — keep day accents
+   deep if you customize. */
+:root{  /* DAY — the base and universal fallback */
+  --bg:#F4F7FB; --panel:#FCFDFF; --wash:#E9EFF7;
+  --ink:#161D28; --ink-soft:#4E5866; --faint:#8794A4;
+  --accent:#8A5C08; --accent-2:#935F00;
+  --line:#D9E2EE; --hair:#E7EDF5;
   --serif:"Newsreader",Georgia,serif;
   --sans:"Inter",system-ui,sans-serif;
   --mono:"IBM Plex Mono",monospace;
-  --radius:6px;
+  --radius:4px;
 }
-@media (prefers-color-scheme: dark){  /* auto: dark only when the system asks */
+@media (prefers-color-scheme: dark){  /* NIGHT: only when the system asks */
   :root{
-    --bg:#111213; --panel:#1A1B1D; --wash:#202124;
-    --ink:#ECEAE6; --ink-soft:#A9A6A0; --faint:#6F6D68;
-    --accent:#E4572E; --accent-2:#7FA8D9;
-    --line:#2C2D30; --hair:#242528;
+    --bg:#101724; --panel:#161F30; --wash:#1B2537;
+    --ink:#E9E4D8; --ink-soft:#A7A79F; --faint:#6E7280;
+    --accent:#D9A94E; --accent-2:#DDB262;
+    --line:#242F45; --hair:#1C2638;
   }
 }
 :root[data-mode="light"]{ /* manual override; beats the media query by specificity */
-  --bg:#FCFBF9; --panel:#FFFFFF; --wash:#F3F1EC;
-  --ink:#171614; --ink-soft:#57554F; --faint:#94918A;
-  --accent:#C63D17; --accent-2:#33608F;
-  --line:#E2DFD8; --hair:#ECEAE4; color-scheme:light;
+  --bg:#F4F7FB; --panel:#FCFDFF; --wash:#E9EFF7;
+  --ink:#161D28; --ink-soft:#4E5866; --faint:#8794A4;
+  --accent:#8A5C08; --accent-2:#935F00;
+  --line:#D9E2EE; --hair:#E7EDF5; color-scheme:light;
 }
 :root[data-mode="dark"]{
-  --bg:#111213; --panel:#1A1B1D; --wash:#202124;
-  --ink:#ECEAE6; --ink-soft:#A9A6A0; --faint:#6F6D68;
-  --accent:#E4572E; --accent-2:#7FA8D9;
-  --line:#2C2D30; --hair:#242528; color-scheme:dark;
+  --bg:#101724; --panel:#161F30; --wash:#1B2537;
+  --ink:#E9E4D8; --ink-soft:#A7A79F; --faint:#6E7280;
+  --accent:#D9A94E; --accent-2:#DDB262;
+  --line:#242F45; --hair:#1C2638; color-scheme:dark;
 }

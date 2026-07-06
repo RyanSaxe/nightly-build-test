@@ -9,6 +9,7 @@ Run: python3 engine/tests/run_builder_tests.py
 """
 import datetime as dt
 import pathlib
+import re
 import shutil
 import sys
 import tempfile
@@ -215,6 +216,19 @@ B.build(TESTREPO, lib, stale_out,
         now=dt.datetime(2026, 7, 10, 9, 0, tzinfo=dt.timezone.utc))
 check("gap labeled honestly, not as last night",
       "Latest build · 2026-07-06" in read(stale_out, "index.html"))
+
+print("== theme token parity ==")
+theme_css = (REPO / "engine" / "assets" / "themes" / "newspaper.css").read_text()
+blocks = re.findall(r"(:root[^{]*|@media[^{]*\{\s*:root[^{]*)\{([^}]*)\}", theme_css)
+tokens_per_block = [set(re.findall(r"--([a-z0-9-]+)\s*:", body)) for _, body in blocks]
+NON_COLOR = {"serif", "sans", "mono", "radius"}
+base_colors = tokens_per_block[0] - NON_COLOR
+check("theme has 4 palette blocks", len(tokens_per_block) == 4,
+      detail=f"found {len(tokens_per_block)}")
+for i, toks in enumerate(tokens_per_block[1:], 1):
+    missing = base_colors - toks
+    check(f"palette block {i + 1} defines every color token", not missing,
+          detail=f"missing {sorted(missing)}")
 
 print("== empty library ==")
 empty_out = tempfile.mkdtemp()
