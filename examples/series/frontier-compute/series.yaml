@@ -2,7 +2,7 @@
 name: Frontier Compute
 mode: collection
 section: "Compute & Industry"
-template: dossier
+template: article
 prompt: prompt.md
 autopublish: true
 strict: false
@@ -16,7 +16,7 @@ items:
     tags: [policy]
     # Item-level prompt: specializes the series prompt for this item only.
     prompt: "Center the dossier on the data-center segment and the CUDA moat;
-      the debate section is export controls."
+      give the export-control fight a section of its own."
     # Item-level consult: must-read starting points for THIS item. The agent
     # reads these before researching elsewhere; citing them is optional.
     consult:

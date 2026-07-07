@@ -12,7 +12,9 @@ Editor's guidance for picking tonight's topic:
   connective tissue forming).
 - Favor topics where primary sources exist and secondary coverage is thin —
   that is where an edition earns its keep.
-- Pick the template like an editor: `dossier` for an entity or system,
-  `chronicle` for a history, `paper` for a specific result worth appraising.
+- Pick the shape like an editor: `article` for anything told in sections,
+  `brief` only when the corner surfaced several small developments. Name the
+  form you chose in nb-meta (`Dossier` for an entity, `Chronicle` for a
+  history, `Appraisal` for a result — or coin one and reuse it).
 - Surprise is the point, drift is not: every pick should still teach the
   AI-stack reader something load-bearing.

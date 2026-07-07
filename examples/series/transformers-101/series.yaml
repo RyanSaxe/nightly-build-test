@@ -3,7 +3,7 @@
 name: Transformers, From Scratch
 mode: sequence
 section: "Foundations"
-template: lesson
+template: article
 prompt: prompt.md
 autopublish: true
 strict: false

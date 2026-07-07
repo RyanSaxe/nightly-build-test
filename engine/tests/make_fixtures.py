@@ -18,7 +18,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent.parent
 SEMICONDUCTORS_YAML = """\
 name: Semiconductors
 mode: collection
-template: dossier
+template: article
 prompt: prompt.md
 autopublish: true
 strict: false
@@ -95,12 +95,12 @@ LOREM = (
 )
 
 
-def dossier():
+def article():
     sec_defs = [
         ("orientation", "Orientation", 3),
-        ("foundations", "Memory economics 101", 8),
-        ("analysis", "Micron's position", 8),
-        ("debate", "Bull versus bear", 6),
+        ("memory-economics", "Memory economics 101", 8),
+        ("microns-position", "Micron's position", 8),
+        ("bull-versus-bear", "Bull versus bear", 6),
         ("go-deeper", "Go deeper", 3),
     ]
     ci = 0
@@ -132,7 +132,8 @@ def dossier():
 
     meta = """{
   "protocol": "1.0", "series": "semiconductors", "slug": "micron",
-  "template": "dossier", "title": "Micron Technology: The Scarcest Commodity in AI",
+  "template": "article", "form": "Dossier",
+  "title": "Micron Technology: The Scarcest Commodity in AI",
   "mode": "collection", "order": null, "date": "2026-07-06", "tags": ["equity"],
   "sources": 8, "words": 5400, "reading_minutes": 15,
   "dek": "How a cyclical commodity maker became the AI era's bottleneck.",
@@ -208,10 +209,11 @@ def _count_words(body_html):
     return len(re.findall(r"\S+", text))
 
 
-def _meta(series, slug, *, template, title, mode, order, words, n_sources):
+def _meta(series, slug, *, template, title, mode, order, words, n_sources, form=None):
+    form_field = f'"form": "{form}", ' if form else ""
     return f"""{{
   "protocol": "1.0", "series": "{series}", "slug": "{slug}",
-  "template": "{template}", "title": "{title}",
+  "template": "{template}", {form_field}"title": "{title}",
   "mode": "{mode}", "order": {order}, "date": "2026-07-06", "tags": [],
   "sources": {n_sources}, "words": {words},
   "reading_minutes": {max(1, round(words / 230))},
@@ -256,57 +258,6 @@ def _cited_paras(count, n_sources, *, start=0):
     return "".join(ps)
 
 
-def lesson():
-    body = (
-        '<section data-nb-section="objectives"><ul>'
-        "<li>Explain what a hash function guarantees.</li>"
-        "<li>Identify where collision resistance fails.</li></ul></section>"
-        f'<section data-nb-section="recap"><h2>Where we left off</h2>'
-        f"{_cited_paras(2, 8, start=0)}</section>"
-        f'<section data-nb-section="teach"><h2>Hash functions</h2>'
-        f"{_cited_paras(6, 8, start=2)}</section>"
-        f'<section data-nb-section="check"><h2>Check yourself</h2>'
-        f"{_cited_paras(1, 8, start=0)}</section>"
-        f'<section data-nb-section="bridge"><h2>Next edition</h2>'
-        f"{_cited_paras(1, 8, start=3)}</section>" + _sources(8)
-    )
-    meta = _meta(
-        "crypto",
-        "hashes",
-        template="lesson",
-        title="Hash Functions",
-        mode="sequence",
-        order=1,
-        words=_count_words(body),
-        n_sources=8,
-    )
-    return _page("Hash Functions", meta=meta, body=body)
-
-
-def paper():
-    body = (
-        '<section data-nb-section="abstract"><h2>In plain language</h2>'
-        f"{_cited_paras(1, 5, start=0)}</section>"
-        '<section data-nb-section="findings"><h2>What the paper shows</h2>'
-        f"{_cited_paras(2, 5, start=1)}</section>"
-        '<section data-nb-section="appraisal"><h2>Appraisal</h2>'
-        f"{_cited_paras(3, 5, start=2)}</section>"
-        '<section data-nb-section="verdict"><h2>Verdict</h2>'
-        f"{_cited_paras(1, 5, start=0)}</section>" + _sources(5)
-    )
-    meta = _meta(
-        "papers",
-        "attention",
-        template="paper",
-        title="Attention Is All You Need",
-        mode="collection",
-        order="null",
-        words=_count_words(body),
-        n_sources=5,
-    )
-    return _page("Attention Is All You Need", meta=meta, body=body)
-
-
 def chronicle():
     events = "".join(
         f'<li class="nb-tl-event"><span class="nb-tl-date">19{70 + i}</span>'
@@ -321,12 +272,15 @@ def chronicle():
         '<section data-nb-section="timeline"><h2>The timeline</h2>'
         f'<ol class="nb-timeline">{events}</ol></section>'
         '<section data-nb-section="echoes"><h2>Echoes today</h2>'
-        f"{_cited_paras(4, 8, start=4)}</section>" + _sources(8)
+        f"{_cited_paras(4, 8, start=4)}</section>"
+        '<section data-nb-section="go-deeper"><h2>Go deeper</h2>'
+        f"{_cited_paras(1, 8, start=2)}</section>" + _sources(8)
     )
     meta = _meta(
         "histories",
         "unix",
-        template="chronicle",
+        template="article",
+        form="Chronicle",
         title="A History of Unix",
         mode="collection",
         order="null",
@@ -337,9 +291,7 @@ def chronicle():
 
 
 if __name__ == "__main__":
-    (FIX / "valid-dossier.html").write_text(dossier())
+    (FIX / "valid-article.html").write_text(article())
     (FIX / "valid-brief.html").write_text(brief())
-    (FIX / "valid-lesson.html").write_text(lesson())
-    (FIX / "valid-paper.html").write_text(paper())
-    (FIX / "valid-chronicle.html").write_text(chronicle())
+    (FIX / "valid-chronicle-form.html").write_text(chronicle())
     print("fixtures written:", sorted(p.name for p in FIX.iterdir()))

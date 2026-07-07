@@ -2,7 +2,7 @@
 name: A History of Artificial Intelligence
 mode: sequence
 section: "History & Policy"
-template: chronicle
+template: article
 prompt: prompt.md
 autopublish: true
 strict: false

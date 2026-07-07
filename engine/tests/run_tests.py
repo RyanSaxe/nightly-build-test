@@ -99,17 +99,11 @@ def seq_repo():
     for sub in ("press", "templates"):
         shutil.copytree(pathlib.Path(TESTREPO) / sub, pathlib.Path(tmp) / sub)
     y = pathlib.Path(tmp) / "press" / "series" / "semiconductors" / "series.yaml"
-    y.write_text(
-        y.read_text()
-        .replace("mode: collection", "mode: sequence")
-        .replace("template: dossier", "template: chronicle")
-    )
-    # chronicle allows sequence; but our fixture is a dossier — instead keep dossier
-    y.write_text(y.read_text().replace("template: chronicle", "template: dossier"))
+    y.write_text(y.read_text().replace("mode: collection", "mode: sequence"))
     return tmp
 
 
-VALID = make_fixtures.dossier()
+VALID = make_fixtures.article()
 VALID_BRIEF = make_fixtures.brief(TODAY)
 
 
@@ -120,9 +114,9 @@ def mut(old, new, *, base=None):
 
 
 print("== happy paths ==")
-expect("valid dossier is BLOCK-clean", run_local(VALID, "semiconductors"), blocks=0)
+expect("valid article is BLOCK-clean", run_local(VALID, "semiconductors"), blocks=0)
 expect(
-    "valid dossier has zero warns too",
+    "valid article has zero warns too",
     run_local(VALID, "semiconductors"),
     must_not=["W-LENGTH-LOW", "W-SOURCES-MIN", "W-CITE-DENSITY", "W-REQ-URL"],
 )
@@ -249,7 +243,7 @@ expect(
 )
 expect(
     "meta template mismatch",
-    run_local(mut('"template": "dossier"', '"template": "lesson"'), "semiconductors"),
+    run_local(mut('"template": "article"', '"template": "brief"'), "semiconductors"),
     must_have=["B-META-MATCH"],
 )
 
@@ -257,7 +251,8 @@ print("== B-HTML ==")
 expect(
     "missing required section",
     run_local(
-        mut('data-nb-section="debate"', 'data-nb-section="argument"'), "semiconductors"
+        mut('data-nb-section="orientation"', 'data-nb-section="intro"'),
+        "semiconductors",
     ),
     must_have=["B-HTML"],
 )
@@ -266,7 +261,7 @@ expect(
     run_local(
         VALID.replace(
             '<section data-nb-section="go-deeper">',
-            '<section data-nb-section="debate">',
+            '<section data-nb-section="orientation">',
             1,
         ),
         "semiconductors",
@@ -387,7 +382,7 @@ expect(
 
 print("== WARN tier ==")
 short = VALID
-for _ in range(6):
+for _ in range(9):
     short = short.replace(make_fixtures.LOREM, "Short. ", 20)
 expect(
     "W-LENGTH-LOW",
@@ -414,7 +409,9 @@ expect(
     blocks=0,
 )
 # strip cites only inside debate section
-m = _re.search(r'(<section data-nb-section="debate">.*?</section>)', VALID, _re.S)
+m = _re.search(
+    r'(<section data-nb-section="bull-versus-bear">.*?</section>)', VALID, _re.S
+)
 assert m is not None
 deb = m.group(1)
 deb_stripped = _re.sub(r'<sup class="nb-cite">.*?</sup>', "", deb)
@@ -552,18 +549,7 @@ print("== templates: sample editions pass the proof ==")
 tpl_repo = tempfile.mkdtemp()
 shutil.copytree(REPO / "templates", pathlib.Path(tpl_repo) / "templates")
 TPL_SERIES = {
-    "crypto": (
-        "sequence",
-        "lesson",
-        "items:\n  - {slug: hashes, title: Hash Functions}\n"
-        "  - {slug: signatures, title: Signatures}",
-    ),
-    "papers": (
-        "collection",
-        "paper",
-        "items:\n  - {slug: attention, title: Attention}",
-    ),
-    "histories": ("collection", "chronicle", "items:\n  - {slug: unix, title: Unix}"),
+    "histories": ("collection", "article", "items:\n  - {slug: unix, title: Unix}"),
 }
 for sid, (mode, template, items) in TPL_SERIES.items():
     d = pathlib.Path(tpl_repo) / "press" / "series" / sid
@@ -573,9 +559,7 @@ for sid, (mode, template, items) in TPL_SERIES.items():
         f"autopublish: true\nstrict: false\n{items}\n"
     )
 for name, fixture, sid, slug in [
-    ("lesson", make_fixtures.lesson(), "crypto", "hashes"),
-    ("paper", make_fixtures.paper(), "papers", "attention"),
-    ("chronicle", make_fixtures.chronicle(), "histories", "unix"),
+    ("chronicle-form article", make_fixtures.chronicle(), "histories", "unix"),
 ]:
     rep = run_local(fixture, sid, slug=slug, repo=tpl_repo)
     expect(
@@ -809,7 +793,7 @@ else:
     FAIL.append("validate_config overlay")
     print(f"  FAIL validate_config overlay: {ut_rc.stdout.decode()[-300:]}")
 reg = C.load_registry(ut_repo)
-if "memo" in reg and "dossier" in reg:
+if "memo" in reg and "article" in reg:
     PASS += 1
     print("  ok   merged registry keeps shipped + adds press templates")
 else:
@@ -818,7 +802,7 @@ else:
 if (
     C.find_template(ut_repo, "memo")
     and "press" in C.find_template(ut_repo, "memo")
-    and "press" not in (C.find_template(ut_repo, "dossier") or "")
+    and "press" not in (C.find_template(ut_repo, "article") or "")
 ):
     PASS += 1
     print("  ok   template lookup: press shadows shipped")
@@ -884,7 +868,7 @@ print("== open mode (the hands-off desk) ==")
 
 OPEN_YAML = """name: Wildcard
 mode: open
-templates: [dossier, chronicle]
+templates: [article, brief]
 prompt: prompt.md
 autopublish: true
 strict: false
@@ -936,9 +920,7 @@ expect(
         "wildcard",
         slug="the-cuda-moat",
         repo=open_repo(
-            OPEN_YAML.replace(
-                "templates: [dossier, chronicle]", "templates: [chronicle]"
-            )
+            OPEN_YAML.replace("templates: [article, brief]", "templates: [brief]")
         ),
         library=olib,
     ),
@@ -968,12 +950,11 @@ for name, cond in [
     ("open series with a templates list validates", vc_rc(orepo) == 0),
     (
         "'templates' on a non-open series rejected",
-        vc_rc(patched_repo("templates: [dossier]\n")) == 1,
+        vc_rc(patched_repo("templates: [article]\n")) == 1,
     ),
     (
         "open mode without any template rejected",
-        vc_rc(open_repo(OPEN_YAML.replace("templates: [dossier, chronicle]\n", "")))
-        == 1,
+        vc_rc(open_repo(OPEN_YAML.replace("templates: [article, brief]\n", ""))) == 1,
     ),
 ]:
     if cond:
@@ -1120,7 +1101,7 @@ body.write_text("""Nightly edition.
 series: semiconductors
 slug: micron
 mode: collection
-template: dossier
+template: article
 date: "2026-07-06"
 title: "Micron Technology: The Scarcest Commodity in AI"
 order: null

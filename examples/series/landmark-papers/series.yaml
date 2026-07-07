@@ -2,7 +2,7 @@
 name: Landmark Papers
 mode: collection
 section: "Foundations"
-template: paper
+template: article
 prompt: prompt.md
 autopublish: true
 strict: false

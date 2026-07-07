@@ -2,6 +2,9 @@
 
 A course for a smart reader with no ML background who wants to actually
 understand how modern AI models work — not analogies that dissolve on contact.
+Label these editions `Lesson`. Open with the objectives box, recap the
+previous lesson concretely (you read it, per protocol), close with the
+check-yourself box and the bridge to the next lesson.
 
 Emphases:
 

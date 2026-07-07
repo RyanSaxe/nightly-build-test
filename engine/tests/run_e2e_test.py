@@ -178,13 +178,13 @@ def press_run(now_iso):
 
 
 # ------------------------------------------------------------------ night 1
-print("== night 1: collection dossier + rolling brief (2026-07-05) ==")
-dossier = make_fixtures.dossier().replace("2026-07-06", "2026-07-05")
+print("== night 1: collection article + rolling brief (2026-07-05) ==")
+article_ed = make_fixtures.article().replace("2026-07-06", "2026-07-05")
 findings, auto = night_shift_run(
-    "nb/n1-micron", "semiconductors", slug="micron", html=dossier, today="2026-07-05"
+    "nb/n1-micron", "semiconductors", slug="micron", html=article_ed, today="2026-07-05"
 )
 check(
-    "dossier PR validates BLOCK-clean in CI mode",
+    "article PR validates BLOCK-clean in CI mode",
     findings["block_count"] == 0,
     detail=str(findings["findings"]),
 )

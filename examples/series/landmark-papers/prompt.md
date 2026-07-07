@@ -1,7 +1,10 @@
 # Landmark Papers — series prompt
 
 Appraise one landmark AI paper per edition: what it claimed, what it showed,
-and how the claims have aged against everything published since.
+and how the claims have aged against everything published since. Label these
+editions `Appraisal`. Open with the plain-abstract furniture, weigh the work
+in a holds-up grid, and end on a verdict box; the paper under review is
+always source #1.
 
 Emphases:
 

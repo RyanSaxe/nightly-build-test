@@ -2,6 +2,8 @@
 
 Deep dossiers on the companies that physically make the AI era possible:
 who has leverage, why it is hard to replicate, and what would break it.
+Label these editions `Dossier` and shape the outline to the company: the
+moat, the economics, the live fight, whatever this entity's story demands.
 
 Emphases:
 

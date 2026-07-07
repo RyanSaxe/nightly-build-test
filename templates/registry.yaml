@@ -1,23 +1,20 @@
 # The template registry: the single source of truth for what each template requires.
 # Agents read their template's entry (PROTOCOL step 2.3); engine/check.py enforces it.
-# Bands are quality calibration (WARN tier), not law. Series may tighten via `words:`
-# but never loosen below these floors.
+# A template is a citation geometry, not a genre: article is enforced prose
+# (anchors plus agent-named sections, every section cited), brief is enforced
+# structure (tagged items, every item cited). Genres live in series prompts.
+# Bands are quality calibration (WARN tier), not law. Series may tighten via
+# `words:` but never loosen below these floors. Presses add their own
+# templates in press/templates/registry.yaml; `flex_sections` is optional
+# there too (omit it for a fully fixed outline).
 
-dossier:
+article:
   class: longread
-  words: [2500, 6000]
-  sections: [orientation, foundations, analysis, debate, go-deeper, sources]
+  words: [800, 6000]
+  sections: [orientation, go-deeper, sources]
+  flex_sections: [2, 6]
   cite_rule: per-section
-  modes: [collection, sequence, open]
-  furniture: [contents, stat-strip, charts]
-
-lesson:
-  class: longread
-  words: [1500, 4000]
-  sections: [objectives, recap, teach, check, bridge, sources]
-  cite_rule: per-section
-  modes: [sequence, open]
-  furniture: [objectives-box, callouts, self-check, next-bridge]
+  modes: [collection, sequence, rolling, open]
 
 brief:
   class: shortread
@@ -25,20 +22,3 @@ brief:
   sections: [items, sources]
   cite_rule: per-item
   modes: [rolling, open]
-  furniture: [tagged-items, why-it-matters]
-
-paper:
-  class: shortread
-  words: [1200, 2500]
-  sections: [abstract, findings, appraisal, verdict, sources]
-  cite_rule: per-section
-  modes: [collection, rolling, open]
-  furniture: [plain-abstract, holds-up-grid, verdict-box]
-
-chronicle:
-  class: longread
-  words: [2000, 4500]
-  sections: [orientation, timeline, echoes, sources]
-  cite_rule: per-section
-  modes: [sequence, collection, open]
-  furniture: [timeline-spine, echoes-today]

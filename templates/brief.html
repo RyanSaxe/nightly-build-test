@@ -6,10 +6,12 @@
   Agent instructions:
   * Replace every ALL-CAPS placeholder and all sample content. Fill nb-meta.
   * Keep the asset <link>/<script> tags exactly as they are (engine-owned).
-  * 4-8 items. Each item: mono topic tag, serif headline with a citation,
-    1-2 sentence body, and a "Why it matters" line (data-nb-why — checked).
+  * 4-8 items. Each item: mono topic tag, serif headline LINKING DIRECTLY to
+    the item's primary source (plus the citation sup), 1-2 sentence body,
+    and a "Why it matters" line (data-nb-why, checked).
   * Items may reference this series' own prior briefs ("we've been tracking…").
   * Cite with <sup class="nb-cite"><a href="#sN">N</a></sup> against #sources.
+  * Shared components are welcome where they earn it: templates/FURNITURE.md.
 -->
 <html lang="en">
 <head>
@@ -57,7 +59,7 @@
 
   <div class="nb-brief-item" data-nb-item>
     <span class="nb-brief-tag">TOPIC TAG</span>
-    <h3>HEADLINE FOR THE DEVELOPMENT<sup class="nb-cite"><a href="#s1">1</a></sup></h3>
+    <h3><a href="https://example.org/replace-1">HEADLINE FOR THE DEVELOPMENT</a><sup class="nb-cite"><a href="#s1">1</a></sup></h3>
     <p>One to two sentences: what happened and the immediate context, grounded
     in the cited source.</p>
     <p data-nb-why><b>Why it matters →</b> the connection to the larger story
@@ -66,21 +68,21 @@
 
   <div class="nb-brief-item" data-nb-item>
     <span class="nb-brief-tag">TOPIC TAG</span>
-    <h3>HEADLINE<sup class="nb-cite"><a href="#s2">2</a></sup></h3>
+    <h3><a href="https://example.org/replace-2">HEADLINE</a><sup class="nb-cite"><a href="#s2">2</a></sup></h3>
     <p>WHAT HAPPENED.</p>
     <p data-nb-why><b>Why it matters →</b> WHY.</p>
   </div>
 
   <div class="nb-brief-item" data-nb-item>
     <span class="nb-brief-tag">TOPIC TAG</span>
-    <h3>HEADLINE<sup class="nb-cite"><a href="#s3">3</a></sup></h3>
+    <h3><a href="https://example.org/replace-3">HEADLINE</a><sup class="nb-cite"><a href="#s3">3</a></sup></h3>
     <p>WHAT HAPPENED.</p>
     <p data-nb-why><b>Why it matters →</b> WHY.</p>
   </div>
 
   <div class="nb-brief-item" data-nb-item>
     <span class="nb-brief-tag">TOPIC TAG</span>
-    <h3>HEADLINE<sup class="nb-cite"><a href="#s4">4</a></sup></h3>
+    <h3><a href="https://example.org/replace-4">HEADLINE</a><sup class="nb-cite"><a href="#s4">4</a></sup></h3>
     <p>WHAT HAPPENED.</p>
     <p data-nb-why><b>Why it matters →</b> WHY.</p>
   </div>

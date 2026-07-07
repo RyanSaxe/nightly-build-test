@@ -47,7 +47,7 @@ def write_edition(root, series, *, slug, html):
 
 def make_full_library():
     lib = tempfile.mkdtemp()
-    write_edition(lib, "semiconductors", slug="micron", html=make_fixtures.dossier())
+    write_edition(lib, "semiconductors", slug="micron", html=make_fixtures.article())
     write_edition(
         lib, "ai-briefs", slug="2026-07-05", html=make_fixtures.brief("2026-07-05")
     )
@@ -100,13 +100,14 @@ check(
     "min read</span>" in newsstand and "nb-editionline" in newsstand,
 )
 check(
-    "lead cell is the longest read (dossier, 15 min)",
+    "lead cell is the longest read (the article, 15 min)",
     'nb-lead-cell" href="library/semiconductors/micron.html"' in newsstand,
     detail="lead selection",
 )
 check("newsstand has appearance toggle", 'class="nb-appearance"' in newsstand)
 check("stories carry section kickers", 'class="nb-kicker"' in newsstand)
-check("cells label with the form fallback", ">Dossier</span>" in newsstand)
+check("cells label with the agent-chosen form", ">Dossier</span>" in newsstand)
+check("cells without a form fall back to the template id", ">Brief</span>" in newsstand)
 check("newsstand links the previous night", 'href="builds/2026-07-05/"' in newsstand)
 check("no press-check banner on a real build", "Press check" not in newsstand)
 check("menu says Today", ">Today</a>" in newsstand)
@@ -171,7 +172,7 @@ check("edition site copies get cache-busting asset stamps", bool(stamp_m))
 stamp = stamp_m.group(1) if stamp_m else ""
 check(
     "edition content otherwise untouched",
-    micron_copy.replace("?v=" + stamp, "") == make_fixtures.dossier(),
+    micron_copy.replace("?v=" + stamp, "") == make_fixtures.article(),
 )
 check("chrome pages carry the same stamp", f"assets/nb.css?v={stamp}" in newsstand)
 index0 = json.loads(read(out, "search-index.json"))[0]
@@ -211,7 +212,7 @@ shutil.copytree(TESTREPO, seq_repo)
 sy = pathlib.Path(seq_repo) / "press" / "series" / "semiconductors" / "series.yaml"
 sy.write_text(sy.read_text().replace("mode: collection", "mode: sequence"))
 seq_lib = tempfile.mkdtemp()
-seq_ed = make_fixtures.dossier().replace(
+seq_ed = make_fixtures.article().replace(
     '"mode": "collection", "order": null', '"mode": "sequence", "order": 1'
 )
 write_edition(seq_lib, "semiconductors", slug="micron", html=seq_ed)
@@ -233,7 +234,7 @@ check(
 print("== press check preview ==")
 pc = tempfile.mkdtemp()
 draft = (
-    make_fixtures.dossier()
+    make_fixtures.article()
     .replace('"slug": "micron"', '"slug": "tsmc"')
     .replace(
         "Micron Technology: The Scarcest Commodity in AI",
@@ -277,12 +278,12 @@ for sub in ("press", "templates", "engine"):
 wd = pathlib.Path(open_repo) / "press" / "series" / "wildcard"
 wd.mkdir()
 (wd / "series.yaml").write_text(
-    "name: Wildcard\nmode: open\ntemplates: [dossier, chronicle]\n"
+    "name: Wildcard\nmode: open\ntemplates: [article, brief]\n"
     "cadence: weekdays\nautopublish: true\nstrict: false\n"
     "items:\n  - {slug: commissioned-piece, title: On Commission}\n"
 )
 open_ed = (
-    make_fixtures.dossier()
+    make_fixtures.article()
     .replace(
         '"series": "semiconductors", "slug": "micron",',
         '"series": "wildcard", "slug": "the-cuda-moat",',
@@ -297,7 +298,7 @@ wc = next(s for s in open_catalog["series"] if s["id"] == "wildcard")
 check(
     "open series in catalog with choice list + cadence",
     wc["mode"] == "open"
-    and wc["templates"] == ["dossier", "chronicle"]
+    and wc["templates"] == ["article", "brief"]
     and wc["cadence"] == "weekdays"
     and wc["total"] is None,
 )
@@ -310,9 +311,7 @@ check(
     "pending commission shows as coming",
     "On Commission" in open_page and "commissioned" in open_page,
 )
-check(
-    "open series page shows the template choice list", "dossier, chronicle" in open_page
-)
+check("open series page shows the template choice list", "article, brief" in open_page)
 
 print("== stale newsstand ==")
 stale_out = tempfile.mkdtemp()

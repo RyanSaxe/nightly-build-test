@@ -412,9 +412,8 @@ def kicker_text(ed, series_cfgs):
 
 
 def form_label(meta):
-    """The newsstand label for an edition: the agent-chosen form when
-    present, else the template id capitalized (covers editions published
-    under template ids that no longer ship)."""
+    # falls back to the template id so editions published under template ids
+    # that no longer ship keep a sensible newsstand label
     form = str(meta.get("form") or "").strip()
     return form if form else str(meta.get("template", "")).capitalize()
 
