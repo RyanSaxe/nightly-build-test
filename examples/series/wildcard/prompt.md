@@ -1,20 +1,25 @@
-# The Wildcard Desk — beat
+# The Wildcard Desk: beat
 
 Under-covered corners of the AI stack: the suppliers, standards bodies,
-datasets, lawsuits, failed bets, and unglamorous infrastructure that the
-other desks' headlines rest on. If the daily brief would give it one bullet,
-this desk gives it the full treatment.
+datasets, benchmarks, lawsuits, failed bets, and unglamorous infrastructure
+that the other desks' headlines quietly rest on. If the daily brief would give
+it one bullet, this desk gives it the full treatment.
 
 Editor's guidance for picking tonight's topic:
 
 - Read this desk's published editions first. Never re-cover a topic; prefer
-  topics that *extend* an earlier edition sideways (the reader should feel a
-  connective tissue forming).
-- Favor topics where primary sources exist and secondary coverage is thin —
-  that is where an edition earns its keep.
-- Pick the shape like an editor: `article` for anything told in sections,
-  `brief` only when the corner surfaced several small developments. Name the
-  form you chose in nb-meta (`Dossier` for an entity, `Chronicle` for a
-  history, `Appraisal` for a result — or coin one and reuse it).
-- Surprise is the point, drift is not: every pick should still teach the
-  AI-stack reader something load-bearing.
+  topics that extend an earlier edition sideways, so a reader feels connective
+  tissue forming across the desk.
+- Favor topics where primary sources exist and secondary coverage is thin.
+  That gap is where an edition earns its keep.
+- Pick the shape like an editor. Use `article` for anything with a spine (an
+  entity, a history, a mechanism, a live disagreement); use `brief` only when
+  the corner genuinely surfaced several small developments at once. Then name
+  the form in nb-meta and reuse the label when it recurs: `Dossier` for an
+  entity, `Chronicle` for a history, `Explainer` for a mechanism, `Symposium`
+  for a fight told through its participants. Coin a new one when nothing fits.
+- Reach for the furniture the form wants: a cast box and position blocks for a
+  symposium, numbered steps for a mechanism, a claim card when you make a
+  falsifiable prediction the desk can grade later.
+- Surprise is the point; drift is not. Every pick still teaches the AI-stack
+  reader something load-bearing.

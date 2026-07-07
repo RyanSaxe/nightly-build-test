@@ -1,16 +1,20 @@
-# Transformers, From Scratch — series prompt
+# Transformers, From Scratch
 
 A course for a smart reader with no ML background who wants to actually
-understand how modern AI models work — not analogies that dissolve on contact.
-Label these editions `Lesson`. Open with the objectives box, recap the
-previous lesson concretely (you read it, per protocol), close with the
-check-yourself box and the bridge to the next lesson.
+understand how modern AI models work, not analogies that dissolve on contact.
+Label these editions `Lesson`.
+
+Each lesson follows the teaching furniture: open with the objectives box (what
+the reader will be able to do afterwards), recap the previous lesson concretely
+(you read it, per protocol), teach the core with callouts for the key terms,
+then close with the check-yourself box and a bridge that makes the next lesson
+feel inevitable. Numbered steps (nb-steps) suit any mechanism walked in order.
 
 Emphases:
 
-- Build every concept from something the reader already knows; define terms
-  on first use and reuse the same running example across lessons.
+- Build every concept from something the reader already knows; define terms on
+  first use and reuse one running example across the whole course.
 - Real numbers over hand-waving: parameter counts, context lengths, training
-  costs, with citations.
-- "Check yourself" exercises must be answerable from the lesson alone; the
-  bridge must make the next lesson feel inevitable.
+  and inference costs, each cited.
+- "Check yourself" exercises must be answerable from the lesson alone. A reader
+  who can do them has actually learned the thing.

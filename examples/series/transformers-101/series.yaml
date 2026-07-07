@@ -7,19 +7,15 @@ template: article
 prompt: prompt.md
 autopublish: true
 strict: false
+words: [1800, 4000]   # a lesson needs room to build a concept and check it
+min_sources: 8
 items:
   - slug: attention
     title: Attention Is the Engine
   - slug: from-gpt-to-frontier
     title: From GPT to Frontier Models
-  # Extend the syllabus by appending lessons:
-  # - slug: post-training
-  #   title: "Post-Training: RLHF and Friends"
-  # - slug: inference
-  #   title: Why Inference Is the Hard Part
-
-# Quality knobs (uncomment to tighten — bands may never loosen below the
-# registry floor in templates/registry.yaml):
-# words: [2000, 4000]
-# min_sources: 10
-# strict: true          # promotes every WARN to a BLOCK: thin editions never publish
+  - slug: post-training
+    title: "Post-Training: RLHF and What Came After"
+  - slug: inference
+    title: Why Inference Is the Hard Part
+# strict: true          # promote every WARN to a BLOCK: thin lessons never publish

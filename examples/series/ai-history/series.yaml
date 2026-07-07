@@ -6,11 +6,13 @@ template: article
 prompt: prompt.md
 autopublish: true
 strict: false
+words: [2000, 4500]   # a chronicle needs room for a full timeline
+min_sources: 10       # histories are source-heavy; above the longread default of 8
 items:
   - slug: winters-and-springs
     title: "Winters and Springs: AI from Dartmouth to Deep Learning"
   - slug: the-scaling-era
     title: "The Scaling Era: 2012 to Now"
-  # A sequence grows by appending items — published editions never reorder:
-  # - slug: the-agent-era
-  #   title: "The Agent Era"
+  - slug: the-agent-era
+    title: "The Agent Era: When Models Started Doing Things"
+  # A sequence grows by appending items; published editions never reorder.
