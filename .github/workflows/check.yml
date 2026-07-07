@@ -1,0 +1,128 @@
+# The editor: validates every PR targeting the library branch, auto-merges clean ones.
+# SECURITY: trigger is pull_request (never pull_request_target); the validate job runs
+# with read-only contents and no secrets against untrusted diffs. The merge job only
+# uses GITHUB_TOKEN and only fires after the check passes.
+# PLACEMENT: GitHub fires pull_request triggers only from workflow files present on
+# the PR's base branch, so setup.sh seeds a copy of this file onto library. Keep this
+# file a pure trigger: all engine logic is checked out from main at run time.
+name: nightly-build-check
+
+on:
+  pull_request:
+    branches: [library]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      autopublish: ${{ steps.proof.outputs.autopublish }}
+    steps:
+      - name: Checkout PR head (full history for diff)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout engine from main (never trust engine code from the PR)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _main
+
+      - name: Checkout published library state (base)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          path: _library
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+
+      - name: Write PR body to file
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: printf '%s' "$PR_BODY" > /tmp/pr-body.txt
+
+      - name: Run the proof
+        id: proof
+        run: |
+          set +e
+          python3 _main/engine/check.py --pr \
+            --repo . --main _main \
+            --base "origin/${{ github.base_ref }}" \
+            --head "HEAD" \
+            --library _library \
+            --pr-body /tmp/pr-body.txt \
+            --json > /tmp/proof.json
+          code=$?
+          python3 _main/engine/check.py --pr \
+            --repo . --main _main \
+            --base "origin/${{ github.base_ref }}" \
+            --head "HEAD" \
+            --library _library \
+            --pr-body /tmp/pr-body.txt | tee /tmp/proof.txt
+          echo "autopublish=$(python3 _main/engine/ci_helpers.py autopublish --repo _main --diff-base origin/${{ github.base_ref }})" >> "$GITHUB_OUTPUT"
+          exit $code
+
+      - name: Comment findings on the PR
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo '## The editor'
+            echo '```'
+            cat /tmp/proof.txt
+            echo '```'
+          } > /tmp/comment.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md || true
+
+      - name: Label outcome
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if grep -q '^verdict: PUBLISHABLE' /tmp/proof.txt; then
+            gh pr edit ${{ github.event.pull_request.number }} --remove-label nb-invalid --add-label nb-approved || true
+            if grep -q '^WARN:  [1-9]' /tmp/proof.txt; then
+              gh pr edit ${{ github.event.pull_request.number }} --add-label nb-warnings || true
+            fi
+          else
+            gh pr edit ${{ github.event.pull_request.number }} --add-label nb-invalid || true
+          fi
+
+  automerge:
+    needs: validate
+    if: needs.validate.outputs.autopublish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Squash-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge ${{ github.event.pull_request.number }} --squash --repo ${{ github.repository }}
+
+      # Pushes made with GITHUB_TOKEN never fire push-triggered workflows
+      # (recursion guard), so the merge above cannot start the press by
+      # itself, so dispatch it explicitly. Human merges trigger it normally.
+      - name: Start the press
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publish.yml --repo ${{ github.repository }} --ref library || true
+
+      - name: Supersede competing PRs for the same slug
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          path=$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --json files -q '.files[0].path')
+          for n in $(gh pr list --repo ${{ github.repository }} --base library --state open --json number,files \
+                     -q ".[] | select(.files[].path == \"$path\") | .number"); do
+            gh pr close "$n" --repo ${{ github.repository }} \
+              --comment "Superseded by #${{ github.event.pull_request.number }} (same edition: \`$path\`)." || true
+          done
