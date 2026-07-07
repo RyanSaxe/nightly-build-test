@@ -106,6 +106,7 @@ check(
 )
 check("newsstand has appearance toggle", 'class="nb-appearance"' in newsstand)
 check("stories carry section kickers", 'class="nb-kicker"' in newsstand)
+check("cells label with the form fallback", ">Dossier</span>" in newsstand)
 check("newsstand links the previous night", 'href="builds/2026-07-05/"' in newsstand)
 check("no press-check banner on a real build", "Press check" not in newsstand)
 check("menu says Today", ">Today</a>" in newsstand)
