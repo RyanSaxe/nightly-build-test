@@ -1,0 +1,209 @@
+{
+  "generated": "2026-07-07T10:43:56Z",
+  "protocol": "1.1",
+  "site_title": "The Nightly Build",
+  "series": [
+    {
+      "id": "ai-history",
+      "name": "A History of Artificial Intelligence",
+      "mode": "sequence",
+      "template": "article",
+      "count": 1,
+      "total": 3,
+      "section": "History & Policy"
+    },
+    {
+      "id": "daily-brief",
+      "name": "Daily Brief",
+      "mode": "rolling",
+      "template": "brief",
+      "count": 1,
+      "total": null,
+      "cadence": "daily",
+      "section": "The Daily"
+    },
+    {
+      "id": "frontier-compute",
+      "name": "Frontier Compute",
+      "mode": "collection",
+      "template": "article",
+      "count": 1,
+      "total": 4,
+      "section": "Compute & Industry"
+    },
+    {
+      "id": "landmark-papers",
+      "name": "Landmark Papers",
+      "mode": "collection",
+      "template": "article",
+      "count": 1,
+      "total": 4,
+      "section": "Foundations"
+    },
+    {
+      "id": "transformers-101",
+      "name": "Transformers, From Scratch",
+      "mode": "sequence",
+      "template": "article",
+      "count": 1,
+      "total": 4,
+      "section": "Foundations"
+    },
+    {
+      "id": "wildcard",
+      "name": "The Wildcard Desk",
+      "mode": "open",
+      "template": null,
+      "count": 1,
+      "total": null,
+      "templates": [
+        "article",
+        "brief"
+      ],
+      "section": "The Wildcard"
+    }
+  ],
+  "editions": [
+    {
+      "protocol": "1.1",
+      "series": "wildcard",
+      "slug": "interconnect-standards",
+      "template": "article",
+      "form": "Explainer",
+      "title": "The Wires Between the Chips",
+      "mode": "open",
+      "order": null,
+      "date": "2026-07-07",
+      "tags": [],
+      "sources": 10,
+      "words": 1606,
+      "reading_minutes": 7,
+      "dek": "AI's next bottleneck is not the chip but the cable between chips \u2014 and an industry coalition is trying to pry that cable open before Nvidia owns it.",
+      "harness": "claude-code-routine",
+      "model": "claude-opus-4-8",
+      "path": "/library/wildcard/interconnect-standards.html",
+      "position": 1
+    },
+    {
+      "protocol": "1.1",
+      "series": "transformers-101",
+      "slug": "attention",
+      "template": "article",
+      "form": "Lesson",
+      "title": "Attention Is the Engine",
+      "mode": "sequence",
+      "order": 1,
+      "date": "2026-07-07",
+      "tags": [],
+      "sources": 14,
+      "words": 2160,
+      "reading_minutes": 10,
+      "dek": "Lesson 1: how a single arithmetic trick lets a model read every word at once, and why it is the reason modern AI works.",
+      "harness": "claude-code-routine",
+      "model": "claude-opus-4-8",
+      "path": "/library/transformers-101/attention.html",
+      "position": 1
+    },
+    {
+      "protocol": "1.1",
+      "series": "landmark-papers",
+      "slug": "attention-is-all-you-need",
+      "template": "article",
+      "form": "Appraisal",
+      "title": "Attention Is All You Need (2017)",
+      "mode": "collection",
+      "order": null,
+      "date": "2026-07-07",
+      "tags": [],
+      "sources": 14,
+      "words": 1720,
+      "reading_minutes": 8,
+      "dek": "The eight pages that redrew the field \u2014 and which of their specific bets have actually held up nine years on.",
+      "harness": "claude-code-routine",
+      "model": "claude-opus-4-8",
+      "path": "/library/landmark-papers/attention-is-all-you-need.html",
+      "position": 1
+    },
+    {
+      "protocol": "1.1",
+      "series": "frontier-compute",
+      "slug": "nvidia",
+      "template": "article",
+      "form": "Dossier",
+      "title": "Nvidia: The Toll Booth of the AI Era",
+      "mode": "collection",
+      "order": null,
+      "date": "2026-07-07",
+      "tags": [
+        "equity",
+        "policy"
+      ],
+      "sources": 20,
+      "words": 2551,
+      "reading_minutes": 12,
+      "dek": "A $194-billion data-center business defended by a software moat two decades deep \u2014 and a single government the moat cannot patch.",
+      "harness": "claude-code-routine",
+      "model": "claude-opus-4-8",
+      "path": "/library/frontier-compute/nvidia.html",
+      "position": 1
+    },
+    {
+      "protocol": "1.1",
+      "series": "daily-brief",
+      "slug": "2026-07-07",
+      "template": "brief",
+      "form": "Brief",
+      "title": "Daily Brief \u2014 7 July 2026",
+      "mode": "rolling",
+      "order": null,
+      "date": "2026-07-07",
+      "tags": [],
+      "sources": 8,
+      "words": 781,
+      "reading_minutes": 4,
+      "dek": "Governance goes multilateral in Geneva, the best open-weights model is Chinese, and Tesla takes the driver out of the seat.",
+      "harness": "claude-code-routine",
+      "model": "claude-opus-4-8",
+      "path": "/library/daily-brief/2026-07-07.html",
+      "position": 1
+    },
+    {
+      "protocol": "1.1",
+      "series": "ai-history",
+      "slug": "winters-and-springs",
+      "template": "article",
+      "form": "Chronicle",
+      "title": "Winters and Springs: AI from Dartmouth to Deep Learning",
+      "mode": "sequence",
+      "order": 1,
+      "date": "2026-07-07",
+      "tags": [],
+      "sources": 16,
+      "words": 2370,
+      "reading_minutes": 11,
+      "dek": "The field's booms and busts were never really about the science \u2014 they tracked the money, and so does the one we are living in now.",
+      "harness": "claude-code-routine",
+      "model": "claude-opus-4-8",
+      "path": "/library/ai-history/winters-and-springs.html",
+      "position": 1
+    }
+  ],
+  "builds": {
+    "2026-07-07": [
+      "ai-history/winters-and-springs",
+      "daily-brief/2026-07-07",
+      "frontier-compute/nvidia",
+      "landmark-papers/attention-is-all-you-need",
+      "transformers-101/attention",
+      "wildcard/interconnect-standards"
+    ]
+  },
+  "tags": {
+    "equity": [
+      "frontier-compute/nvidia"
+    ],
+    "policy": [
+      "frontier-compute/nvidia"
+    ]
+  }
+}

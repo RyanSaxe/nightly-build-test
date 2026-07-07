@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nvidia — Frontier Compute</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/theme.css?v=f0c25bc72c">
+<link rel="stylesheet" href="../../assets/nb.css?v=f0c25bc72c">
+<script defer src="../../assets/nb.js?v=f0c25bc72c"></script>
+<script type="application/json" id="nb-meta">
+{
+  "protocol": "1.1",
+  "series": "frontier-compute",
+  "slug": "nvidia",
+  "template": "article",
+  "form": "Dossier",
+  "title": "Nvidia: The Toll Booth of the AI Era",
+  "mode": "collection",
+  "order": null,
+  "date": "2026-07-07",
+  "tags": ["equity", "policy"],
+  "sources": 20,
+  "words": 2551,
+  "reading_minutes": 12,
+  "dek": "A $194-billion data-center business defended by a software moat two decades deep — and a single government the moat cannot patch.",
+  "harness": "claude-code-routine",
+  "model": "claude-opus-4-8"
+}
+</script>
+</head>
+<body class="nb-edition">
+<article class="nb-reading">
+
+<header>
+  <div class="nb-eyebrow">Frontier Compute</div>
+  <h1 class="nb-title">Nvidia: The Toll Booth of the AI Era</h1>
+  <p class="nb-dekline">Nvidia sells the shovels for the AI gold rush — the question for an owner is how long the miners stay locked to this one supplier.</p>
+  <div class="nb-byline">
+    <span>12 min read</span><span>2026-07-07</span>
+  </div>
+</header>
+
+<section data-nb-section="orientation" id="orientation">
+  <h2>What you are actually buying</h2>
+  <p>Nvidia is no longer a chip company in any meaningful sense; it is the landlord of AI compute. In its fiscal 2025 — the year ending January 2025 — it reported $130.5 billion of revenue, up 114% year on year, of which $115.2 billion came from a single segment: the data center.<sup class="nb-cite"><a href="#s1">1</a></sup> A year later, fiscal 2026 revenue reached $215.9 billion, with $193.7 billion of it from data center.<sup class="nb-cite"><a href="#s6">6</a></sup> No company of this size has ever grown this fast, and almost none has ever concentrated so much of its fortune in one product line sold to a handful of customers.</p>
+
+  <div class="nb-stat-strip">
+    <div class="nb-stat"><span class="nb-stat-n">$193.7B</span><span class="nb-stat-l">DATA-CENTER REVENUE, FY2026</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">~90%</span><span class="nb-stat-l">OF TOTAL COMPANY REVENUE</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">75.0%</span><span class="nb-stat-l">GAAP GROSS MARGIN, FY2025</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">~13%</span><span class="nb-stat-l">OF REVENUE FROM CHINA, FY2025</span></div>
+  </div>
+
+  <p>For a capital allocator, three questions decide whether this is a franchise or a bubble, and this dossier takes them in order. How good is the data-center business, really? What actually stops a competitor from taking it — the "moat," named precisely rather than admired vaguely? And what is the one risk the moat cannot cover: the US government's power to decide who Nvidia may sell to. A patient owner needs a defensible answer to all three.<sup class="nb-cite"><a href="#s3">3</a></sup></p>
+</section>
+
+<section data-nb-section="the-data-center-machine" id="the-data-center-machine">
+  <h2>The data-center machine</h2>
+  <p>Begin with the economics, because they are the whole story. In fiscal 2025 the data-center segment grew 142% to $115.2 billion; the next-largest segment, gaming, was $11.35 billion, with professional visualization at $1.88 billion and automotive at $1.69 billion.<sup class="nb-cite"><a href="#s1">1</a></sup><sup class="nb-cite"><a href="#s9">9</a></sup> Data center is not the largest part of Nvidia; it is roughly nine-tenths of it, and everything else is a rounding error by comparison.</p>
+
+  <p>The growth has been close to vertical. Quarterly data-center revenue climbed from $18.4 billion at the start of calendar 2024 to $62.3 billion by the quarter ending January 2026 — more than a tripling in two years.<sup class="nb-cite"><a href="#s6">6</a></sup><sup class="nb-cite"><a href="#s7">7</a></sup></p>
+
+  <figure class="nb-chart">
+    <figcaption>Fig. 1 · Nvidia data-center segment revenue by fiscal quarter, US$ billions. Source: Nvidia quarterly results, refs 1, 4, 6–8.</figcaption>
+    <canvas></canvas>
+    <noscript>Q4 FY24 18.4 · Q1 FY25 22.6 · Q2 FY25 26.3 · Q3 FY25 30.8 · Q4 FY25 35.6 · Q1 FY26 39.1 · Q2 FY26 41.1 · Q3 FY26 51.2 · Q4 FY26 62.3</noscript>
+    <script type="application/json" data-nb-chart>
+    {"type": "line",
+     "labels": ["Q4 FY24", "Q1 FY25", "Q2 FY25", "Q3 FY25", "Q4 FY25", "Q1 FY26", "Q2 FY26", "Q3 FY26", "Q4 FY26"],
+     "series": [{"name": "Data-center revenue ($B)", "values": [18.4, 22.6, 26.3, 30.8, 35.6, 39.1, 41.1, 51.2, 62.3]}],
+     "y": {"scale": "linear", "label": "US$ billions"}}
+    </script>
+  </figure>
+
+  <p>That concentration cuts two ways an owner should weigh. The revenue leans on a small number of very large buyers — the hyperscale cloud providers — and Nvidia's own 10-K flags significant customer concentration and a heavy geographic tilt, with a large share of sales billed through a handful of countries.<sup class="nb-cite"><a href="#s3">3</a></sup> A business whose demand sits with perhaps five customers, several of whom are simultaneously building rival chips, is powerful and fragile in the same breath: any one of them trimming orders moves the whole company.</p>
+
+  <p>What makes the segment remarkable is not the growth but the margin at which it grows. Nvidia's GAAP gross margin <em>rose</em> to 75.0% in fiscal 2025, from 72.7% the year before, which the company attributed to a richer mix of data-center sales.<sup class="nb-cite"><a href="#s3">3</a></sup> A hardware maker earning 75 cents of gross profit on every revenue dollar, while doubling volume, is a company facing no effective price competition. The reason it faces none is the subject of the next section — but the caveat that comes with it is visible in the same filings. Management has been guiding margins back toward the low-70s as it ships more complex, lower-margin rack-scale systems (the Blackwell "NVL72" racks that bundle GPUs, CPUs, and networking into one unit), and, more sharply, as a one-time charge tied to China cut a single quarter's GAAP margin to 60.5%.<sup class="nb-cite"><a href="#s2">2</a></sup><sup class="nb-cite"><a href="#s4">4</a></sup> Hold that thread; it leads directly to the export-control section.</p>
+</section>
+
+<section data-nb-section="the-cuda-moat" id="the-cuda-moat">
+  <h2>The moat, named precisely</h2>
+  <p>"Nvidia has a strong moat" is not analysis. The moat has a specific mechanism, and it is worth naming exactly, because the durability of the whole investment case rests on it. It is a <em>two-sided ecosystem lock-in with a high switching cost</em>, and its name is CUDA.</p>
+
+  <div class="nb-callout">
+    <span class="nb-callout-term">CUDA</span>
+    Nvidia's proprietary software platform, launched in 2006, that lets developers run general-purpose parallel code on Nvidia GPUs — and only on Nvidia GPUs. It is the layer that turns the silicon into something programmable, and it does not run on anyone else's chips.
+  </div>
+
+  <p>The lock works in three reinforcing layers. First, the libraries. On top of CUDA sit the tools practitioners actually call — cuDNN for neural networks, cuBLAS for linear algebra, TensorRT for inference — part of what Nvidia says are more than 900 "CUDA-X" libraries.<sup class="nb-cite"><a href="#s15">15</a></sup> The dominant machine-learning frameworks are tuned first and best against these. Porting a large training or inference stack to a competitor's software means rewriting and re-validating against a less mature alternative, and the engineering teams capable of doing that are scarce and expensive. That is the switching cost, and it is measured in quarters of lost work, not dollars off a price list.</p>
+
+  <p>Second, the flywheel. Nvidia's Jensen Huang has said some six million developers across more than 200 countries have used CUDA since 2006, atop an installed base of hundreds of millions of compatible GPUs.<sup class="nb-cite"><a href="#s15">15</a></sup> More developers write more software for the platform, which makes the platform more valuable, which draws more developers — a compounding loop that a challenger cannot short-circuit by simply building a faster chip, because the chip is not what customers are locked to.</p>
+
+  <p>Third, the system. Nvidia has extended the moat from the chip to the whole rack. Its $6.9 billion acquisition of Mellanox, announced in 2019 and closed in April 2020, brought InfiniBand and Ethernet networking in-house;<sup class="nb-cite"><a href="#s10">10</a></sup> on top of that sit NVLink, the high-speed interconnect that lets dozens of GPUs act as one, and a growing software-and-networking stack sold as a complete "AI factory" rather than a component. The pitch to a buyer is no longer "buy our GPU" but "buy our rack, our network, and our software, all co-designed." The competitive effect is that Nvidia holds an estimated 80–90% of the AI-accelerator market by revenue, with training share above 90%.<sup class="nb-cite"><a href="#s18">18</a></sup> That is not a lead; it is, for now, a near-monopoly on the picks and shovels of the entire industry.</p>
+</section>
+
+<section data-nb-section="the-export-control-fight" id="the-export-control-fight">
+  <h2>The one risk the moat cannot patch: export controls</h2>
+  <p>A software moat defends against competitors. It does nothing against a government that can simply forbid a sale. The single largest discrete risk to Nvidia is not AMD or a custom chip; it is the US Department of Commerce's <em>Bureau of Industry and Security</em> (BIS), which regulates what advanced computing hardware Nvidia may export, and to whom, under the Export Administration Regulations. The rules bind Nvidia as a US exporter, they have tightened roughly once a year since 2022, and each turn has cost the company a redesign or a writedown.</p>
+
+  <div class="nb-callout">
+    <span class="nb-callout-term">Export Administration Regulations (EAR)</span>
+    The US rulebook, enforced by the Commerce Department's BIS, that controls exports of sensitive technology. For advanced AI chips it sets performance and interconnect thresholds; a chip above them cannot be shipped to specified countries — chiefly China — without a license.
+  </div>
+
+  <p>The timeline is a game of the government raising the bar and Nvidia limbo-ing under it. On 7 October 2022, BIS issued its first advanced-computing controls, which banned the sale of Nvidia's top A100 and H100 accelerators to China; Nvidia responded with cut-down A800 and H800 parts engineered to fall just under the thresholds.<sup class="nb-cite"><a href="#s11">11</a></sup><sup class="nb-cite"><a href="#s12">12</a></sup> On 17 October 2023, BIS tightened the rules — a new "performance density" metric, the interconnect loophole closed — banning the A800 and H800 in turn.<sup class="nb-cite"><a href="#s13">13</a></sup><sup class="nb-cite"><a href="#s14">14</a></sup> Nvidia then built the further-degraded H20 specifically for the Chinese market.</p>
+
+  <p>In 2025 the vise closed on that chip too, and this is where the policy risk stops being abstract and starts showing up in the accounts. On 9 April 2025 the government told Nvidia that exporting the H20 to China would now require a license, and on 14 April it said the requirement would stand "for the indefinite future."<sup class="nb-cite"><a href="#s5">5</a></sup> Nvidia disclosed it would take a charge of up to roughly $5.5 billion.<sup class="nb-cite"><a href="#s5">5</a></sup> When the quarter closed, the actual charge was $4.5 billion, and the company said roughly $8.0 billion of H20 revenue had been stripped from the following quarter's guidance — the write-down that pushed GAAP gross margin down to 60.5% for the period.<sup class="nb-cite"><a href="#s4">4</a></sup></p>
+
+  <p>Then the politics turned again. Around mid-July 2025 the administration signalled it would grant H20 export licenses after all,<sup class="nb-cite"><a href="#s21">21</a></sup> and in August it emerged on unusual terms: Nvidia (and AMD) would remit 15% of their China H20 revenue to the US government as a condition of the licenses — a novel "pay-to-export" arrangement with no clear precedent.<sup class="nb-cite"><a href="#s20">20</a></sup> For an owner, the lesson is not which way the last ruling went but the structural fact underneath: a market that was about 13% of revenue in fiscal 2025 is now a binary, politically-controlled variable that Nvidia's guidance has at times assumed at zero.<sup class="nb-cite"><a href="#s3">3</a></sup> The moat holds everywhere except here.</p>
+</section>
+
+<section data-nb-section="the-bull-and-bear-case" id="the-bull-and-bear-case">
+  <h2>The bull and the bear, at their strongest</h2>
+  <p>A reader should not be able to tell which way this dossier privately leans, so here are both cases in the words of their most credible holders. The bull case rests on the sheer scale and duration of the buildout; the bear case rests on three specific cracks — custom silicon, margin normalization, and the possibility that the whole cycle is overbuilt.</p>
+
+  <div class="nb-position">
+    <span class="nb-position-who">Morgan Stanley (bull)</span>
+    <span class="nb-position-stance">The market still underestimates how large and how long the AI-infrastructure buildout runs.</span>
+    <p>The bank has carried a bull-case target around $330 and estimated Nvidia could generate on the order of $1.07 trillion in cumulative data-center revenue across calendar 2025–2027; Wedbush's Dan Ives has argued similarly for a $250 base case.<sup class="nb-cite"><a href="#s19">19</a></sup></p>
+  </div>
+
+  <div class="nb-position">
+    <span class="nb-position-who">Daniel Newman, Futurum Group (bear on share)</span>
+    <span class="nb-position-stance">Custom chips built by Nvidia's own biggest customers will grow faster than the merchant GPU market and erode its share.</span>
+    <p>Newman has argued cloud ASIC shipments are growing faster than GPUs; the named programs are real and shipping — Google's TPU, Amazon's Trainium, Microsoft's Maia — and each hyperscaler that moves inference to its own silicon is a customer Nvidia partly loses. AMD's MI300-class parts add a second front.<sup class="nb-cite"><a href="#s18">18</a></sup><sup class="nb-cite"><a href="#s22">22</a></sup></p>
+  </div>
+
+  <div class="nb-position">
+    <span class="nb-position-who">Michael Burry, Scion (bear on the cycle)</span>
+    <span class="nb-position-stance">This is a capex bubble with Nvidia as its Cisco, and the hardware's true economics are being flattered.</span>
+    <p>Disclosing a short position in 2025, Burry called Nvidia "a Cisco at the center" of the buildout and argued that hyperscalers depreciate GPUs over four-to-six years when the real useful life, given Nvidia's annual cadence, is nearer two-and-a-half to three-and-a-half — understating costs and setting up writedowns. Nvidia pushed back publicly on the "bubble" framing.<sup class="nb-cite"><a href="#s16">16</a></sup><sup class="nb-cite"><a href="#s17">17</a></sup></p>
+  </div>
+
+  <p>The honest synthesis is that both sides are describing the same fact from opposite ends. Nvidia's margins and share are extraordinary <em>because</em> the moat is real; those same extraordinary numbers are what draw the capital — custom silicon, AMD, and the hyperscalers' own chip teams — that will, in time, compete them down. Which force wins, and when, is the actual investment question. Nothing in the filings settles it.</p>
+</section>
+
+<section data-nb-section="go-deeper" id="go-deeper">
+  <h2>Go deeper</h2>
+  <p>Do not take this dossier's numbers on faith; the primary documents are public and readable. Start with Nvidia's most recent 10-K and quarterly results on SEC EDGAR and the investor site for the segment detail and the margin bridge.<sup class="nb-cite"><a href="#s3">3</a></sup><sup class="nb-cite"><a href="#s1">1</a></sup> For the export-control mechanism, read the BIS press releases and the Congressional Research Service's timeline rather than the coverage of them, so you can see exactly which threshold moved and when.<sup class="nb-cite"><a href="#s11">11</a></sup><sup class="nb-cite"><a href="#s13">13</a></sup> To judge the moat for yourself, watch one metric each quarter that the headlines skip: gross margin. It is the single cleanest signal of whether the pricing power — and therefore the moat — is intact, softening under rack-scale mix, or breaking under competition. When that number moves durably, the thesis moves with it.<sup class="nb-cite"><a href="#s2">2</a></sup></p>
+</section>
+
+<section class="nb-sources" data-nb-section="sources" id="sources">
+  <h2>Sources</h2>
+  <ol>
+    <li id="s1"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25pr.htm">SEC EDGAR — Nvidia 8-K, "Financial Results for Q4 and Fiscal 2025"</a>. FY2025 total revenue $130.5B (+114%), data center $115.2B (+142%); Q4 data center $35.6B.</li>
+    <li id="s2"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000021/q4fy25cfocommentary.htm">SEC EDGAR — Nvidia CFO Commentary, Q4 / Fiscal 2025</a>. Gross-margin drivers and the rack-scale (Blackwell NVL72) mix headwind.</li>
+    <li id="s3"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm">SEC EDGAR — Nvidia Form 10-K, fiscal year ended January 26, 2025</a>. GAAP gross margin 75.0% (vs 72.7% FY2024); China revenue ~$17.1B (~13% of total); customer and geographic concentration.</li>
+    <li id="s4"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000115/q1fy26pr.htm">SEC EDGAR — Nvidia 8-K, "Financial Results for Q1 Fiscal 2026"</a>. Q1 FY2026 data center $39.1B; GAAP gross margin 60.5%; $4.5B H20 charge; ~$8.0B of H20 revenue removed from Q2 guidance; ~71.3% margin ex-charge.</li>
+    <li id="s5"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000082/nvda-20250409.htm">SEC EDGAR — Nvidia 8-K, April 15, 2025 (H20 charge disclosure)</a>. April 9 license requirement, April 14 "indefinite," and the "up to approximately $5.5 billion" charge.</li>
+    <li id="s6"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm">SEC EDGAR — Nvidia 8-K, "Financial Results for Q4 and Fiscal 2026"</a>. FY2026 total revenue $215.9B (+65%), data center $193.7B (+68%); Q4 data center $62.3B.</li>
+    <li id="s7"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm">SEC EDGAR — Nvidia 8-K, "Financial Results for Q3 Fiscal 2026"</a>. Q3 FY2026 data-center revenue $51.2B.</li>
+    <li id="s8"><a data-nb-source href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000207/q2fy26pr.htm">SEC EDGAR — Nvidia 8-K, "Financial Results for Q2 Fiscal 2026"</a>. Q2 FY2026 data-center revenue $41.1B.</li>
+    <li id="s9"><a data-nb-source href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2025">Nvidia Newsroom — "NVIDIA Announces Financial Results for Fourth Quarter and Fiscal 2025"</a>. Segment breakdown: gaming $11.35B, professional visualization $1.88B, automotive $1.69B.</li>
+    <li id="s10"><a data-nb-source href="https://nvidianews.nvidia.com/news/nvidia-to-acquire-mellanox-for-6-9-billion">Nvidia Newsroom — "NVIDIA to Acquire Mellanox for $6.9 Billion"</a>. The 2019 networking acquisition (closed April 2020) underpinning InfiniBand/NVLink.</li>
+    <li id="s11"><a data-nb-source href="https://www.bis.gov/press-release/commerce-strengthens-export-controls-restrict-chinas-capability-produce-advanced-semiconductors-military">US BIS (Commerce) — "Commerce Strengthens Export Controls…" (October 7, 2022)</a>. The initial advanced-computing controls that banned A100/H100 to China.</li>
+    <li id="s12"><a data-nb-source href="https://www.federalregister.gov/documents/2023/01/18/2023-00888/implementation-of-additional-export-controls-certain-advanced-computing-and-semiconductor">Federal Register — "Implementation of Additional Export Controls: Certain Advanced Computing and Semiconductor Manufacturing Items"</a>. The codified 2022 rule text (thresholds, covered countries).</li>
+    <li id="s13"><a data-nb-source href="https://www.congress.gov/crs-product/R48642">Congressional Research Service — R48642, "U.S. Export Controls and China: Advanced Semiconductors"</a>. The Oct 2022 → Oct 2023 → 2025 timeline; the A800/H800 loophole and its closure.</li>
+    <li id="s14"><a data-nb-source href="https://cset.georgetown.edu/article/bis-2023-update-explainer/">CSET, Georgetown — "The Commerce Department's October 2023 Export Control Update"</a>. The performance-density metric and the A800/H800 ban.</li>
+    <li id="s15"><a data-nb-source href="https://singjupost.com/transcript-nvidia-ceo-jensen-huangs-keynote-at-gtc-2025/">Transcript — Nvidia CEO Jensen Huang, GTC 2025 keynote</a>. ~6 million CUDA developers since 2006; 900+ CUDA-X libraries; installed-base flywheel framing.</li>
+    <li id="s16"><a data-nb-source href="https://fortune.com/2025/11/24/big-short-investor-michael-burry-nvidia-cisco-ai-bubble/">Fortune — "'Big Short' investor Michael Burry on an AI bubble: '…Its name is Nvidia'" (2025)</a>. The Cisco analogy, GPU-depreciation argument, and short position.</li>
+    <li id="s17"><a data-nb-source href="https://www.cnbc.com/2025/11/25/nvidia-pushes-back-on-charges-that-ai-investment-is-a-bubble.html">CNBC — "Nvidia name-checks Michael Burry in memo pushing back on AI bubble allegations" (2025)</a>. Nvidia's rebuttal to the bubble thesis.</li>
+    <li id="s18"><a data-nb-source href="https://www.cnbc.com/2025/11/21/nvidia-gpus-google-tpus-aws-trainium-comparing-the-top-ai-chips.html">CNBC — "Nvidia sales are 'off the charts,' but Google, Amazon and others now make their own custom AI chips" (2025)</a>. Daniel Newman on ASIC growth; Google TPU, AWS Trainium, Microsoft Maia; ~80–90% accelerator share.</li>
+    <li id="s19"><a data-nb-source href="https://www.thestreet.com/investing/stocks/morgan-stanley-sets-bold-new-price-target-on-nvidia-stock">TheStreet — "Morgan Stanley sets bold new price target on Nvidia stock"</a>. Bull-case ~$330 and ~$1.07T cumulative data-center revenue CY2025–27; Wedbush's Dan Ives $250.</li>
+    <li id="s20"><a data-nb-source href="https://www.npr.org/2025/08/11/nx-s1-5498689/trump-nvidia-h20-chip-sales-china">NPR — "Trump says Nvidia will hand the U.S. 15% of its H20 chip sales to China" (August 11, 2025)</a>. The 15% revenue-share condition on China H20 licenses.</li>
+    <li id="s21"><a data-nb-source href="https://www.bloomberg.com/news/articles/2025-07-15/nvidia-expects-license-to-sell-h20-ai-chip-to-china-again">Bloomberg — "Nvidia Expects License to Sell H20 AI Chip to China Again" (July 15, 2025)</a>. The mid-2025 signal that H20 licenses would resume.</li>
+    <li id="s22"><a data-nb-source href="https://www.datacenterdynamics.com/en/news/amd-posts-record-data-center-revenue-for-q3-2025-as-compute-demand-shows-no-signs-of-slowing/">DataCenterDynamics — "AMD posts record data center revenue for Q3 2025"</a>. AMD's MI300-class ramp as the second competitive front.</li>
+  </ol>
+</section>
+
+</article>
+</body>
+</html>

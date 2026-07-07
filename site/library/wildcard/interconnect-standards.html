@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wires Between the Chips — The Wildcard Desk</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/theme.css?v=f0c25bc72c">
+<link rel="stylesheet" href="../../assets/nb.css?v=f0c25bc72c">
+<script defer src="../../assets/nb.js?v=f0c25bc72c"></script>
+<script type="application/json" id="nb-meta">
+{
+  "protocol": "1.1",
+  "series": "wildcard",
+  "slug": "interconnect-standards",
+  "template": "article",
+  "form": "Explainer",
+  "title": "The Wires Between the Chips",
+  "mode": "open",
+  "order": null,
+  "date": "2026-07-07",
+  "tags": [],
+  "sources": 10,
+  "words": 1606,
+  "reading_minutes": 7,
+  "dek": "AI's next bottleneck is not the chip but the cable between chips — and an industry coalition is trying to pry that cable open before Nvidia owns it.",
+  "harness": "claude-code-routine",
+  "model": "claude-opus-4-8"
+}
+</script>
+</head>
+<body class="nb-edition">
+<article class="nb-reading">
+
+<header>
+  <div class="nb-eyebrow">The Wildcard Desk</div>
+  <h1 class="nb-title">The Wires Between the Chips</h1>
+  <p class="nb-dekline">The fight that will shape AI economics next is not about faster chips but about who controls the fabric that wires thousands of them into one machine.</p>
+  <div class="nb-byline">
+    <span>7 min read</span><span>2026-07-07</span>
+  </div>
+</header>
+
+<section data-nb-section="orientation" id="orientation">
+  <h2>The bottleneck nobody photographs</h2>
+  <p>Every photograph of the AI boom shows a chip. The real constraint is increasingly the wire beside it. A frontier model is too large to fit on one accelerator, so training and inference split it across dozens or thousands of them, and at every step those chips must swap enormous volumes of data. When the wire between them cannot keep up, the chips sit idle waiting — and an idle GPU is the most expensive thing in a data center. Nvidia says it plainly: its 72-GPU rack behaves as "a single, massive GPU," and that is a claim about the fabric, not the silicon.<sup class="nb-cite"><a href="#s2">2</a></sup></p>
+
+  <div class="nb-callout">
+    <span class="nb-callout-term">Scale-up vs scale-out</span>
+    <em>Scale-up</em> is the tight, low-latency fabric that fuses a rack of accelerators into one unit — Nvidia's NVLink territory. <em>Scale-out</em> is the wider network that links those racks into a cluster of thousands, usually over Ethernet or InfiniBand. Different fabrics, different problems, and — until recently — different owners.
+  </div>
+
+  <p>Nvidia owns the most valuable piece of this plumbing, the scale-up fabric, and owns it proprietarily. In mid-2024 a coalition of nearly every other major chip and cloud company set out to build an open replacement, and in 2025 the specifications actually arrived. This is an explainer for the reader who keeps hearing "NVLink" and "UALink" and wants to know what is genuinely at stake — and whether the open challenge is real.<sup class="nb-cite"><a href="#s1">1</a></sup></p>
+</section>
+
+<section data-nb-section="why-the-wires-decide" id="why-the-wires-decide">
+  <h2>Why the wires decide the economics</h2>
+  <p>Training a large model means constantly averaging results across all the chips working on it — an operation where every accelerator sends data to every other one, over and over. As the chips themselves get faster, the wire between them becomes the limiting factor: the compute finishes and then waits on the network. The whole game is keeping the fabric ahead of the silicon.<sup class="nb-cite"><a href="#s1">1</a></sup></p>
+
+  <div class="nb-stat-strip">
+    <div class="nb-stat"><span class="nb-stat-n">1.8 TB/s</span><span class="nb-stat-l">NVLINK BANDWIDTH PER GPU (5TH GEN)</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">72</span><span class="nb-stat-l">GPUS IN ONE NVLINK DOMAIN (NVL72)</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">1,024</span><span class="nb-stat-l">ACCELERATORS PER UALINK POD (SPEC)</span></div>
+  </div>
+
+  <p>Nvidia's answer is NVLink, now in its fifth generation, delivering up to 1.8 terabytes per second of bandwidth to each GPU — far more than any general-purpose network offers.<sup class="nb-cite"><a href="#s1">1</a></sup> Paired with its NVSwitch chips, NVLink lets 72 Blackwell GPUs in a single rack — the "GB200 NVL72" — address one another at full speed, so software can treat the rack as one enormous processor.<sup class="nb-cite"><a href="#s2">2</a></sup> That is the technical marvel. It is also the moat: NVLink is proprietary and closed, so no third party's accelerator can join an NVLink domain. A customer who wants the "one giant GPU" experience must buy the entire Nvidia rack — chips, switches, and software together. The fabric is where the lock-in lives.</p>
+</section>
+
+<section data-nb-section="the-open-coalition" id="the-open-coalition">
+  <h2>The open coalition</h2>
+  <p>To pry that fabric open, Nvidia's largest customers and rivals have split the problem in two and built a standards body for each half. Both delivered version-1.0 specifications in 2025 — the point at which a coalition stops being a press release and becomes something silicon can be built against.</p>
+
+  <div class="nb-cast">
+    <div><span class="nb-cast-name">UALink Consortium</span><span class="nb-cast-role">The open scale-up standard — the direct NVLink challenger</span></div>
+    <div><span class="nb-cast-name">Ultra Ethernet Consortium</span><span class="nb-cast-role">The open scale-out standard — Ethernet rebuilt for AI</span></div>
+    <div><span class="nb-cast-name">Nvidia</span><span class="nb-cast-role">The incumbent defending the proprietary fabric</span></div>
+    <div><span class="nb-cast-name">Broadcom</span><span class="nb-cast-role">The swing player — in both consortia, selling its own Ethernet</span></div>
+  </div>
+
+  <p>The scale-up challenger is the <em>Ultra Accelerator Link</em> (UALink) Consortium, which incorporated in October 2024 and published its "200G 1.0" specification on 8 April 2025. The spec defines a low-latency interconnect running 200 billion transfers per second per lane, and lets a single pod connect up to 1,024 accelerators — an open, multi-vendor answer to the closed NVLink domain.<sup class="nb-cite"><a href="#s3">3</a></sup> Its promoter roster is a who's-who of everyone-but-Nvidia: AMD, Apple, Astera Labs, AWS, Cisco, Google, HPE, Intel, Meta, Microsoft, Synopsys and Alibaba, atop more than eighty member companies.<sup class="nb-cite"><a href="#s4">4</a></sup></p>
+
+  <p>The scale-out challenger is the <em>Ultra Ethernet Consortium</em> (UEC), a Linux Foundation project announced in July 2023 by AMD, Arista, Broadcom, Cisco, Eviden, HPE, Intel, Meta and Microsoft.<sup class="nb-cite"><a href="#s6">6</a></sup> Its 1.0 specification, released on 11 June 2025 and running past 560 pages, rebuilds Ethernet's entire stack — network cards, switches, optics, and a new transport layer — for AI traffic, so that many racks can be wired into one cluster over open, multi-vendor Ethernet rather than Nvidia's InfiniBand.<sup class="nb-cite"><a href="#s5">5</a></sup> Together, UALink for scale-up and UEC for scale-out are the two halves of a single strategy: replace Nvidia's vertically integrated fabric with open standards at both layers.</p>
+</section>
+
+<section data-nb-section="nvidias-answer" id="nvidias-answer">
+  <h2>Nvidia's answer, and Broadcom's twist</h2>
+  <p>Nvidia did not sit still. At Computex in May 2025 it announced <em>NVLink Fusion</em>, which licenses the NVLink fabric to third parties so that custom accelerators and non-Nvidia CPUs can plug into an Nvidia rack — a controlled opening of the moat, on Nvidia's terms rather than the consortium's. Its first partners include MediaTek, Marvell, Alchip, Astera Labs, Synopsys and Cadence, with Fujitsu and Qualcomm CPUs able to join too.<sup class="nb-cite"><a href="#s7">7</a></sup> The move co-opts the very demand — hyperscalers wanting their own silicon in the rack — that UALink was built to serve.</p>
+
+  <p>On the scale-out side, Nvidia is not ceding Ethernet either: its <em>Spectrum-X</em> platform brings AI-tuned features to Ethernet directly, competing on the exact terrain the Ultra Ethernet Consortium aims to open.<sup class="nb-cite"><a href="#s8">8</a></sup> The result is that Nvidia has an answer at both layers of the coalition's attack.</p>
+
+  <p>The most revealing complication comes from inside the coalition. Broadcom is a member of both UALink and UEC, yet it is aggressively pushing its own Ethernet silicon into the scale-up tier the consortium reserved for UALink. Its Tomahawk 6 switch — the first to hit 102.4 terabits per second on a single chip — can wire 512 accelerators into a scale-up topology, and its "Tomahawk Ultra" is explicitly pitched as an Ethernet switch reimagined for scale-up.<sup class="nb-cite"><a href="#s9">9</a></sup><sup class="nb-cite"><a href="#s10">10</a></sup> The coalition's most important merchant-silicon vendor, in other words, would rather sell its own Ethernet than wait for UALink — a fracture line running through the open camp itself.</p>
+</section>
+
+<section data-nb-section="will-it-matter" id="will-it-matter">
+  <h2>Will it actually matter?</h2>
+  <p>The strongest fact for the skeptics is timing. Nvidia's 72-GPU NVLink rack has been shipping since 2024;<sup class="nb-cite"><a href="#s2">2</a></sup> the UALink 1.0 specification only published in April 2025, and silicon that implements a spec typically trails it by 18 to 24 months.<sup class="nb-cite"><a href="#s3">3</a></sup> For at least one more product generation, in other words, the open scale-up fabric has no shipping product to point to, while Nvidia sells a mature one today and has already moved to license it selectively.</p>
+
+  <p>The bull case for the coalition is structural: the buyers <em>are</em> the sellers. The same hyperscalers designing their own accelerators — Google, Amazon, Microsoft, Meta — have every incentive to avoid being locked to a single supplier's fabric, and they sit on UALink's board. If they deploy open pods at scale, the standard succeeds by fiat of the purchasing budget. The question is whether they do that, or whether NVLink Fusion and their own custom-Ethernet options prove easier than waiting for a young multi-vendor standard to mature.</p>
+
+  <div class="nb-claim">
+    <h3>A falsifiable claim to grade later<sup class="nb-cite"><a href="#s3">3</a></sup></h3>
+    <p>No commercially purchasable, multi-vendor UALink system connecting more than 100 accelerators in a single scale-up pod ships to customers before the end of 2026 — while Nvidia's 72-GPU NVLink domain has shipped since 2024. The spec-to-volume-silicon lag makes a shipping open pod this year unlikely; a purchasable UALink pod above that size before the deadline falsifies it.</p>
+    <div class="nb-claim-meta"><span>confidence 70%</span><span>resolves by 2026-12-31</span></div>
+  </div>
+</section>
+
+<section data-nb-section="go-deeper" id="go-deeper">
+  <h2>Go deeper</h2>
+  <p>The primary documents are unusually readable for a standards fight. Start with the UALink Consortium's own specification page and the Ultra Ethernet Consortium's 1.0 announcement to see exactly what each covers and who signed on.<sup class="nb-cite"><a href="#s4">4</a></sup><sup class="nb-cite"><a href="#s5">5</a></sup> Then read Nvidia's NVLink Fusion announcement as the incumbent's counter-move, and watch one signal over the next year: whether any hyperscaler announces a production cluster built on UALink rather than NVLink.<sup class="nb-cite"><a href="#s7">7</a></sup> That single deployment — or its continued absence — will tell you more about who owns the AI fabric than any spec sheet. This desk will grade the claim above when the year closes.</p>
+</section>
+
+<section class="nb-sources" data-nb-section="sources" id="sources">
+  <h2>Sources</h2>
+  <ol>
+    <li id="s1"><a data-nb-source href="https://www.nvidia.com/en-us/data-center/nvlink/">NVIDIA — "NVLink and NVLink Switch"</a>. Fifth-generation NVLink bandwidth of up to 1.8 TB/s per GPU; why interconnect bandwidth is the constraint.</li>
+    <li id="s2"><a data-nb-source href="https://www.nvidia.com/en-us/data-center/gb200-nvl72/">NVIDIA — "GB200 NVL72"</a>. The 72-GPU NVLink domain that "acts as a single, massive GPU"; shipping rack-scale product.</li>
+    <li id="s3"><a data-nb-source href="https://www.businesswire.com/news/home/20250408050548/en/UALink-Consortium-Releases-the-Ultra-Accelerator-Link-200G-1.0-Specification">Business Wire — "UALink Consortium Releases the Ultra Accelerator Link 200G 1.0 Specification" (April 8, 2025)</a>. The spec: 200 GT/s per lane, up to 1,024 accelerators per pod; incorporated October 2024.</li>
+    <li id="s4"><a data-nb-source href="https://ualinkconsortium.org/specification/">UALink Consortium — "Specifications"</a>. The open scale-up specification and its promoter and member roster (80+ companies).</li>
+    <li id="s5"><a data-nb-source href="https://ultraethernet.org/ultra-ethernet-consortium-uec-launches-specification-1-0-transforming-ethernet-for-ai-and-hpc-at-scale/">Ultra Ethernet Consortium — "UEC Launches Specification 1.0" (June 11, 2025)</a>. The full-stack Ethernet spec (NICs, switches, optics, transport) for AI/HPC scale-out.</li>
+    <li id="s6"><a data-nb-source href="https://www.linuxfoundation.org/press/announcing-ultra-ethernet-consortium-uec">Linux Foundation — "Announcing the Ultra Ethernet Consortium" (July 2023)</a>. Formation and founding members (AMD, Arista, Broadcom, Cisco, Eviden, HPE, Intel, Meta, Microsoft).</li>
+    <li id="s7"><a data-nb-source href="https://nvidianews.nvidia.com/news/nvidia-nvlink-fusion-semi-custom-ai-infrastructure-partner-ecosystem">NVIDIA Newsroom — "NVIDIA Unveils NVLink Fusion" (Computex, May 2025)</a>. Licensing NVLink to third-party CPUs and accelerators; the named partner ecosystem.</li>
+    <li id="s8"><a data-nb-source href="https://www.nvidia.com/en-us/networking/spectrumx/">NVIDIA — "Spectrum-X Ethernet Platform"</a>. NVIDIA's own AI-optimized Ethernet, its scale-out hedge against open Ethernet.</li>
+    <li id="s9"><a data-nb-source href="https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-tomahawk-6-worlds-first-1024-tbps-switch">Broadcom — "Broadcom Ships Tomahawk 6: World's First 102.4 Tbps Switch"</a>. A single-chip switch that can wire 512 accelerators in a scale-up topology.</li>
+    <li id="s10"><a data-nb-source href="https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-tomahawk-ultra-reimagining-ethernet-switch-hpc">Broadcom — "Broadcom Ships Tomahawk Ultra: Reimagining the Ethernet Switch for HPC and AI Scale-Up"</a>. Broadcom's "scale-up Ethernet," competing with UALink despite its membership.</li>
+  </ol>
+</section>
+
+</article>
+</body>
+</html>

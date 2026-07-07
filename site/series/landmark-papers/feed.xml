@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Nightly Build — Landmark Papers</title>
+  <link rel="self" type="application/atom+xml" href="https://ryansaxe.github.io/nightly-build-test/series/landmark-papers/feed.xml"/>
+  <link rel="alternate" type="text/html" href="https://ryansaxe.github.io/nightly-build-test/"/>
+  <id>urn:nightly-build:series/landmark-papers/feed.xml</id>
+  <updated>2026-07-07T10:43:56Z</updated>
+  <entry>
+    <title>Attention Is All You Need (2017)</title>
+    <link rel="alternate" type="text/html" href="https://ryansaxe.github.io/nightly-build-test/library/landmark-papers/attention-is-all-you-need.html"/>
+    <id>urn:nightly-build:landmark-papers/attention-is-all-you-need</id>
+    <updated>2026-07-07T00:00:00Z</updated>
+    <summary>The eight pages that redrew the field — and which of their specific bets have actually held up nine years on.</summary>
+    <content type="html">
+&lt;article class=&quot;nb-reading&quot;&gt;
+
+&lt;header&gt;
+  &lt;div class=&quot;nb-eyebrow&quot;&gt;Landmark Papers&lt;/div&gt;
+  &lt;h1 class=&quot;nb-title&quot;&gt;Attention Is All You Need (2017)&lt;/h1&gt;
+  &lt;p class=&quot;nb-dekline&quot;&gt;The architecture bet aged extraordinarily well; several of the paper&#x27;s specific engineering choices did not.&lt;/p&gt;
+  &lt;div class=&quot;nb-byline&quot;&gt;
+    &lt;span&gt;8 min read&lt;/span&gt;&lt;span&gt;2026-07-07&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;section data-nb-section=&quot;orientation&quot; id=&quot;orientation&quot;&gt;
+  &lt;h2&gt;What this paper was, and why it still matters&lt;/h2&gt;
+  &lt;p&gt;In June 2017, eight researchers at Google published a paper with a title that reads, in hindsight, like a manifesto: &lt;em&gt;Attention Is All You Need&lt;/em&gt;.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; It proposed an architecture — the Transformer — that has since become the substrate of almost every frontier AI system in language, vision, and biology. This appraisal asks the only question worth asking about a nine-year-old landmark: not whether it mattered, but &lt;em&gt;which of its specific claims have survived contact with everything published since.&lt;/em&gt;&lt;/p&gt;
+
+  &lt;div class=&quot;nb-abstract&quot;&gt;
+    &lt;div class=&quot;nb-abstract-label&quot;&gt;In plain language&lt;/div&gt;
+    &lt;p&gt;At the time, the best translation systems read a sentence word by word, in order, using networks that passed a running memory forward. This paper threw out that sequential machinery and replaced it with a single mechanism — &lt;em&gt;attention&lt;/em&gt; — that lets every word look directly at every other word at once. The result beat the state of the art on two standard translation benchmarks while training in a fraction of the time, because the new design could be spread across many processors at once.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;A note on scope, because the paper&#x27;s reputation now vastly exceeds what it actually claimed. This was a paper about &lt;em&gt;machine translation&lt;/em&gt;. It said nothing about pretraining, general-purpose models, scaling laws, or &quot;foundation models&quot; — all of that came later. Read fairly, it is the seed, not the harvest.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;what-it-demonstrated&quot; id=&quot;what-it-demonstrated&quot;&gt;
+  &lt;h2&gt;What it actually demonstrated&lt;/h2&gt;
+  &lt;p&gt;Strip away the reputation and the paper is a tight empirical result on two 2014 translation tasks. Its &quot;big&quot; model reached a &lt;em&gt;BLEU&lt;/em&gt; score — the standard 0–100 measure of translation quality against human references — of &lt;strong&gt;28.4 on English-to-German&lt;/strong&gt; and &lt;strong&gt;41.8 on English-to-French&lt;/strong&gt;, both new states of the art; the smaller &quot;base&quot; model scored 27.3 and 38.1.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; The base model held roughly 65 million parameters, the big one 213 million.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+  &lt;p&gt;The headline was not only quality but cost. The big model reached that French result after &lt;strong&gt;3.5 days on eight NVIDIA P100 GPUs&lt;/strong&gt; — a small fraction of the compute rival systems needed.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; The peer-reviewed NeurIPS version carried the same numbers.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+  &lt;div class=&quot;nb-callout&quot;&gt;
+    &lt;span class=&quot;nb-callout-term&quot;&gt;Self-attention&lt;/span&gt;
+    A layer in which every position in a sequence computes a weighted combination of all other positions, the weights set by learned similarity. No recurrence, no convolution — every token connects to every other in one step.
+  &lt;/div&gt;
+
+  &lt;p&gt;The mechanism the paper leans on for its argument is a comparison table that is easy to miss and central to everything. It scores layer types on three axes. A recurrent layer needs &lt;em&gt;O(n)&lt;/em&gt; sequential operations for a sentence of &lt;em&gt;n&lt;/em&gt; tokens — steps that must happen one after another — and up to &lt;em&gt;n&lt;/em&gt; hops for one word to influence another. Self-attention needs &lt;em&gt;O(1)&lt;/em&gt; sequential operations and connects any two positions in a single hop.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; That is the whole case: the same expressive power, but parallelizable, so you can train it faster and scale it further.&lt;/p&gt;
+
+  &lt;p&gt;Crucially, the paper was honest about the catch. Self-attention costs &lt;em&gt;O(n²·d)&lt;/em&gt; per layer — the work grows with the &lt;em&gt;square&lt;/em&gt; of sequence length — and it noted this is cheaper than recurrence only when the sentence is shorter than the model is wide, &quot;which is most often the case&quot; for the sentence-length inputs it studied.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; That quiet caveat is where much of the paper&#x27;s later trouble — and a whole research field — would grow.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;how-it-has-aged&quot; id=&quot;how-it-has-aged&quot;&gt;
+  &lt;h2&gt;How it has aged&lt;/h2&gt;
+  &lt;p&gt;The architectural bet paid off on a scale the authors did not claim. Within a year, &lt;em&gt;BERT&lt;/em&gt; showed that pretraining a Transformer encoder on unlabeled text and fine-tuning it set new records across language understanding, pushing the GLUE benchmark to 80.5%.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; By 2020, GPT-3 was a 175-billion-parameter Transformer that learned tasks from a few examples in its prompt,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; and Kaplan and colleagues had shown that Transformer loss falls as a smooth power law across more than seven orders of magnitude of model size, data, and compute — turning &quot;make it bigger&quot; into a principled program.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; The architecture then jumped domains: a pure Transformer on image patches matched the best convolutional networks,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; and AlphaFold2&#x27;s attention-based network predicted protein structures at accuracy competitive with experiment.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt; Almost nothing in that list is machine translation, and all of it runs on the block this paper defined.&lt;/p&gt;
+
+  &lt;p&gt;But a fair appraisal separates the durable core from the specific choices that were quietly replaced. Three of the paper&#x27;s particulars did not survive.&lt;/p&gt;
+
+  &lt;p&gt;First, the &lt;em&gt;O(n²)&lt;/em&gt; cost it flagged became the field&#x27;s central bottleneck as context windows grew, and it spawned a large &quot;efficient attention&quot; literature: Longformer made attention scale linearly with a sliding window,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s8&quot;&gt;8&lt;/a&gt;&lt;/sup&gt; Performer approximated it in linear time,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s9&quot;&gt;9&lt;/a&gt;&lt;/sup&gt; and FlashAttention made exact attention memory-linear by rethinking how it moves data on the GPU.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt; That last point is the sharp one: much of the Transformer&#x27;s later practicality came from &lt;em&gt;systems&lt;/em&gt; engineering the 2017 paper never anticipated.&lt;/p&gt;
+
+  &lt;p&gt;Second, its positional scheme was superseded. The paper&#x27;s own ablation found learned and fixed sinusoidal position encodings &quot;nearly identical,&quot;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and modern models discarded both in favor of rotary embeddings (RoPE), now standard in open LLMs,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt; or ALiBi, which lets a model trained on short sequences run on longer ones.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s12&quot;&gt;12&lt;/a&gt;&lt;/sup&gt; Third, the intuitive promise that attention weights show what a model &quot;looks at&quot; was actively contested: Jain and Wallace argued the weights are not faithful explanations,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s13&quot;&gt;13&lt;/a&gt;&lt;/sup&gt; and Wiegreffe and Pinter rebutted that it depends on what you mean by explanation.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s14&quot;&gt;14&lt;/a&gt;&lt;/sup&gt; The debate remains unsettled.&lt;/p&gt;
+
+  &lt;div class=&quot;nb-holdsup&quot;&gt;
+    &lt;div class=&quot;good&quot;&gt;&lt;span class=&quot;nb-holdsup-label&quot;&gt;What holds up&lt;/span&gt;&lt;ul&gt;
+      &lt;li&gt;The Transformer block — multi-head self-attention, a position-wise feed-forward network, residual connections — is essentially unchanged at the core of frontier models today.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+      &lt;li&gt;The parallelization argument was correct and load-bearing: removing recurrence is what let the architecture scale with compute.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+      &lt;li&gt;The bet generalized far beyond translation — to language understanding, vision, and structural biology.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+    &lt;/ul&gt;&lt;/div&gt;
+    &lt;div class=&quot;careful&quot;&gt;&lt;span class=&quot;nb-holdsup-label&quot;&gt;What to be careful about&lt;/span&gt;&lt;ul&gt;
+      &lt;li&gt;The vanilla O(n²) attention it shipped is not what runs at scale today; efficient and IO-aware variants do.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+      &lt;li&gt;Its sinusoidal positions were replaced by RoPE and ALiBi.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s12&quot;&gt;12&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+      &lt;li&gt;Its ablations were modest — one language pair, small deltas — and it offered no scaling study; the factors that later mattered most were untested here.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+    &lt;/ul&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;the-verdict-today&quot; id=&quot;the-verdict-today&quot;&gt;
+  &lt;h2&gt;How much weight to put on it today&lt;/h2&gt;
+  &lt;p&gt;The honest reading holds two facts at once. The paper&#x27;s &lt;em&gt;architectural&lt;/em&gt; contribution is among the most important in the field&#x27;s history and is still live in production. Its &lt;em&gt;account of why Transformers win&lt;/em&gt; is thin, because the decisive ingredients — scale, pretraining objectives, modern positional schemes, GPU-aware kernels — are all post-2017. Treat it as the founding blueprint, not the finished explanation.&lt;/p&gt;
+
+  &lt;div class=&quot;nb-verdict&quot;&gt;
+    &lt;span class=&quot;nb-verdict-label&quot;&gt;Verdict&lt;/span&gt;
+    Put maximum weight on the Transformer block as a design and near-zero weight on the paper as a complete theory of modern AI. The architecture is the seed of the era; the harvest was grown by a decade of work the paper did not foresee.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;What would change this assessment? A non-attention architecture — a state-space model in the Mamba lineage, or a recurrent-retrieval hybrid — decisively beating Transformers at frontier scale across modalities would retroactively reframe this paper as an important-but-transitional step rather than a permanent foundation.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; Conversely, continued dominance of the unmodified attention core through the next model generation strengthens the &quot;landmark that defined the era&quot; reading. As of 2026, the core still stands.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;go-deeper&quot; id=&quot;go-deeper&quot;&gt;
+  &lt;h2&gt;Go deeper&lt;/h2&gt;
+  &lt;p&gt;Read the original first; it is eight pages and, with this appraisal in hand, the Table 1 complexity argument and the ablations in Table 3 are the parts to dwell on.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; Then trace the lineage forward through the two papers that turned the architecture into a program — GPT-3 for in-context learning&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; and Kaplan et al. for the scaling laws that justified the buildout.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; To understand what actually changed under the hood, FlashAttention is the clearest case study in how systems work, not new math, unlocked long context.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt; Finally, read the &quot;attention is (not) explanation&quot; exchange as a pair — it is a model of how a field litigates an intuition it once took for granted.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s13&quot;&gt;13&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s14&quot;&gt;14&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;nb-sources&quot; data-nb-section=&quot;sources&quot; id=&quot;sources&quot;&gt;
+  &lt;h2&gt;Sources&lt;/h2&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;s1&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/1706.03762&quot;&gt;arXiv — Vaswani et al., &quot;Attention Is All You Need&quot; (2017)&lt;/a&gt;. The paper under review: BLEU 28.4/41.8 (big) and 27.3/38.1 (base), 65M/213M parameters, 3.5 days on 8 P100 GPUs (§6, Table 2); the O(n²·d) cost and O(1)-vs-O(n) sequential-operations and path-length comparison (Table 1); the learned-vs-sinusoidal ablation (Table 3).&lt;/li&gt;
+    &lt;li id=&quot;s2&quot;&gt;&lt;a data-nb-source href=&quot;https://papers.neurips.cc/paper/7181-attention-is-all-you-need.pdf&quot;&gt;NeurIPS 2017 Proceedings — &quot;Attention Is All You Need&quot; (published PDF)&lt;/a&gt;. The peer-reviewed version of the same results.&lt;/li&gt;
+    &lt;li id=&quot;s3&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/1810.04805&quot;&gt;arXiv — Devlin et al., &quot;BERT: Pre-training of Deep Bidirectional Transformers&quot; (2018)&lt;/a&gt;. Transformer-encoder pretraining; GLUE score raised to 80.5%.&lt;/li&gt;
+    &lt;li id=&quot;s4&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2005.14165&quot;&gt;arXiv — Brown et al., &quot;Language Models are Few-Shot Learners&quot; (GPT-3, 2020)&lt;/a&gt;. A 175-billion-parameter decoder Transformer with in-context learning; the transformer block essentially unchanged.&lt;/li&gt;
+    &lt;li id=&quot;s5&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2001.08361&quot;&gt;arXiv — Kaplan et al., &quot;Scaling Laws for Neural Language Models&quot; (2020)&lt;/a&gt;. Power-law scaling of loss in model size, data, and compute over &amp;gt;7 orders of magnitude.&lt;/li&gt;
+    &lt;li id=&quot;s6&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2010.11929&quot;&gt;arXiv — Dosovitskiy et al., &quot;An Image is Worth 16x16 Words&quot; (ViT, 2020)&lt;/a&gt;. A pure Transformer on image patches matching or beating convolutional networks at scale.&lt;/li&gt;
+    &lt;li id=&quot;s7&quot;&gt;&lt;a data-nb-source href=&quot;https://www.nature.com/articles/s41586-021-03819-2&quot;&gt;Nature — Jumper et al., &quot;Highly accurate protein structure prediction with AlphaFold&quot; (2021)&lt;/a&gt;. An attention-based network achieving CASP14 accuracy competitive with experiment.&lt;/li&gt;
+    &lt;li id=&quot;s8&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2004.05150&quot;&gt;arXiv — Beltagy et al., &quot;Longformer: The Long-Document Transformer&quot; (2020)&lt;/a&gt;. Sliding-window plus global attention scaling linearly in sequence length.&lt;/li&gt;
+    &lt;li id=&quot;s9&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2009.14794&quot;&gt;arXiv — Choromanski et al., &quot;Rethinking Attention with Performers&quot; (2020)&lt;/a&gt;. Linear-time/space approximation of softmax attention.&lt;/li&gt;
+    &lt;li id=&quot;s10&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2205.14135&quot;&gt;arXiv — Dao et al., &quot;FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness&quot; (2022)&lt;/a&gt;. IO-aware exact attention with memory linear in sequence length.&lt;/li&gt;
+    &lt;li id=&quot;s11&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2104.09864&quot;&gt;arXiv — Su et al., &quot;RoFormer: Enhanced Transformer with Rotary Position Embedding&quot; (2021)&lt;/a&gt;. RoPE, which superseded sinusoidal position encodings in modern LLMs.&lt;/li&gt;
+    &lt;li id=&quot;s12&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/2108.12409&quot;&gt;arXiv — Press et al., &quot;Train Short, Test Long&quot; (ALiBi, 2021)&lt;/a&gt;. Distance-biased attention enabling length extrapolation.&lt;/li&gt;
+    &lt;li id=&quot;s13&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/1902.10186&quot;&gt;arXiv — Jain &amp;amp; Wallace, &quot;Attention is not Explanation&quot; (2019)&lt;/a&gt;. Evidence that attention weights are not faithful explanations.&lt;/li&gt;
+    &lt;li id=&quot;s14&quot;&gt;&lt;a data-nb-source href=&quot;https://arxiv.org/abs/1908.04626&quot;&gt;arXiv — Wiegreffe &amp;amp; Pinter, &quot;Attention is not not Explanation&quot; (2019)&lt;/a&gt;. The rebuttal: whether weights explain depends on the definition of explanation.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/section&gt;
+
+&lt;/article&gt;
+</content>
+    <category term="landmark-papers"/>
+  </entry>
+</feed>

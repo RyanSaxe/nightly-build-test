@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Nightly Build — Daily Brief</title>
+  <link rel="self" type="application/atom+xml" href="https://ryansaxe.github.io/nightly-build-test/series/daily-brief/feed.xml"/>
+  <link rel="alternate" type="text/html" href="https://ryansaxe.github.io/nightly-build-test/"/>
+  <id>urn:nightly-build:series/daily-brief/feed.xml</id>
+  <updated>2026-07-07T10:43:56Z</updated>
+  <entry>
+    <title>Daily Brief — 7 July 2026</title>
+    <link rel="alternate" type="text/html" href="https://ryansaxe.github.io/nightly-build-test/library/daily-brief/2026-07-07.html"/>
+    <id>urn:nightly-build:daily-brief/2026-07-07</id>
+    <updated>2026-07-07T00:00:00Z</updated>
+    <summary>Governance goes multilateral in Geneva, the best open-weights model is Chinese, and Tesla takes the driver out of the seat.</summary>
+    <content type="html">
+&lt;article class=&quot;nb-reading&quot;&gt;
+
+&lt;header&gt;
+  &lt;div class=&quot;nb-eyebrow&quot;&gt;Daily Brief&lt;/div&gt;
+  &lt;h1 class=&quot;nb-title&quot;&gt;Daily Brief — 7 July 2026&lt;/h1&gt;
+  &lt;p class=&quot;nb-dekline&quot;&gt;Six moves from the last few days: AI governance goes multilateral, open weights go Chinese, and the power grid becomes the real bottleneck.&lt;/p&gt;
+  &lt;div class=&quot;nb-byline&quot;&gt;
+    &lt;span&gt;4 min read&lt;/span&gt;&lt;span&gt;2026-07-07&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;section data-nb-section=&quot;items&quot; id=&quot;items&quot;&gt;
+
+  &lt;div class=&quot;nb-brief-item&quot; data-nb-item&gt;
+    &lt;span class=&quot;nb-brief-tag&quot;&gt;POLICY&lt;/span&gt;
+    &lt;h3&gt;&lt;a href=&quot;https://www.un.org/global-dialogue-ai-governance/en&quot;&gt;The UN opens its first Global Dialogue on AI Governance in Geneva&lt;/a&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+    &lt;p&gt;Running 6–7 July alongside the WSIS Forum and the AI for Good summit, the two-day session is the first meeting of the standing body created by last year&#x27;s UN resolution, convening all 193 member states plus industry, academia and civil society. The Secretary-General used it to warn against letting AI &quot;vibe-code&quot; humanity&#x27;s future.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+    &lt;p data-nb-why&gt;&lt;b&gt;Why it matters →&lt;/b&gt; It establishes the first universal, all-member-state venue for AI governance — the multilateral counterweight to the EU&#x27;s binding rulebook and Washington&#x27;s lighter touch, and the reference point for coordination fights into 2027.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nb-brief-item&quot; data-nb-item&gt;
+    &lt;span class=&quot;nb-brief-tag&quot;&gt;RESEARCH&lt;/span&gt;
+    &lt;h3&gt;&lt;a href=&quot;https://huggingface.co/zai-org/GLM-5.2&quot;&gt;China&#x27;s Z.ai ships GLM-5.2, now the top open-weights model on several benchmarks&lt;/a&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+    &lt;p&gt;Released under a permissive MIT license with a one-million-token context window, GLM-5.2 crested Western attention this week after independent benchmarks ranked it the strongest openly available model — beating GPT-5.5 on long-horizon coding tests at a fraction of the price.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+    &lt;p data-nb-why&gt;&lt;b&gt;Why it matters →&lt;/b&gt; It reignites the &quot;China is closing the gap cheaply&quot; narrative that DeepSeek started, and the open weights plus low cost pressure the pricing and moats of the US frontier labs directly.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nb-brief-item&quot; data-nb-item&gt;
+    &lt;span class=&quot;nb-brief-tag&quot;&gt;INDUSTRY&lt;/span&gt;
+    &lt;h3&gt;&lt;a href=&quot;https://www.anthropic.com/news/claude-science-ai-workbench&quot;&gt;Anthropic launches Claude Science, a workbench aimed at researchers&lt;/a&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+    &lt;p&gt;The beta bundles Claude with 60-plus curated skills and connectors for genomics, proteomics, structural biology and cheminformatics, renders scientific artifacts like 3D protein structures, and logs an auditable history of every result for reproducibility.&lt;/p&gt;
+    &lt;p data-nb-why&gt;&lt;b&gt;Why it matters →&lt;/b&gt; The bet is on workflow, not a new model — a sign that labs increasingly compete on integration into real scientific pipelines rather than on benchmark scores alone.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nb-brief-item&quot; data-nb-item&gt;
+    &lt;span class=&quot;nb-brief-tag&quot;&gt;COMPUTE&lt;/span&gt;
+    &lt;h3&gt;&lt;a href=&quot;https://www.prnewswire.com/news-releases/national-grid-ventures-to-invest-1-75bn-to-accelerate-power-solutions-for-us-data-centers-and-ai-302815750.html&quot;&gt;National Grid puts $1.75 billion into a developer building dedicated AI power&lt;/a&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+    &lt;p&gt;Announced 1 July, National Grid Ventures is taking a 35% stake in US developer Joulent, whose flagship Project Kilby is a 2.67-gigawatt West Texas generation campus — built 50/50 with Chevron — to supply a Microsoft data-center campus under a 20-year power deal from 2028.&lt;/p&gt;
+    &lt;p data-nb-why&gt;&lt;b&gt;Why it matters →&lt;/b&gt; It is concrete evidence that power, not chips, is now the binding constraint on AI buildout, and that operators are financing behind-the-meter generation to skip years-long grid-interconnection queues.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nb-brief-item&quot; data-nb-item&gt;
+    &lt;span class=&quot;nb-brief-tag&quot;&gt;POLICY&lt;/span&gt;
+    &lt;h3&gt;&lt;a href=&quot;https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/&quot;&gt;The White House frontier-AI order moves toward &quot;early access&quot; for the government&lt;/a&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+    &lt;p&gt;Under the 2 June executive order, federal agencies must stand up a voluntary framework by 1 August under which developers can give the government up to 30 days of pre-release access to &quot;covered frontier models,&quot; tied to a classified, NSA-run process for benchmarking a model&#x27;s cyber capabilities.&lt;/p&gt;
+    &lt;p data-nb-why&gt;&lt;b&gt;Why it matters →&lt;/b&gt; It would formalize in US policy the pre-release review that Anthropic and OpenAI already do informally — America&#x27;s voluntary answer to the EU&#x27;s binding obligations on general-purpose models.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nb-brief-item&quot; data-nb-item&gt;
+    &lt;span class=&quot;nb-brief-tag&quot;&gt;WILDCARD&lt;/span&gt;
+    &lt;h3&gt;&lt;a href=&quot;https://www.notateslaapp.com/news/4394/tesla-launches-unsupervised-robotaxi-rides-in-miami&quot;&gt;Tesla starts driverless Robotaxi rides in Miami — with no safety monitor&lt;/a&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s8&quot;&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+    &lt;p&gt;On 3 July, Tesla began fully unsupervised rides in a roughly 10-to-14-square-mile geofence in western Miami-Dade, its first market outside Texas and California and the first where it skipped the human-monitored phase entirely — a detail confirmed by Tesla&#x27;s VP of AI software on X rather than a formal release.&lt;/p&gt;
+    &lt;p data-nb-why&gt;&lt;b&gt;Why it matters →&lt;/b&gt; Removing the human monitor from day one, in a heavy-rain city, is a real-world stress test of camera-only autonomy and a bellwether for whether driverless services can scale beyond their careful first markets.&lt;/p&gt;
+  &lt;/div&gt;
+
+&lt;/section&gt;
+
+&lt;section class=&quot;nb-sources&quot; data-nb-section=&quot;sources&quot; id=&quot;sources&quot;&gt;
+  &lt;h2&gt;Sources&lt;/h2&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;s1&quot;&gt;&lt;a data-nb-source href=&quot;https://www.un.org/global-dialogue-ai-governance/en&quot;&gt;United Nations — &quot;Global Dialogue on AI Governance&quot; (official event site, 6–7 July 2026)&lt;/a&gt;. The first session, its participants, and its mandate.&lt;/li&gt;
+    &lt;li id=&quot;s2&quot;&gt;&lt;a data-nb-source href=&quot;https://news.un.org/en/story/2026/07/1167862&quot;&gt;UN News — &quot;Global push for AI governance amid warnings of &#x27;catastrophic harm&#x27;&quot;&lt;/a&gt;. The Secretary-General&#x27;s remarks at the opening.&lt;/li&gt;
+    &lt;li id=&quot;s3&quot;&gt;&lt;a data-nb-source href=&quot;https://huggingface.co/blog/zai-org/glm-52-blog&quot;&gt;Z.ai / Hugging Face — &quot;GLM-5.2: Built for Long-Horizon Tasks&quot; (official release blog)&lt;/a&gt;. MIT license, 1M-token context, and the model&#x27;s benchmark claims.&lt;/li&gt;
+    &lt;li id=&quot;s4&quot;&gt;&lt;a data-nb-source href=&quot;https://venturebeat.com/technology/z-ais-open-weights-glm-5-2-beats-gpt-5-5-on-multiple-long-horizon-coding-benchmarks-for-1-6th-the-cost&quot;&gt;VentureBeat — &quot;Z.ai&#x27;s open-weights GLM-5.2 beats GPT-5.5 on multiple long-horizon coding benchmarks for 1/6th the cost&quot;&lt;/a&gt;. Independent benchmark ranking and cost comparison.&lt;/li&gt;
+    &lt;li id=&quot;s5&quot;&gt;&lt;a data-nb-source href=&quot;https://www.anthropic.com/news/claude-science-ai-workbench&quot;&gt;Anthropic — &quot;Claude Science, an AI workbench for scientists&quot;&lt;/a&gt;. The beta&#x27;s features, skills, and reproducibility design.&lt;/li&gt;
+    &lt;li id=&quot;s6&quot;&gt;&lt;a data-nb-source href=&quot;https://www.prnewswire.com/news-releases/national-grid-ventures-to-invest-1-75bn-to-accelerate-power-solutions-for-us-data-centers-and-ai-302815750.html&quot;&gt;PR Newswire — &quot;National Grid Ventures to invest $1.75bn to accelerate power solutions for U.S. data centers and AI&quot;&lt;/a&gt;. The Joulent stake and Project Kilby details.&lt;/li&gt;
+    &lt;li id=&quot;s7&quot;&gt;&lt;a data-nb-source href=&quot;https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/&quot;&gt;The White House — &quot;Promoting Advanced Artificial Intelligence Innovation and Security&quot; (Executive Order, 2 June 2026)&lt;/a&gt;. The voluntary early-access framework and the 1 August deadline.&lt;/li&gt;
+    &lt;li id=&quot;s8&quot;&gt;&lt;a data-nb-source href=&quot;https://www.notateslaapp.com/news/4394/tesla-launches-unsupervised-robotaxi-rides-in-miami&quot;&gt;Not a Tesla App — &quot;Tesla Launches Unsupervised Robotaxi Rides in Miami&quot;&lt;/a&gt;. The 3 July launch, the geofence, and the absence of a safety monitor.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/section&gt;
+
+&lt;/article&gt;
+</content>
+    <category term="daily-brief"/>
+  </entry>
+</feed>

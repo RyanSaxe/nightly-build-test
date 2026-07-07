@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Nightly Build — A History of Artificial Intelligence</title>
+  <link rel="self" type="application/atom+xml" href="https://ryansaxe.github.io/nightly-build-test/series/ai-history/feed.xml"/>
+  <link rel="alternate" type="text/html" href="https://ryansaxe.github.io/nightly-build-test/"/>
+  <id>urn:nightly-build:series/ai-history/feed.xml</id>
+  <updated>2026-07-07T10:43:56Z</updated>
+  <entry>
+    <title>Winters and Springs: AI from Dartmouth to Deep Learning</title>
+    <link rel="alternate" type="text/html" href="https://ryansaxe.github.io/nightly-build-test/library/ai-history/winters-and-springs.html"/>
+    <id>urn:nightly-build:ai-history/winters-and-springs</id>
+    <updated>2026-07-07T00:00:00Z</updated>
+    <summary>The field&#x27;s booms and busts were never really about the science — they tracked the money, and so does the one we are living in now.</summary>
+    <content type="html">
+&lt;article class=&quot;nb-reading&quot;&gt;
+
+&lt;header&gt;
+  &lt;div class=&quot;nb-eyebrow&quot;&gt;A History of Artificial Intelligence · Part 1&lt;/div&gt;
+  &lt;h1 class=&quot;nb-title&quot;&gt;Winters and Springs: AI from Dartmouth to Deep Learning&lt;/h1&gt;
+  &lt;p class=&quot;nb-dekline&quot;&gt;Six decades of AI ran hot and cold on a single rhythm — promises drew money, money outran results, and the funding fled.&lt;/p&gt;
+  &lt;div class=&quot;nb-byline&quot;&gt;
+    &lt;span&gt;11 min read&lt;/span&gt;&lt;span&gt;2026-07-07&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;section data-nb-section=&quot;orientation&quot; id=&quot;orientation&quot;&gt;
+  &lt;h2&gt;A field that freezes and thaws&lt;/h2&gt;
+  &lt;p&gt;The history of artificial intelligence is usually told as a story of ideas — perceptrons, expert systems, neural networks — arriving and being proven wrong or right. That telling misses the engine underneath. AI has always advanced when three things collided: a good idea, hardware fast enough to run it, and money willing to wait. When any one failed, the field froze. Practitioners even have a name for these freezes, borrowed from the nuclear-winter metaphor of the 1980s: &lt;em&gt;AI winters&lt;/em&gt;.&lt;/p&gt;
+
+  &lt;div class=&quot;nb-callout&quot;&gt;
+    &lt;span class=&quot;nb-callout-term&quot;&gt;AI winter&lt;/span&gt;
+    A period of collapsed funding and interest following a wave of over-promising. There have been two full ones — roughly 1974–1980 and 1987–1993 — each triggered less by a failure of science than by a failure of results to justify the money already spent.
+  &lt;/div&gt;
+
+  &lt;p&gt;This first part of our history runs from the summer the field was named, in 1956, to the winter afternoon in 2012 when it stopped freezing. The spine below is a timeline; read the dates as the plot. The argument threaded through it is simple and, by the end, should feel inevitable: the winters were caused by money, and understanding that is the only way to read the enormous sums being spent on AI today.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;the-spine&quot; id=&quot;the-spine&quot;&gt;
+  &lt;h2&gt;The spine: 1956–2012&lt;/h2&gt;
+  &lt;p&gt;Fifteen turning points, the major ones marked. Watch how each spring is funded by someone betting on a promise, and each winter arrives when the promise comes due.&lt;/p&gt;
+
+  &lt;ol class=&quot;nb-timeline&quot;&gt;
+    &lt;li class=&quot;nb-tl-event major&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1956&lt;/span&gt;
+      &lt;h3&gt;The Dartmouth workshop names the field&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;John McCarthy, Marvin Minsky, Nathaniel Rochester and Claude Shannon convene a summer study at Dartmouth, proposing that &quot;every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it.&quot; Their 1955 proposal coins the term &quot;artificial intelligence&quot; and launches the field as an organized program.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1958&lt;/span&gt;
+      &lt;h3&gt;Rosenblatt&#x27;s Perceptron, and the first hype&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Frank Rosenblatt, funded by the US Office of Naval Research, builds the Mark I Perceptron — the first trainable neural network. The press, and Rosenblatt himself, oversell it wildly; a machine that could tell left from right becomes, in the newspapers, the dawn of thinking machines. The gap between demo and headline is a pattern the field never outgrows.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1966&lt;/span&gt;
+      &lt;h3&gt;The ALPAC report kills machine translation&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;A US National Research Council committee concludes that machine translation is slower, less accurate and more expensive than a human translator. Government funding for the field is gutted almost overnight — the first time a sober audit of results collapses a subfield&#x27;s money. It would not be the last.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1969&lt;/span&gt;
+      &lt;h3&gt;Minsky and Papert freeze the perceptron&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;In &lt;em&gt;Perceptrons&lt;/em&gt;, Minsky and Papert prove that a single-layer network cannot compute even the simple XOR function. The result is mathematically narrow but rhetorically devastating; neural-network funding withers for over a decade as the field pivots to symbolic, rule-based AI.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event major&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1973&lt;/span&gt;
+      &lt;h3&gt;The Lighthill Report triggers the first winter&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Commissioned by the UK Science Research Council, mathematician James Lighthill argues that AI has failed to scale beyond &quot;toy&quot; problems because of the &lt;em&gt;combinatorial explosion&lt;/em&gt; — the search space growing exponentially faster than any computer could keep up. British AI funding is cut to all but a couple of universities. McCarthy publishes a rebuttal, but the money is already gone.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1974–80&lt;/span&gt;
+      &lt;h3&gt;DARPA pulls back; the US freezes too&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;The Mansfield Amendment forces defense research toward direct military relevance, and DARPA, disappointed by a costly speech-understanding program at Carnegie Mellon, stops writing blank checks for open-ended AI. The founding generation&#x27;s easy money is over on both sides of the Atlantic.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-interlude&quot;&gt;
+      &lt;p&gt;Notice the shape of the first winter. No theorem was disproved in 1974; the ideas of 1956 were still there. What changed was that the funders — DARPA, the UK research councils — looked at a decade of spending and could not find the promised payoff. The thaw, when it came, would be led not by a better idea but by a business case.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1980&lt;/span&gt;
+      &lt;h3&gt;Expert systems make AI pay&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Digital Equipment Corporation deploys XCON (originally R1), a rule-based &quot;expert system&quot; that configures VAX computer orders and is reported to save the company tens of millions of dollars a year. Suddenly AI has revenue, and a whole industry of expert-system software and specialized LISP-machine hardware springs up around it.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event major&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1982&lt;/span&gt;
+      &lt;h3&gt;Japan bets the house: the Fifth Generation&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s8&quot;&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Japan&#x27;s Ministry of International Trade and Industry launches the Fifth Generation Computer Systems project, spending a little under ¥57 billion (roughly US$320 million) over a decade on logic-programming supercomputers. It spooks Washington and London into competitive responses — a funding race, run on national anxiety.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1983&lt;/span&gt;
+      &lt;h3&gt;America answers with a billion dollars&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s9&quot;&gt;9&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;DARPA launches the Strategic Computing Initiative, pouring roughly US$1 billion over ten years into AI, chip design and autonomous systems. The 1980s boom is now a government-and-venture-funded arms race, its ambitions running well ahead of what the hardware of the day could deliver.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1986&lt;/span&gt;
+      &lt;h3&gt;Backpropagation quietly plants the future&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s12&quot;&gt;12&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;David Rumelhart, Geoffrey Hinton and Ronald Williams popularize backpropagation in &lt;em&gt;Nature&lt;/em&gt;, giving multi-layer neural networks a practical way to learn — the exact capability the 1969 critique said they lacked. Almost no one notices; the money is all in symbolic AI and LISP machines. The seed of the next spring is planted at the height of the boom that is about to collapse.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event major&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1987&lt;/span&gt;
+      &lt;h3&gt;The LISP-machine market collapses&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Cheap general-purpose workstations from Sun and PCs from the mass market overtake specialized LISP hardware. Symbolics, whose revenue had peaked around US$114 million in 1986, slides toward bankruptcy; Lisp Machines Inc. fails outright. Expert systems prove brittle and expensive to maintain, DARPA cuts AI funding sharply, and the second winter sets in.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-interlude&quot;&gt;
+      &lt;p&gt;The second winter (roughly 1987–1993) rhymes with the first: a hardware business, a wave of corporate optimism, and government money all failed at once, and none of it was because the underlying research was wrong. Through the freeze, a small band kept working on neural networks — and on the unglamorous benchmarks and datasets that would later matter more than anyone guessed.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1997&lt;/span&gt;
+      &lt;h3&gt;Deep Blue beats Kasparov&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s14&quot;&gt;14&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;IBM&#x27;s Deep Blue defeats world chess champion Garry Kasparov 3.5–2.5, searching some 200 million positions per second. It is a landmark — but a landmark of brute-force symbolic search, not learning. The methods that would define the modern era were still in the cold.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;1998&lt;/span&gt;
+      &lt;h3&gt;LeCun&#x27;s convolutional nets learn to see&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s13&quot;&gt;13&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Yann LeCun and colleagues publish LeNet-5, a convolutional neural network that reads handwritten digits end-to-end, alongside the MNIST benchmark. It works, it is trainable, and — for want of data and compute — it stays a niche result for another fourteen years.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;2009&lt;/span&gt;
+      &lt;h3&gt;ImageNet builds the fuel&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s15&quot;&gt;15&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Fei-Fei Li and collaborators release ImageNet, a labeled database of millions of images organized by concept, and later a public competition to classify them. The idea that data, not just algorithms, is the scarce ingredient is about to be proven at a stroke.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nb-tl-event major&quot;&gt;
+      &lt;span class=&quot;nb-tl-date&quot;&gt;2012&lt;/span&gt;
+      &lt;h3&gt;AlexNet ends the winter for good&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s16&quot;&gt;16&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+      &lt;p&gt;Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton train a deep convolutional network on two consumer gaming GPUs and win the ImageNet competition with a top-5 error of 15.3%, against 26.2% for the runner-up — a margin so large it ended the argument. The idea (1986), the data (2009) and the hardware (GPUs) had finally arrived together. The spring that followed has not yet ended.&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;the-winters-were-money&quot; id=&quot;the-winters-were-money&quot;&gt;
+  &lt;h2&gt;The winters were made of money&lt;/h2&gt;
+  &lt;p&gt;Line the busts up and the common cause is not intellectual but financial. The ALPAC report of 1966 did not prove translation impossible; it proved it was not yet worth the price, and the funding vanished.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; Lighthill did not refute AI; he judged that a decade of spending had not scaled, and the UK cut the cheques.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; The 1980s boom was, at its core, a capital-allocation event: Japan committed roughly ¥57 billion to the Fifth Generation project,&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s8&quot;&gt;8&lt;/a&gt;&lt;/sup&gt; and DARPA answered with about a billion US dollars through the Strategic Computing Initiative.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s9&quot;&gt;9&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+  &lt;p&gt;That boom died the way overbuilt hardware markets always die. Specialized LISP machines were premium-priced bets on a future that cheaper, general-purpose computers reached first; when Symbolics — a company that had booked around US$114 million in revenue at its 1986 peak — could no longer justify its machines against a Sun workstation, the business evaporated, and the expert-system industry built on top of it went with it.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt; DARPA, having seen its Strategic Computing ambitions outrun the silicon, pulled back hard.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt; No new theorem was needed to cause the second winter; a spreadsheet did the job.&lt;/p&gt;
+
+  &lt;div class=&quot;nb-pull&quot;&gt;&lt;p&gt;The ideas were rarely the problem. The bill coming due, before the results could cover it, was.&lt;/p&gt;&lt;/div&gt;
+
+  &lt;p&gt;The through-line matters because it reframes what &quot;progress&quot; in AI has meant. The seed of the modern era — backpropagation for deep networks — was fully described in 1986, at the height of the boom that was about to bust, and then sat unused for a generation.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s12&quot;&gt;12&lt;/a&gt;&lt;/sup&gt; What changed by 2012 was not the idea but its inputs: enough labeled data&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s15&quot;&gt;15&lt;/a&gt;&lt;/sup&gt; and cheap parallel hardware to make the idea finally pay. AI does not advance when someone thinks of something; it advances when the idea, the data and the money line up at once.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;echoes-today&quot; id=&quot;echoes-today&quot;&gt;
+  &lt;h2&gt;Echoes today&lt;/h2&gt;
+  &lt;p&gt;Here is the specific parallel to carry out of this history. The AI boom of the mid-2020s is, like every prior spring, a money story before it is a science story — hundreds of billions of dollars a year in data-center and chip spending, underwritten by the belief that the returns will arrive. That belief is exactly what failed in 1974 and 1987. The open question is whether this time the results cover the bill.&lt;/p&gt;
+
+  &lt;p&gt;The clearest echo is in the hardware. The 1980s bust was, mechanically, a collapse in the value of specialized AI machines that the market had bought on optimistic assumptions. In 2025, the investor Michael Burry made precisely that analogy, calling Nvidia &quot;a Cisco at the center&quot; of the AI buildout and arguing that hyperscalers are depreciating their GPUs over four-to-six years when the true useful life, given Nvidia&#x27;s annual product cadence, is closer to two-and-a-half to three-and-a-half — understating costs and setting up writedowns.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s17&quot;&gt;17&lt;/a&gt;&lt;/sup&gt; Whether or not he is right, the shape of the worry is old: specialized compute, bought on hopeful accounting, is the same bet that sank the LISP-machine makers.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+  &lt;p&gt;The reader who has absorbed this history should watch one variable above all: not the capability of the models, which improves steadily, but the ratio of money spent to money returned. Every winter began when that ratio broke. Nothing in the record says a third winter is inevitable — but nothing says the pattern has been repealed, either.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-nb-section=&quot;go-deeper&quot; id=&quot;go-deeper&quot;&gt;
+  &lt;h2&gt;Go deeper&lt;/h2&gt;
+  &lt;p&gt;Start at the source: the 1955 Dartmouth proposal is two pages and reads like a founding charter.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; For the first winter, read Lighthill&#x27;s survey against McCarthy&#x27;s rebuttal as a pair — a rare case of a field&#x27;s fate argued in public.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; Roland and Shiman&#x27;s history of the Strategic Computing Initiative is the definitive account of how a billion dollars of AI ambition met the limits of 1980s hardware.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt; And to feel the hinge of 2012 for yourself, the AlexNet paper is short and its results speak plainly.&lt;sup class=&quot;nb-cite&quot;&gt;&lt;a href=&quot;#s16&quot;&gt;16&lt;/a&gt;&lt;/sup&gt; Next in this series: &lt;em&gt;The Scaling Era&lt;/em&gt;, which picks up where AlexNet leaves off and asks what happens when, for the first time, more money reliably buys more intelligence.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;nb-sources&quot; data-nb-section=&quot;sources&quot; id=&quot;sources&quot;&gt;
+  &lt;h2&gt;Sources&lt;/h2&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;s1&quot;&gt;&lt;a data-nb-source href=&quot;https://dl.acm.org/doi/10.1609/aimag.v27i4.1904&quot;&gt;AI Magazine (AAAI) — McCarthy, Minsky, Rochester &amp;amp; Shannon, &quot;A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence&quot; (1955, reprinted 2006)&lt;/a&gt;. The founding proposal; the coining of &quot;artificial intelligence.&quot;&lt;/li&gt;
+    &lt;li id=&quot;s2&quot;&gt;&lt;a data-nb-source href=&quot;https://pubmed.ncbi.nlm.nih.gov/13602029/&quot;&gt;Psychological Review (via PubMed) — Rosenblatt, &quot;The perceptron: a probabilistic model for information storage and organization in the brain&quot; (1958)&lt;/a&gt;. The first trainable neural network.&lt;/li&gt;
+    &lt;li id=&quot;s3&quot;&gt;&lt;a data-nb-source href=&quot;https://nap.nationalacademies.org/read/9547/chapter/1&quot;&gt;National Academies Press — ALPAC, &quot;Language and Machines: Computers in Translation and Linguistics&quot; (1966)&lt;/a&gt;. The report that ended machine-translation funding.&lt;/li&gt;
+    &lt;li id=&quot;s4&quot;&gt;&lt;a data-nb-source href=&quot;https://en.wikipedia.org/wiki/Perceptrons_(book)&quot;&gt;Wikipedia — &quot;Perceptrons (book),&quot; Minsky &amp;amp; Papert (1969)&lt;/a&gt;. The XOR limitation and its chilling effect on neural-network funding.&lt;/li&gt;
+    &lt;li id=&quot;s5&quot;&gt;&lt;a data-nb-source href=&quot;https://en.wikipedia.org/wiki/Lighthill_report&quot;&gt;Wikipedia — &quot;Lighthill report&quot; (1973)&lt;/a&gt;. The combinatorial-explosion critique, the funding cuts, and the BBC debate that triggered the first winter.&lt;/li&gt;
+    &lt;li id=&quot;s6&quot;&gt;&lt;a data-nb-source href=&quot;https://www-formal.stanford.edu/jmc/reviews/lighthill/lighthill.html&quot;&gt;Stanford (John McCarthy) — &quot;Review of &#x27;Artificial Intelligence: A General Survey&#x27;&quot;&lt;/a&gt;. McCarthy&#x27;s contemporaneous rebuttal to Lighthill.&lt;/li&gt;
+    &lt;li id=&quot;s7&quot;&gt;&lt;a data-nb-source href=&quot;https://en.wikipedia.org/wiki/AI_winter&quot;&gt;Wikipedia — &quot;AI winter&quot;&lt;/a&gt;. The Mansfield Amendment and DARPA pullback, XCON&#x27;s savings, the 1987 LISP-machine collapse, and DARPA&#x27;s second-winter cuts.&lt;/li&gt;
+    &lt;li id=&quot;s8&quot;&gt;&lt;a data-nb-source href=&quot;https://en.wikipedia.org/wiki/Fifth_Generation_Computer_Systems&quot;&gt;Wikipedia — &quot;Fifth Generation Computer Systems&quot;&lt;/a&gt;. Japan&#x27;s 1982 project and its ~¥57 billion (~US$320M) spend.&lt;/li&gt;
+    &lt;li id=&quot;s9&quot;&gt;&lt;a data-nb-source href=&quot;https://en.wikipedia.org/wiki/Strategic_Computing_Initiative&quot;&gt;Wikipedia — &quot;Strategic Computing Initiative&quot;&lt;/a&gt;. DARPA&#x27;s 1983–1993 program and its roughly US$1 billion budget.&lt;/li&gt;
+    &lt;li id=&quot;s10&quot;&gt;&lt;a data-nb-source href=&quot;https://mitpress.mit.edu/9780262529266/strategic-computing/&quot;&gt;MIT Press — Roland &amp;amp; Shiman, &quot;Strategic Computing: DARPA and the Quest for Machine Intelligence, 1983–1993&quot;&lt;/a&gt;. The authoritative account of the SCI.&lt;/li&gt;
+    &lt;li id=&quot;s11&quot;&gt;&lt;a data-nb-source href=&quot;https://ocw.mit.edu/courses/6-933j-the-structure-of-engineering-revolutions-fall-2001/30eb0d06f5903c7a4256d397a92f6628_Symbolics.pdf&quot;&gt;MIT OpenCourseWare — Graylin et al., &quot;Symbolics, Inc.: A Failure of Heterogeneous Engineering&quot;&lt;/a&gt;. Symbolics&#x27; rise, ~US$114M peak revenue, and the LISP-machine market&#x27;s collapse.&lt;/li&gt;
+    &lt;li id=&quot;s12&quot;&gt;&lt;a data-nb-source href=&quot;https://www.nature.com/articles/323533a0&quot;&gt;Nature — Rumelhart, Hinton &amp;amp; Williams, &quot;Learning representations by back-propagating errors&quot; (1986)&lt;/a&gt;. Backpropagation for multi-layer networks — the seed of deep learning.&lt;/li&gt;
+    &lt;li id=&quot;s13&quot;&gt;&lt;a data-nb-source href=&quot;https://leon.bottou.org/papers/lecun-98h&quot;&gt;Proceedings of the IEEE — LeCun, Bottou, Bengio &amp;amp; Haffner, &quot;Gradient-Based Learning Applied to Document Recognition&quot; (LeNet-5, 1998)&lt;/a&gt;. The convolutional network and the MNIST benchmark.&lt;/li&gt;
+    &lt;li id=&quot;s14&quot;&gt;&lt;a data-nb-source href=&quot;https://www.ibm.com/history/deep-blue&quot;&gt;IBM — &quot;Deep Blue&quot;&lt;/a&gt;. The May 1997 defeat of Garry Kasparov, 3.5–2.5.&lt;/li&gt;
+    &lt;li id=&quot;s15&quot;&gt;&lt;a data-nb-source href=&quot;https://www.image-net.org/static_files/papers/imagenet_cvpr09.pdf&quot;&gt;CVPR 2009 / ImageNet — Deng, Dong, Socher, Li, Li &amp;amp; Fei-Fei, &quot;ImageNet: A Large-Scale Hierarchical Image Database&quot;&lt;/a&gt;. The dataset that made the 2012 breakthrough measurable.&lt;/li&gt;
+    &lt;li id=&quot;s16&quot;&gt;&lt;a data-nb-source href=&quot;https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks&quot;&gt;NeurIPS 2012 — Krizhevsky, Sutskever &amp;amp; Hinton, &quot;ImageNet Classification with Deep Convolutional Neural Networks&quot; (AlexNet)&lt;/a&gt;. The 15.3%-vs-26.2% top-5 result on GPUs that ended the winter.&lt;/li&gt;
+    &lt;li id=&quot;s17&quot;&gt;&lt;a data-nb-source href=&quot;https://fortune.com/2025/11/24/big-short-investor-michael-burry-nvidia-cisco-ai-bubble/&quot;&gt;Fortune — &quot;&#x27;Big Short&#x27; investor Michael Burry on an AI bubble: &#x27;There is a Cisco at the center of it all… Its name is Nvidia&#x27;&quot; (2025)&lt;/a&gt;. The GPU-depreciation and hardware-overhang argument echoing the LISP-machine bust.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/section&gt;
+
+&lt;/article&gt;
+</content>
+    <category term="ai-history"/>
+  </entry>
+</feed>
