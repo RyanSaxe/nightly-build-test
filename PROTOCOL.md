@@ -93,6 +93,10 @@ available, `uv run engine/<script>.py` manages the dependency itself.
    - Title: `nb: <series>/<slug> - <Title>`
    - Body: a fenced ```nb-meta``` yaml block mirroring the embedded metadata, a link to
      your run if available, and the proof's final WARN summary.
+   - Preflight the body BEFORE opening the PR: write it to a file and run the
+     proof with `--pr-body`. The editor blocks any PR whose body lacks or
+     contradicts that block (`B-META-MATCH`), so verify it locally:
+     `python3 engine/check.py library/<series>/<slug>.html --series <id> --repo . --library <path> --pr-body body.txt`
 
 9. **Boundaries.** Never merge. Never push to `library` directly. Never modify any other
    file. Never open a second PR for the same series. If your PR is labeled

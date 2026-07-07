@@ -31,7 +31,9 @@ PASS, FAIL = 0, []
 TESTREPO = make_fixtures.test_repo()
 
 
-def run_local(html_text, series, *, slug=None, library=None, repo=None, today=TODAY):
+def run_local(
+    html_text, series, *, slug=None, library=None, repo=None, today=TODAY, pr_body=None
+):
     # Write html as library/<series>/<slug>.html in a temp dir and run the proof.
     repo = repo or TESTREPO
     tmp = tempfile.mkdtemp()
@@ -43,12 +45,18 @@ def run_local(html_text, series, *, slug=None, library=None, repo=None, today=TO
     rep = C.Report()
     cfg, _ = C.load_series(repo, series)
     rep.strict = bool(cfg and cfg.get("strict"))
+    body_meta = None
+    if pr_body is not None:
+        bf = pathlib.Path(tmp) / "prbody.txt"
+        bf.write_text(pr_body)
+        body_meta = C.resolve_pr_body(str(bf), rep)
     C.check_edition(
         str(f),
         series,
         repo=repo,
         library_dir=library,
         rep=rep,
+        pr_body_meta=body_meta,
         today=C._dt.date.fromisoformat(today),
     )
     shutil.rmtree(tmp)
@@ -267,6 +275,38 @@ expect(
         "semiconductors",
     ),
     must_have=["B-HTML"],
+)
+
+print("== PR-body preflight (local --pr-body) ==")
+GOOD_BODY = (
+    "Autonomous night-shift edition.\n\n"
+    "```nb-meta\n"
+    "series: semiconductors\n"
+    "slug: micron\n"
+    "mode: collection\n"
+    "template: article\n"
+    'date: "2026-07-06"\n'
+    'title: "Micron Technology: The Scarcest Commodity in AI"\n'
+    "order: null\n"
+    "```\n"
+)
+expect(
+    "preflight passes when the PR body matches the edition",
+    run_local(VALID, "semiconductors", pr_body=GOOD_BODY),
+    blocks=0,
+    must_not=["B-META-MATCH"],
+)
+expect(
+    "preflight catches a PR body with no nb-meta block",
+    run_local(VALID, "semiconductors", pr_body="just a description, no metadata"),
+    must_have=["B-META-MATCH"],
+)
+expect(
+    "preflight catches a PR body that disagrees with the edition",
+    run_local(
+        VALID, "semiconductors", pr_body=GOOD_BODY.replace("Micron Technology", "TSMC")
+    ),
+    must_have=["B-META-MATCH"],
 )
 
 print("== B-SANDBOX ==")

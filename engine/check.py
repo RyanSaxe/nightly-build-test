@@ -909,6 +909,21 @@ def pr_changed_files(repo, *, base, head):
     return changes
 
 
+def resolve_pr_body(pr_body_path, rep):
+    """Parse a PR body file and flag a missing or unparseable nb-meta block.
+
+    Shared by CI mode and the local preflight (`--pr-body` without `--pr`), so
+    an author can verify the exact body they intend to post before opening the
+    pull request. Returns the parsed metadata, or None when no path is given.
+    """
+    if not pr_body_path:
+        return None
+    meta = parse_pr_body(pr_body_path)
+    if meta is None:
+        rep.block("B-META-MATCH", "PR body lacks a parseable ```nb-meta``` yaml block")
+    return meta
+
+
 def run_pr_mode(args, rep):
     try:
         changes = pr_changed_files(args.repo, base=args.base, head=args.head)
@@ -939,13 +954,7 @@ def run_pr_mode(args, rep):
     cfg_repo = getattr(args, "main", None) or args.repo
     series_cfg, _ = load_series(cfg_repo, series_id)
     rep.strict = bool(series_cfg and series_cfg.get("strict"))
-    pr_body_meta = None
-    if args.pr_body:
-        pr_body_meta = parse_pr_body(args.pr_body)
-        if pr_body_meta is None:
-            rep.block(
-                "B-META-MATCH", "PR body lacks a parseable ```nb-meta``` yaml block"
-            )
+    pr_body_meta = resolve_pr_body(args.pr_body, rep)
     fs_path = os.path.join(args.repo, path)
     check_edition(
         fs_path,
@@ -1011,7 +1020,11 @@ def main(argv=None):
     p.add_argument("--pr", action="store_true", help="CI mode")
     p.add_argument("--base", help="PR base ref (pr mode)")
     p.add_argument("--head", default="HEAD", help="PR head ref (pr mode)")
-    p.add_argument("--pr-body", help="file containing the PR body (pr mode)")
+    p.add_argument(
+        "--pr-body",
+        help="PR body file; cross-checks its nb-meta against the edition "
+        "(CI mode, or a local preflight before opening the PR)",
+    )
     p.add_argument("--today", help="override today's date (tests)")
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
@@ -1034,6 +1047,7 @@ def main(argv=None):
             repo=args.repo,
             library_dir=args.library,
             rep=rep,
+            pr_body_meta=resolve_pr_body(args.pr_body, rep),
             today=args.today and _dt.date.fromisoformat(args.today),
         )
 

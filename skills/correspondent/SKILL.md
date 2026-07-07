@@ -122,6 +122,10 @@ Target the `library` branch. Add exactly one file: `library/<series>/<slug>.html
 - Body: a fenced ```nb-meta``` yaml block mirroring the embedded JSON (fields:
   series, slug, mode, template, date, title, order), your run URL if you have
   one, and the proof's final WARN summary.
+- Preflight the body before opening the PR. The editor rejects any PR whose
+  body lacks or contradicts that block (`B-META-MATCH`), so write your intended
+  body to a file and re-run the proof with `--pr-body body.txt`; it must still
+  report `BLOCK: 0` before you open the PR.
 
 Never merge. Never push to `library` directly. Never open a second PR. If your
 PR is labeled `nb-invalid`, stop — a future run supersedes you; don't fight the
