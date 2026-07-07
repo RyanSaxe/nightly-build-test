@@ -72,11 +72,29 @@ behavior, not failure.**
 
 Start from `press/templates/<template>.html` if it exists, else
 `templates/<template>.html` (for an open desk, `<template>` is the choice you
-made in step 2 — record it honestly in nb-meta). Replace every placeholder; keep the
-engine asset links and the structure the registry requires (every
-`data-nb-section` exactly once). Fill `nb-meta` honestly — `sources`/`words`
-are recounted by the proof; `harness`/`model` are your provenance. Charts only
-as `data-nb-chart` JSON blocks. Write to `library/<series>/<slug>.html`.
+made in step 2 — record it honestly in nb-meta). Design before you write:
+
+- **article** is enforced prose: the registry anchors (orientation,
+  go-deeper, sources) appear exactly once, and between them YOU name 2–6
+  sections for this topic (lowercase-hyphen `data-nb-section` labels, each
+  cited). The outline is editorial judgment — shape it to the material,
+  never to habit. Fixed-section templates (user-defined ones) keep their
+  declared structure exactly.
+- **brief** is enforced structure: 4–8 tagged items, each cited, each with
+  a why-it-matters line, each headline linking directly to its primary
+  source.
+- Set nb-meta `form` to one or two words naming what you wrote ("Dossier",
+  "Chronicle", "Explainer", "Essay"...). You read the desk's catalog in
+  step 2 — reuse its existing label when tonight's piece is the same form.
+- `templates/FURNITURE.md` is the component catalog (stat strips,
+  timelines, pull quotes, position blocks, claim cards, charts...). Any
+  component works in any template; use one when it carries information
+  better than prose, and skip decoration.
+
+Replace every placeholder; keep the engine asset links. Fill `nb-meta`
+honestly — `sources`/`words` are recounted by the proof; `harness`/`model`
+are your provenance. Charts only as `data-nb-chart` JSON blocks. Write to
+`library/<series>/<slug>.html`.
 
 Craft bar (from `spec/editorial.md`): teach, don't summarize; concrete numbers
 over vague claims; define terms on first use; steelman contested questions;

@@ -41,6 +41,9 @@ Ask before writing. Keep it short — one round of questions, then a proposal:
 - Shape: one-off deep dives (**collection**), an ordered course (**sequence**),
   ongoing briefings (**rolling**), or an editor-run desk (**open** — they
   describe a beat, the night shift picks each night's topic and form)?
+  Nearly everything is the `article` template; the genre (dossier, chronicle,
+  lesson, appraisal, essay...) is a form the series prompt describes, not an
+  engine setting. `brief` is for itemized nightly roundups.
 - Rhythm: nightly everything, or should some series breathe? Per-series
   `cadence:` takes `daily`, `weekdays`, `weekends`, or a day list
   (`[mon, thu]`) — a weekly deep dive plus a daily brief is a classic paper.
@@ -86,7 +89,11 @@ Then write:
 - `press/series/<id>/series.yaml` — crib from `examples/series/` for
   the canonical shapes. Defaults: `autopublish: true`, `strict: false`.
 - `press/series/<id>/prompt.md` — the series' editorial instructions: subject
-  frame, emphases, recurring angles. It specializes the voice layers; it never
+  frame, emphases, recurring angles, and the desk's FORM: the outline
+  conventions it keeps, the furniture that carries it (see
+  `templates/FURNITURE.md`), and the label it reuses in nb-meta `form`
+  ("Chronicle", "Lesson"...). Crib the form briefs from
+  `examples/series/*/prompt.md`. It specializes the voice layers; it never
   contradicts PROTOCOL.md.
 - Tag fragments under `press/series/_tags/` if shared angles apply.
 - Sources for `required_docs` under `press/series/<id>/sources/`.
@@ -167,12 +174,21 @@ edition). Re-validate after every change.
   `press/site.yaml` `theme:` at it. Never edit engine CSS.
 - *"Change the voice"* — edit `press/editorial.md`. Series-specific tone goes
   in that series' prompt instead.
-- *"Make a new template"* — add an entry to `press/templates/registry.yaml`
-  (class, band, sections incl. `sources`, cite_rule, modes) and a
-  `press/templates/<id>.html` scaffold (crib a shipped template's head and
-  chrome; keep the asset links and sandbox rules). The proof enforces whatever
-  the entry declares — custom templates are first-class. Validate, then press
-  check it before scheduling a series on it.
+- *"Make a new form"* — usually no new template: write the form into the
+  series `prompt.md` (outline conventions, furniture, the nb-meta `form`
+  label) and rely on `article`'s flex sections. That is how the examples run
+  chronicles, lessons, and appraisals.
+- *"Make a new template"* — for structure the proof should ENFORCE: add an
+  entry to `press/templates/registry.yaml` (class, band, `sections` anchors
+  incl. `sources`, optional `flex_sections: [min, max]` for an agent-named
+  middle, cite_rule, modes) and a `press/templates/<id>.html` scaffold (crib
+  a shipped template's head and chrome; keep the asset links and sandbox
+  rules). Omit `flex_sections` for a fully fixed outline — the
+  build-your-own walkthrough in `docs/customization.md` rebuilds the classic
+  lesson template this way. Validate, then press check before scheduling.
+- *"Give my paper its own furniture"* — add component classes to the press
+  theme CSS (it restyles the whole library on every publish) and instruct
+  the desks to use them in `prompt.md`; see `docs/customization.md`.
 
 ## 7. Update my engine (plain git)
 
