@@ -127,6 +127,27 @@ else
 	fi
 fi
 
+# 4b. Let the library branch deploy Pages ------------------------------------
+# publish.yml runs on library, but a fresh github-pages environment only lets
+# the default branch deploy, so its uploads are rejected until library is
+# allowed. Idempotent: skip if Pages is off or the policy already exists.
+if gh api "repos/$repo/pages" >/dev/null 2>&1; then
+	gh api -X PUT "repos/$repo/environments/github-pages" \
+		-F "deployment_branch_policy[protected_branches]=false" \
+		-F "deployment_branch_policy[custom_branch_policies]=true" >/dev/null 2>&1 || true
+	if gh api "repos/$repo/environments/github-pages/deployment-branch-policies" \
+		-q '.branch_policies[].name' 2>/dev/null | grep -qx library; then
+		ok "library branch already cleared to deploy Pages"
+	elif gh api -X POST \
+		"repos/$repo/environments/github-pages/deployment-branch-policies" \
+		-f name=library -f type=branch >/dev/null 2>&1; then
+		ok "library branch cleared to deploy Pages"
+	else
+		warn "could not authorize the library branch for Pages deploys"
+		warn "  add 'library' under Settings, Environments, github-pages"
+	fi
+fi
+
 # 5. Auto-merge + library protection -----------------------------------------
 if gh api -X PATCH "repos/$repo" -F allow_auto_merge=true >/dev/null 2>&1; then
 	ok "repository auto-merge enabled"
