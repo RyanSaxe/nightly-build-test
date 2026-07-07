@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attention Is the Engine — Transformers, From Scratch</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/theme.css">
+<link rel="stylesheet" href="../../assets/nb.css">
+<script defer src="../../assets/nb.js"></script>
+<script type="application/json" id="nb-meta">
+{
+  "protocol": "1.1",
+  "series": "transformers-101",
+  "slug": "attention",
+  "template": "article",
+  "form": "Lesson",
+  "title": "Attention Is the Engine",
+  "mode": "sequence",
+  "order": 1,
+  "date": "2026-07-07",
+  "tags": [],
+  "sources": 14,
+  "words": 2160,
+  "reading_minutes": 10,
+  "dek": "Lesson 1: how a single arithmetic trick lets a model read every word at once, and why it is the reason modern AI works.",
+  "harness": "claude-code-routine",
+  "model": "claude-opus-4-8"
+}
+</script>
+</head>
+<body class="nb-edition">
+<article class="nb-reading">
+
+<header>
+  <div class="nb-eyebrow">Transformers, From Scratch · Lesson 1</div>
+  <h1 class="nb-title">Attention Is the Engine</h1>
+  <p class="nb-dekline">One arithmetic trick lets a model read every word of a sentence at the same time — and it is the reason modern AI works.</p>
+  <div class="nb-byline">
+    <span>10 min read</span><span>2026-07-07</span>
+  </div>
+</header>
+
+<section data-nb-section="orientation" id="orientation">
+  <h2>Where we are starting</h2>
+  <p>This course builds a modern language model from the ground up, one idea at a time, for a reader who has never trained a neural network. We start where the field itself restarted: a 2017 paper from Google researchers titled, with unusual confidence, <em>Attention Is All You Need</em>.<sup class="nb-cite"><a href="#s1">1</a></sup> Almost every system you have heard of — the model behind ChatGPT, Claude, Gemini — is a direct descendant of the eight-page architecture that paper described. If you understand its one central mechanism, called attention, the rest of the course is detail hung on that spine.</p>
+
+  <div class="nb-objectives">
+    <div class="nb-objectives-label">In this lesson</div>
+    <ul>
+      <li>Explain, in plain words, why reading text one word at a time was the bottleneck attention removed.</li>
+      <li>Trace what the model actually computes when it "pays attention," using a single running sentence.</li>
+      <li>Read the real scaled-dot-product attention formula and say what each piece does.</li>
+      <li>Name the concrete numbers — parameters, context length — that connect the 2017 model to today's.</li>
+    </ul>
+  </div>
+
+  <p>One term of art before we begin. A <em>token</em> is the unit a language model reads: roughly a word or a word-piece. "Attention is the engine" is five tokens. Everything that follows is about how a model decides which tokens matter to which.<sup class="nb-cite"><a href="#s1">1</a></sup></p>
+</section>
+
+<section data-nb-section="the-sequential-bottleneck" id="the-sequential-bottleneck">
+  <h2>The problem: reading one word at a time</h2>
+  <p>Before 2017, the best language models were <em>recurrent</em> networks. A recurrent network reads a sentence the way you might read a ticker tape: one token, then the next, carrying a running summary — a "hidden state" — forward as it goes. To use the tenth word it must first pass through the previous nine, in order.</p>
+
+  <p>That design has two costs, and the 2017 paper laid them out precisely in a comparison table.<sup class="nb-cite"><a href="#s1">1</a></sup> First, the work cannot be spread across many processors, because step ten depends on step nine: the paper counts a recurrent layer as needing <em>O(n)</em> sequential operations for a sentence of <em>n</em> tokens, meaning the number of unavoidable one-after-another steps grows with the length of the sentence. Second, for word ten to be influenced by word one, information has to survive nine hand-offs — a long chain along which meaning gets diluted.</p>
+
+  <div class="nb-callout">
+    <span class="nb-callout-term">The sequential bottleneck</span>
+    A recurrent model must process tokens in order, so long-range links between words are both slow to compute and easy to lose. Attention was designed to break exactly this constraint.
+  </div>
+
+  <p>The fix the paper proposed sounds almost too simple: stop reading in order. Let every token look at every other token directly, in one parallel step. In the paper's own accounting, self-attention needs only <em>O(1)</em> sequential operations and connects any two positions with a path of length <em>O(1)</em> — a single hop instead of <em>n</em>.<sup class="nb-cite"><a href="#s1">1</a></sup> The question is what "looking at every other token" actually means as a calculation.</p>
+</section>
+
+<section data-nb-section="what-attention-computes" id="what-attention-computes">
+  <h2>What "attention" actually is</h2>
+  <p>Start with a sentence the original Google team used to explain their own model:<sup class="nb-cite"><a href="#s6">6</a></sup></p>
+
+  <div class="nb-pull"><p>"The animal didn't cross the street because it was too tired."</p></div>
+
+  <p>What does "it" refer to? The animal. Change one word — "because it was too <em>wide</em>" — and "it" now means the street. To resolve the pronoun, the model has to let the word "it" inspect the other words in the sentence and decide which one it depends on. Google's own visualization of the model showed exactly this: when encoding "it," the network puts most of its weight on "animal" in the first sentence and shifts that weight to "street" in the second.<sup class="nb-cite"><a href="#s6">6</a></sup> That act — one token weighing all the others and pulling in information from the ones that matter — is attention.</p>
+
+  <p>To do this arithmetically, the model gives every token three vectors, each just a list of numbers it learns during training:</p>
+
+  <ul>
+    <li>A <strong>query</strong>: what this token is looking for. ("I am a pronoun; who is my referent?")</li>
+    <li>A <strong>key</strong>: what this token offers to others. ("I am a noun, an animal.")</li>
+    <li>A <strong>value</strong>: the actual content this token contributes if attended to.</li>
+  </ul>
+
+  <div class="nb-callout">
+    <span class="nb-callout-term">Self-attention</span>
+    Every token produces a query, a key, and a value. Each token's query is compared against every token's key to decide how much to borrow from every token's value. "Self" means the sentence is attending to itself.
+  </div>
+
+  <p>The comparison is a dot product — multiply the query and key element by element and add up the result, a single number that is large when two vectors point the same way. "It" 's query lined up against "animal" 's key gives a high score; against "street" 's key, a low one. Those scores, once normalized, are the attention weights, and the model uses them to take a weighted average of the value vectors. High-scoring tokens dominate the average; the rest fade. That average <em>is</em> the new, context-aware representation of "it."<sup class="nb-cite"><a href="#s1">1</a></sup></p>
+</section>
+
+<section data-nb-section="inside-the-mechanism" id="inside-the-mechanism">
+  <h2>Inside the mechanism, step by step</h2>
+  <p>The 2017 paper compresses the whole operation into one line, which it calls <em>scaled dot-product attention</em>:<sup class="nb-cite"><a href="#s1">1</a></sup></p>
+
+  <div class="nb-pull"><p>Attention(Q, K, V) = softmax(QKᵀ / √d<sub>k</sub>) V</p></div>
+
+  <p>It looks dense, but you already understand every piece. Here it is as an ordered mechanism.</p>
+
+  <ol class="nb-steps">
+    <li><h3>Score every pair</h3><p>Multiply each query against every key (that is what <em>QKᵀ</em> does in one matrix step). For an <em>n</em>-token sentence you get an <em>n</em>×<em>n</em> grid of scores: how much each token should attend to each other token.<sup class="nb-cite"><a href="#s1">1</a></sup></p></li>
+    <li><h3>Divide by √d<sub>k</sub></h3><p>Here <em>d<sub>k</sub></em> is the length of the key vectors. The paper divides the scores by its square root because, for long vectors, raw dot products grow large and push the next step into a range where learning stalls; scaling keeps the numbers well-behaved. In the base model <em>d<sub>k</sub></em> = 64, so the scores are divided by 8.<sup class="nb-cite"><a href="#s1">1</a></sup></p></li>
+    <li><h3>Softmax into weights</h3><p>The <em>softmax</em> function turns each row of scores into positive fractions that sum to one — a set of attention weights. Now "it" might place 0.7 of its attention on "animal" and spread the remaining 0.3 across the sentence.<sup class="nb-cite"><a href="#s1">1</a></sup></p></li>
+    <li><h3>Mix the values</h3><p>Multiply those weights by the value vectors and add them up. Each token walks away holding a blend of the tokens it cared about — context folded directly into its representation.<sup class="nb-cite"><a href="#s1">1</a></sup></p></li>
+  </ol>
+
+  <p>One refinement makes it work in practice. A single attention pass can only track one kind of relationship at a time, but language has many at once — grammar, reference, tense. So the model runs several attention operations in parallel, each with its own learned queries, keys, and values, and stitches the results together. The paper calls this <em>multi-head attention</em> and uses <em>h</em> = 8 heads in its base model, each working in a 64-dimensional slice of the model's 512-dimensional representation.<sup class="nb-cite"><a href="#s1">1</a></sup> One head can specialize in "which noun does this pronoun point to" while another tracks "which verb governs this subject."</p>
+
+  <div class="nb-callout">
+    <span class="nb-callout-term">Multi-head attention</span>
+    Several attention operations run side by side, each learning a different type of relationship, then their outputs are combined. Eight heads in the original; up to 96 in GPT-3.<sup class="nb-cite"><a href="#s3">3</a></sup>
+  </div>
+
+  <p>That is the entire engine. The original Transformer stacked this block six times over in its encoder and six in its decoder, wrapped each with a small feed-forward network and some bookkeeping, and trained the result. At roughly 65 million adjustable numbers (parameters) for the base model and 213 million for the larger one, it reached a new state of the art on English-to-German and English-to-French translation — 28.4 and 41.8 on the standard BLEU quality scale — after just 3.5 days of training on eight GPUs.<sup class="nb-cite"><a href="#s1">1</a></sup> The point was not only that it was good, but that it was good <em>cheaply</em>, because attention parallelizes where recurrence cannot.</p>
+</section>
+
+<section data-nb-section="why-this-scaled-the-world" id="why-this-scaled-the-world">
+  <h2>Why this one idea scaled the world</h2>
+  <p>Because attention removes the sequential chain, you can pour far more computation at a model and it will actually use it. That is the thread connecting the 2017 model to everything since. The architecture barely changed; it just got bigger.</p>
+
+  <div class="nb-stat-strip">
+    <div class="nb-stat"><span class="nb-stat-n">65M</span><span class="nb-stat-l">PARAMS · TRANSFORMER 2017</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">1.5B</span><span class="nb-stat-l">PARAMS · GPT-2 2019</span></div>
+    <div class="nb-stat"><span class="nb-stat-n">175B</span><span class="nb-stat-l">PARAMS · GPT-3 2020</span></div>
+  </div>
+
+  <p>GPT-2, in 2019, was the same transformer block scaled to 1.5 billion parameters across 48 layers, reading up to 1,024 tokens at a time.<sup class="nb-cite"><a href="#s4">4</a></sup><sup class="nb-cite"><a href="#s5">5</a></sup> A year later GPT-3 pushed to 175 billion parameters, 96 layers, and 96 attention heads, and consumed roughly 3.14×10²³ arithmetic operations — about 3,640 "petaflop/s-days" — to train.<sup class="nb-cite"><a href="#s3">3</a></sup> Nothing conceptual separates it from the 2017 model in this lesson; it is the same four steps, run wider and deeper.</p>
+
+  <p>There is one price for attention's power, and it sets up the rest of the course. Scoring every token against every other token means the work grows with the <em>square</em> of the sentence length — the paper lists self-attention's cost as <em>O(n²·d)</em> per layer.<sup class="nb-cite"><a href="#s1">1</a></sup> Double the context and you quadruple the attention cost. That quadratic wall is exactly why the length of text a model can hold in view — its <em>context window</em> — was a hard-won engineering prize, climbing from 2,048 tokens in GPT-3 to 128,000 in GPT-4 Turbo, 200,000 in Claude 3, and a million or more in Gemini 1.5.<sup class="nb-cite"><a href="#s3">3</a></sup><sup class="nb-cite"><a href="#s7">7</a></sup><sup class="nb-cite"><a href="#s8">8</a></sup><sup class="nb-cite"><a href="#s9">9</a></sup><sup class="nb-cite"><a href="#s10">10</a></sup></p>
+
+  <figure class="nb-chart">
+    <figcaption>Fig. 1 · Context window by model, in tokens (log scale). Sources: model release notes, refs 3, 7–10.</figcaption>
+    <canvas></canvas>
+    <noscript>GPT-3 (2020): 2,048 · GPT-4 Turbo (2023): 128,000 · Llama 3.1 (2024): 128,000 · Claude 3 (2024): 200,000 · Gemini 1.5 (2024): 1,000,000.</noscript>
+    <script type="application/json" data-nb-chart>
+    {"type": "bar",
+     "labels": ["GPT-3 2020", "GPT-4 Turbo 2023", "Llama 3.1 2024", "Claude 3 2024", "Gemini 1.5 2024"],
+     "series": [{"name": "Context window (tokens)", "values": [2048, 128000, 128000, 200000, 1000000]}],
+     "y": {"scale": "log", "label": "tokens (log scale)"}}
+    </script>
+  </figure>
+
+  <div class="nb-check-box">
+    <ol>
+      <li>In the sentence "The trophy didn't fit in the suitcase because it was too small," which word does "it" refer to — and which of the three vectors (query, key, value) does "it" use to go looking?</li>
+      <li>A recurrent network needs O(n) sequential steps for an n-token sentence; self-attention needs O(1). In one sentence, why does that difference matter for training speed?</li>
+      <li>If a model's context window grows from 2,000 to 8,000 tokens, roughly how much more attention computation does each layer do — and why?</li>
+    </ol>
+  </div>
+
+  <div class="nb-bridge">
+    <span class="nb-bridge-label">Next lesson</span>
+    We have the engine; next we build the car. "From GPT to Frontier Models" shows how stacking these attention blocks into a decoder and training it to predict the next token turns a translation architecture into a general-purpose model — and why "just predict the next word" turned out to be enough.
+  </div>
+</section>
+
+<section data-nb-section="go-deeper" id="go-deeper">
+  <h2>Go deeper</h2>
+  <p>Read the eight pages that started it, then watch someone build it. The original paper is short and, with this lesson behind you, readable in an afternoon.<sup class="nb-cite"><a href="#s1">1</a></sup> For a visual walk through the query-key-value arithmetic, Jay Alammar's <em>Illustrated Transformer</em> is the standard first stop.<sup class="nb-cite"><a href="#s11">11</a></sup> When you want to see attention as running code, Andrej Karpathy builds a working GPT from an empty file in two hours,<sup class="nb-cite"><a href="#s12">12</a></sup> and Harvard NLP's <em>Annotated Transformer</em> pairs the paper line-by-line with its implementation.<sup class="nb-cite"><a href="#s13">13</a></sup> For pure intuition with no code, 3Blue1Brown's chapter on attention is the clearest picture of the mechanism drawn anywhere.<sup class="nb-cite"><a href="#s14">14</a></sup> Do one of these before the next lesson and the rest of the course will feel like recognition rather than introduction.</p>
+</section>
+
+<section class="nb-sources" data-nb-section="sources" id="sources">
+  <h2>Sources</h2>
+  <ol>
+    <li id="s1"><a data-nb-source href="https://arxiv.org/abs/1706.03762">arXiv — Vaswani et al., "Attention Is All You Need" (2017)</a>. The attention formula and scaling (§3.2.1), multi-head attention with h=8 and d_k=64 (§3.2.2), the O(1)-vs-O(n) sequential-operations and path-length comparison and O(n²·d) cost (Table 1), 65M/213M parameters, BLEU 28.4/41.8 and 3.5 days on 8 GPUs (§6, Table 2).</li>
+    <li id="s2"><a data-nb-source href="https://papers.neurips.cc/paper/7181-attention-is-all-you-need.pdf">NeurIPS 2017 Proceedings — "Attention Is All You Need" (published PDF)</a>. The peer-reviewed version of the same architecture and results.</li>
+    <li id="s3"><a data-nb-source href="https://arxiv.org/abs/2005.14165">arXiv — Brown et al., "Language Models are Few-Shot Learners" (GPT-3, 2020)</a>. 175B parameters, 96 layers, 96 heads, d_model 12,288, 2,048-token context (Table 2.1); ~3,640 petaflop/s-days of training compute (Appendix D).</li>
+    <li id="s4"><a data-nb-source href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">OpenAI — Radford et al., "Language Models are Unsupervised Multitask Learners" (GPT-2)</a>. 1.5B parameters, 48 layers, 1,024-token context.</li>
+    <li id="s5"><a data-nb-source href="https://openai.com/index/better-language-models/">OpenAI — "Better language models and their implications" (GPT-2 announcement, 2019)</a>. GPT-2's scale and training corpus.</li>
+    <li id="s6"><a data-nb-source href="https://research.google/blog/transformer-a-novel-neural-network-architecture-for-language-understanding/">Google Research — "Transformer: A Novel Neural Network Architecture for Language Understanding" (2017)</a>. The "animal / street / it" pronoun example and the attention visualization.</li>
+    <li id="s7"><a data-nb-source href="https://openai.com/index/new-models-and-developer-products-announced-at-devday/">OpenAI — "New models and developer products announced at DevDay" (2023)</a>. GPT-4 Turbo's 128,000-token context window.</li>
+    <li id="s8"><a data-nb-source href="https://ai.meta.com/blog/meta-llama-3-1/">Meta AI — "Introducing Llama 3.1" (2024)</a>. Llama 3.1's 128,000-token context window.</li>
+    <li id="s9"><a data-nb-source href="https://www.anthropic.com/news/claude-2-1">Anthropic — "Introducing Claude 2.1" (2023)</a>. The 200,000-token context window carried into the Claude 3 family.</li>
+    <li id="s10"><a data-nb-source href="https://blog.google/innovation-and-ai/products/google-gemini-next-generation-model-february-2024/">Google — "Introducing Gemini 1.5" (2024)</a>. The 1,000,000-token context window.</li>
+    <li id="s11"><a data-nb-source href="https://jalammar.github.io/illustrated-transformer/">Jay Alammar — "The Illustrated Transformer"</a>. A visual, step-by-step walkthrough of query/key/value attention.</li>
+    <li id="s12"><a data-nb-source href="https://www.youtube.com/watch?v=kCc8FmEb1nY">Andrej Karpathy — "Let's build GPT: from scratch, in code, spelled out"</a>. Building a working GPT from an empty file.</li>
+    <li id="s13"><a data-nb-source href="https://nlp.seas.harvard.edu/annotated-transformer/">Harvard NLP — "The Annotated Transformer"</a>. The paper annotated line-by-line with a PyTorch implementation.</li>
+    <li id="s14"><a data-nb-source href="https://www.3blue1brown.com/lessons/attention">3Blue1Brown — "Attention in transformers, step-by-step"</a>. A pure-visual explanation of the attention mechanism.</li>
+  </ol>
+</section>
+
+</article>
+</body>
+</html>
