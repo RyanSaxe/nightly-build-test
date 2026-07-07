@@ -1,0 +1,69 @@
+{
+  "generated": "2026-07-07T10:41:06Z",
+  "protocol": "1.1",
+  "site_title": "The Nightly Build",
+  "series": [
+    {
+      "id": "ai-history",
+      "name": "A History of Artificial Intelligence",
+      "mode": "sequence",
+      "template": "article",
+      "count": 0,
+      "total": 3,
+      "section": "History & Policy"
+    },
+    {
+      "id": "daily-brief",
+      "name": "Daily Brief",
+      "mode": "rolling",
+      "template": "brief",
+      "count": 0,
+      "total": null,
+      "cadence": "daily",
+      "section": "The Daily"
+    },
+    {
+      "id": "frontier-compute",
+      "name": "Frontier Compute",
+      "mode": "collection",
+      "template": "article",
+      "count": 0,
+      "total": 4,
+      "section": "Compute & Industry"
+    },
+    {
+      "id": "landmark-papers",
+      "name": "Landmark Papers",
+      "mode": "collection",
+      "template": "article",
+      "count": 0,
+      "total": 4,
+      "section": "Foundations"
+    },
+    {
+      "id": "transformers-101",
+      "name": "Transformers, From Scratch",
+      "mode": "sequence",
+      "template": "article",
+      "count": 0,
+      "total": 4,
+      "section": "Foundations"
+    },
+    {
+      "id": "wildcard",
+      "name": "The Wildcard Desk",
+      "mode": "open",
+      "template": null,
+      "count": 0,
+      "total": null,
+      "templates": [
+        "article",
+        "brief"
+      ],
+      "section": "The Wildcard"
+    }
+  ],
+  "editions": [],
+  "builds": {},
+  "tags": {}
+}
