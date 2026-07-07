@@ -102,6 +102,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write   # required to dispatch publish.yml (Start the press)
     steps:
       - name: Squash-merge
         env:
