@@ -570,10 +570,12 @@ figure.nb-chart noscript{
 .nb-steps p{ margin:0; font-size:15px; color:var(--ink-soft); }
 .nb-cast{
   display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:1px; background:var(--line); border:1px solid var(--line);
-  overflow:hidden; margin:20px 0;
+  gap:10px; margin:20px 0;
 }
-.nb-cast > div{ background:var(--panel); padding:12px 14px; }
+.nb-cast > div{
+  background:var(--panel); padding:12px 14px;
+  border:1px solid var(--hair); border-radius:var(--radius);
+}
 .nb-cast .nb-cast-name{
   font-family:var(--serif); font-size:16px; display:block; margin-bottom:2px;
 }
